@@ -710,6 +710,27 @@ class index extends Component {
     });
     return price;
   }
+  totalProduct() {
+    const {cart} = this.props;
+    let total = 0;
+    cart.forEach(element => {
+      total = total + element.quantity;
+    });
+    return total;
+  }
+  addNote = (value, index) => {
+    const {cart} = this.props;
+    let newCart = update(cart, {
+      [index]: {
+        note: {
+          $apply: function() {
+            return value;
+          },
+        },
+      },
+    });
+    this.props.actions.dataLocal.addToCart(newCart);
+  };
   render() {
     const {menu, optionInfo} = this.state;
     return (
@@ -781,7 +802,7 @@ class index extends Component {
                   }}>
                   <Text
                     style={{color: 'white', fontSize: 10, fontWeight: 'bold'}}>
-                    {this.props.cart.length}
+                    {this.totalProduct()}
                   </Text>
                 </View>
               )}
@@ -808,6 +829,9 @@ class index extends Component {
               isVisible={this.state.showCartModal}
               onClose={() => {
                 this.hideCartModal();
+              }}
+              addNote={(value, index) => {
+                this.addNote(value, index);
               }}
               addProduct={(_index_menu, _index_product, _quantity, _option) => {
                 this.addProduct(_index_menu, _index_product, 1, _option);
