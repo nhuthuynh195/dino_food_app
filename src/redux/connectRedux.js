@@ -17,6 +17,9 @@ const mapDispatchToProps = dispatch => {
 };
 
 function connectRedux(mapStateToProps, Screen) {
-  return connect(mapStateToProps, mapDispatchToProps)(connectAlert(Screen));
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(connectAlert(connectNoti(Screen)));
 }
 export default connectRedux;

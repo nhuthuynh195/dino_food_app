@@ -76,6 +76,46 @@ function* logout(action) {
     // }
   } catch (error) {}
 }
+function* forgetPassword(action) {
+  try {
+    yield put({
+      type: 'SHOW_LOADING',
+    });
+    const response = yield requestAPI(action);
+    console.log('response', response);
+    yield put({
+      ...action,
+      type: 'FORGET_PASSWORD_SUCCESS',
+      payload: response,
+    });
+  } catch (error) {
+    console.log('error', error);
+  } finally {
+    yield put({
+      type: 'HIDE_LOADING',
+    });
+  }
+}
+function* changePassword(action) {
+  try {
+    yield put({
+      type: 'SHOW_LOADING',
+    });
+    const response = yield requestAPI(action);
+    console.log('response changePassword', response);
+    yield put({
+      ...action,
+      type: 'CHANGE_PASSWORD_SUCCESS',
+      payload: response,
+    });
+  } catch (error) {
+    console.log('error', error);
+  } finally {
+    yield put({
+      type: 'HIDE_LOADING',
+    });
+  }
+}
 
 // function* updateEndPoint(action) {
 //   try {
@@ -94,7 +134,8 @@ export default function* saga() {
     // takeLatest('CHANGE_PASSWORD', changePassword),
     takeLatest('LOGOUT_APP', logout),
     takeLatest('GET_PROFILE', getProfile),
-
+    takeLatest('FORGET_PASSWORD', forgetPassword),
+    takeLatest('CHANGE_PASSWORD', changePassword),
     // takeLatest('UPDATE_ENDPOINT_NOTIFICAITON', updateEndPoint),
   ]);
 }

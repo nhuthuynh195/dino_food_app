@@ -12,9 +12,10 @@ import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 index.navigationOptions = {
-  title: 'Đăng nhập',
+  title: 'Back',
   headerShown: false,
 };
 function index(props) {
@@ -41,6 +42,7 @@ function index(props) {
     props.navigation.navigate('ForgetPassword');
   }
   useEffect(() => {
+    console.log('props', props);
     const {loginSuccess, errorLogin, profile} = props;
     if (loginSuccess) {
       props.actions.auth.resetStateLogin();
@@ -98,6 +100,7 @@ function index(props) {
             value={password}
             onChangeText={handlePasswordChange}
           />
+
           <TouchableOpacity
             style={{
               padding: 10,
@@ -118,9 +121,9 @@ function index(props) {
               marginHorizontal: 20,
             }}
             onPress={forgetPassword}>
-            <Text style={{color: 'white'}}>Quên mật khẩu?</Text>
+            <Text style={{color: 'white', fontSize: 15}}>Quên mật khẩu?</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               padding: 5,
               marginTop: 15,
@@ -129,7 +132,7 @@ function index(props) {
             }}
             onPress={logout}>
             <Text style={{color: 'white'}}>Logout</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ImageBackground>
     </View>

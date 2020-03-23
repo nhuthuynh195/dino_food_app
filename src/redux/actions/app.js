@@ -6,7 +6,7 @@ export function showLoading() {
     payload: {},
   };
 }
-export function hideAlert() {
+export function hideLoading() {
   return {
     type: 'HIDE_LOADING',
     payload: {},

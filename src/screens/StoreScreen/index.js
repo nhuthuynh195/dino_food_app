@@ -7,16 +7,19 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import Modal from 'react-native-modal';
 const {width, height} = Dimensions.get('window');
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {ScrollView} from 'react-native-gesture-handler';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
 import _ from 'ramda';
 import update from 'immutability-helper';
+
 class index extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Cửa hàng',
@@ -26,20 +29,26 @@ class index extends Component {
 
     this.state = {
       menu: [],
+      menuIsNull: true,
       showModal: false,
+      showCartModal: false,
       product: {},
       options: [],
       _index_menu: -1,
       _index_product: -1,
+      cart: [],
     };
   }
   componentDidMount() {
+    console.log('vasasdas cart');
+    // this.props.actions.dataLocal.addToCart([]),
     this.props.actions.app.getStoreById(this.props.navigation.state.params.id);
   }
   componentWillReceiveProps(nextProps) {
-    if (checkAllArrayIsNotEmpty(nextProps.menu)) {
+    if (checkAllArrayIsNotEmpty(nextProps.menu) && this.state.menuIsNull) {
       this.setState({
         menu: Object.values(nextProps.menu),
+        menuIsNull: false,
       });
     }
   }
@@ -75,8 +84,8 @@ class index extends Component {
     this.addProduct(_index_menu, _index_product, quantity);
     this.hideModal();
   }
-  seleteOption(index_options, index_option, item_option, isRequired, selected) {
-    const {options, product} = this.state;
+  seleteOption(index_options, index_option, item_option, isRequired) {
+    const {options} = this.state;
     if (isRequired) {
       this.state.options[index_options].items.forEach((element, i) => {
         if (item_option._id == element._id) {
@@ -122,11 +131,6 @@ class index extends Component {
           [_index_product]: {
             quantity: {
               $apply: function(quantity) {
-                console.log('quantity', quantity);
-                // var obj = Object.assign({}, item);
-                // obj.quantity = _quantity;
-                // return obj;
-                // console.log('asdasdasd', quantity);
                 return quantity + _quantity;
               },
             },
@@ -134,8 +138,22 @@ class index extends Component {
         },
       },
     });
-    console.log('newCollection', newCollection);
-    this.setState({menu: newCollection});
+
+    let product = {
+      _id: newCollection[_index_menu].dishes[_index_product]._id,
+      name: newCollection[_index_menu].dishes[_index_product].name,
+      price: this.calculatePrice(
+        newCollection[_index_menu].dishes[_index_product].price,
+        _quantity,
+      ),
+      quantity: _quantity,
+      option: this.calculateOption(),
+      note: '',
+    };
+    let cart = [...this.props.cart, product];
+    this.setState({menu: newCollection}, () =>
+      this.props.actions.dataLocal.addToCart(cart),
+    );
   }
   addDefaultQuantityProduct(_index_menu, _index_product, _quantity) {
     const {menu} = this.state;
@@ -196,9 +214,10 @@ class index extends Component {
           }
         });
       });
-      console.log('calculatePrice', total_price_option);
-      console.log('calculatePrice---quantity', quantity);
+
       return (_.sum(total_price_option) + price) * quantity;
+    } else {
+      return price * quantity;
     }
   }
   calculateOption() {
@@ -448,6 +467,66 @@ class index extends Component {
         </Modal>
       );
   }
+  renderCartModal() {
+    return (
+      <Modal
+        isVisible={this.state.showCartModal}
+        animationIn={'slideInUp'}
+        animationOut={'slideOutDown'}
+        onRequestClose={() => this.hideCartModal()}
+        style={{justifyContent: 'flex-end', margin: 0}}>
+        <SafeAreaView
+          style={{
+            flex: 1,
+          }}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#FFF',
+              borderRadius: 5,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                borderBottomWidth: 0.5,
+                borderBottomColor: '#E6E6E6',
+                alignItems: 'center',
+              }}>
+              <View style={{flex: 0.5}}>
+                <TouchableOpacity
+                  onPress={() => this.hideCartModal()}
+                  style={{padding: 10}}>
+                  <Ionicons name="md-close" size={30} color="#5F5F5F" />
+                </TouchableOpacity>
+              </View>
+
+              <View
+                style={{
+                  flex: 2,
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: '#5F5F5F',
+                    fontWeight: 'bold',
+                  }}>
+                  Giỏ hàng
+                </Text>
+              </View>
+              <View style={{flex: 0.5}}></View>
+            </View>
+          </View>
+        </SafeAreaView>
+      </Modal>
+    );
+  }
+  hideCartModal() {
+    this.setState({showCartModal: false});
+  }
+  showCartModal() {
+    this.setState({showCartModal: true});
+  }
   renderItemOption(index_options, index_option, item_option, isRequired) {
     return (
       <TouchableOpacity
@@ -578,18 +657,12 @@ class index extends Component {
                       justifyContent: 'center',
                     }}
                     onPress={() => {
-                      item.options.length == 0
-                        ? this.addProduct(
-                            index_menu,
-                            index_product,
-                            item.quantity,
-                          )
-                        : this.showModal(
-                            item,
-                            index_menu,
-                            index_product,
-                            item.quantity,
-                          );
+                      this.showModal(
+                        item,
+                        index_menu,
+                        index_product,
+                        item.quantity,
+                      );
                     }}>
                     <AntDesign name="pluscircleo" size={25} color={'#0D8BD1'} />
                   </TouchableOpacity>
@@ -601,15 +674,22 @@ class index extends Component {
       </TouchableOpacity>
     );
   }
+  calculatePriceCart() {
+    const {cart} = this.props;
+    let price = 0;
+    cart.forEach(element => {
+      price = price + element.price;
+    });
+    return price;
+  }
   render() {
     const {menu, optionInfo} = this.state;
-
     return (
       <View
         style={{
           flex: 1,
         }}>
-        <ScrollView>
+        <ScrollView style={{flex: 1}}>
           {menu.map((item_menu, index_menu) => (
             <View
               style={{
@@ -646,6 +726,59 @@ class index extends Component {
           ))}
         </ScrollView>
         {checkAllArrayIsNotEmpty(optionInfo) && this.renderModal()}
+        {this.props.cart.length > 0 && (
+          <TouchableOpacity
+            onPress={() => this.showCartModal()}
+            activeOpacity={0.8}
+            style={{
+              padding: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: '#0D8BD1',
+            }}>
+            <View>
+              <FontAwesome name="shopping-cart" size={28} color="white" />
+              {this.props.cart.length > 0 && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    right: -8,
+                    top: -4,
+                    backgroundColor: 'red',
+                    borderRadius: 9,
+                    width: 18,
+                    height: 18,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{color: 'white', fontSize: 10, fontWeight: 'bold'}}>
+                    {this.props.cart.length}
+                  </Text>
+                </View>
+              )}
+            </View>
+            <View style={{flex: 1, paddingLeft: 15, paddingRight: 10}}>
+              <Text style={{fontSize: 17, color: 'white', fontWeight: '600'}}>
+                {`${formatMoney(this.calculatePriceCart())}đ`}
+              </Text>
+            </View>
+            <View>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                style={{
+                  padding: 15,
+                  backgroundColor: 'white',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                }}>
+                <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
+              </TouchableOpacity>
+            </View>
+            {this.renderCartModal()}
+          </TouchableOpacity>
+        )}
       </View>
     );
   }
@@ -669,6 +802,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = state => ({
   menu: state.app.menu,
+  cart: state.dataLocal.cart,
 });
 
 export default connectRedux(mapStateToProps, index);

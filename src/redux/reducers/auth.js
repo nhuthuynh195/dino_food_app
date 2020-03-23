@@ -2,6 +2,14 @@ const initialState = {
   loginSuccess: false,
   errorLogin: '',
   profile: {},
+  changePassword: {
+    message: '',
+    code: '',
+  },
+  forgetPassword: {
+    message: '',
+    code: '',
+  },
 };
 
 function authReducer(state = initialState, action) {
@@ -23,11 +31,31 @@ function authReducer(state = initialState, action) {
         loginSuccess: false,
         errorLogin: action.payload.error,
       };
+    case 'FORGET_PASSWORD_SUCCESS':
+      return {
+        ...state,
+        forgetPassword: {
+          message: action.payload.message,
+          code: action.payload.statusCode,
+        },
+      };
+    case 'CHANGE_PASSWORD_SUCCESS':
+      return {
+        ...state,
+        changePassword: {
+          message: action.payload.message,
+          code: action.payload.statusCode,
+        },
+      };
     case 'RESET_STATE_LOGIN':
       return {
         ...state,
         loginSuccess: false,
         errorLogin: '',
+        forgetPassword: {
+          message: '',
+          code: '',
+        },
       };
     case 'GET_PROFILE_SUCCESS':
       return {
@@ -36,6 +64,7 @@ function authReducer(state = initialState, action) {
       };
     case 'APP_LOGOUT':
       return initialState;
+
     default:
       return state;
   }

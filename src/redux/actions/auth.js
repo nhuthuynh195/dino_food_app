@@ -8,6 +8,22 @@ export function login(body) {
     api: `${apiConfigs.BASE_API}/auth/login`,
   };
 }
+export function forgetPassword(body) {
+  return {
+    type: 'FORGET_PASSWORD',
+    body,
+    method: 'POST',
+    api: `${apiConfigs.BASE_API}/auth/forget-password`,
+  };
+}
+export function changePassword(body) {
+  return {
+    type: 'CHANGE_PASSWORD',
+    body,
+    method: 'POST',
+    api: `${apiConfigs.BASE_API}/auth/reset-password`,
+  };
+}
 export function logout() {
   return {
     type: 'LOGOUT_APP',

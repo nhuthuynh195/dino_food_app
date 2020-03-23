@@ -1,4 +1,5 @@
 import AuthLoadingScreen from './AuthLoadingScreen';
+import ChangePasswordScreen from './ChangePasswordScreen';
 import ForgetPasswordScreen from './ForgetPasswordScreen';
 import HistoryScreen from './HistoryScreen';
 import HomeScreen from './HomeScreen';
@@ -11,6 +12,7 @@ import TestAnimation from './TestAnimation';
 
 module.exports = { 
 	AuthLoadingScreen,
+	ChangePasswordScreen,
 	ForgetPasswordScreen,
 	HistoryScreen,
 	HomeScreen,

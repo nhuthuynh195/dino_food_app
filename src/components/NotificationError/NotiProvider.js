@@ -31,7 +31,7 @@ class AlertProvider extends Component {
           ref={ref => {
             this.dropdown = ref;
           }}
-          closeInterval={2000}
+          closeInterval={3000}
         />
       </View>
     );
