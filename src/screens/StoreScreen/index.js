@@ -657,6 +657,7 @@ class index extends Component {
                             index_menu,
                             index_product,
                             item.quantity,
+                            checkOptionsInCart[0].option,
                           );
                         }
                       }}>
