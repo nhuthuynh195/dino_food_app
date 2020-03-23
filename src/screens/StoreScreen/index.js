@@ -238,9 +238,10 @@ class index extends Component {
       cart = [...this.props.cart];
       cart.splice(foundIndex, 1);
     }
-    this.setState({menu: newCollection}, () =>
-      this.props.actions.dataLocal.addToCart(cart),
-    );
+    this.setState({menu: newCollection}, () => {
+      cart.length === 0 && this.hideCartModal();
+      this.props.actions.dataLocal.addToCart(cart);
+    });
   }
   addProductModal(_index_menu, _index_product, quantity) {
     let product = {...this.state.product};

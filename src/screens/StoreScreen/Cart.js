@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -175,7 +175,6 @@ const Item = ({data, index, addNote, addProduct, removeProduct}) => {
 
 const Cart = props => {
   const cart = useSelector(state => state.dataLocal.cart);
-  const modal = useRef(null);
   const [bottom, setBottom] = useState(0);
 
   useEffect(() => {
@@ -215,7 +214,6 @@ const Cart = props => {
 
   return (
     <Modal
-      ref={modal}
       isVisible={props.isVisible}
       style={[styles.modal, {marginBottom: bottom}]}
       animationIn={'slideInUp'}
