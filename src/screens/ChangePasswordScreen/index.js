@@ -1,15 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  ImageBackground,
-  StyleSheet,
-  SafeAreaView,
-  Image,
-} from 'react-native';
+import {View, TouchableOpacity, Text, ImageBackground} from 'react-native';
 import {TextInput, ScrollView} from 'react-native-gesture-handler';
-import SplashScreen from 'react-native-splash-screen';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
@@ -19,11 +10,13 @@ index.navigationOptions = {
   headerTitle: <Text style={{color: 'white', fontSize: 18}}>Đổi mật khẩu</Text>,
   headerTransparent: true,
   headerStyle: {borderBottomWidth: 0},
+  headerTintColor: 'white',
 };
+
 function index(props) {
-  const [token, setToken] = useState('cdc0903977639da55afb8433f4468e6d');
-  const [password, setPassword] = useState('123123asd');
-  const [confirmPassword, setConfirmPassword] = useState('123123asd');
+  const [token, setToken] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   function onChangeToken(value) {
     setToken(value);
   }

@@ -99,35 +99,37 @@ class index extends Component {
         style={{
           flex: 1,
         }}>
-        <View
-          style={{
-            paddingVertical: 5,
-            backgroundColor: '#0D8BD1',
-            marginHorizontal: 5,
-            marginVertical: 5,
-            borderRadius: 5,
-          }}>
-          <View style={{alignItems: 'center'}}>
-            <Text style={{fontSize: 20, color: 'white', fontWeight: '500'}}>
-              Thông tin thanh toán
-            </Text>
-          </View>
-          <View style={{padding: 10}}>
-            <Text style={{fontSize: 15, color: 'white'}}>
-              Tên: LÊ THÀNH DANH
-            </Text>
-            <Text style={{fontSize: 15, color: 'white'}}>
-              SCB STK: 14396880001
-            </Text>
-            <Text style={{fontSize: 15, color: 'white'}}>SĐT: 0971407794</Text>
-            <Text style={{fontSize: 15, color: 'white'}}>
-              Payment method: Cash, SCB, ZaloPay, Momo, Grab Moca, Airpay,
-              ViettelPay
-            </Text>
-          </View>
-        </View>
-
         <ScrollView>
+          <View
+            style={{
+              paddingVertical: 5,
+              backgroundColor: '#0D8BD1',
+              marginHorizontal: 5,
+              marginVertical: 5,
+              borderRadius: 5,
+            }}>
+            <View style={{alignItems: 'center'}}>
+              <Text style={{fontSize: 20, color: 'white', fontWeight: '500'}}>
+                Thông tin thanh toán
+              </Text>
+            </View>
+            <View style={{padding: 10}}>
+              <Text style={{fontSize: 15, color: 'white'}}>
+                Tên: LÊ THÀNH DANH
+              </Text>
+              <Text style={{fontSize: 15, color: 'white'}}>
+                SCB STK: 14396880001
+              </Text>
+              <Text style={{fontSize: 15, color: 'white'}}>
+                SĐT: 0971407794
+              </Text>
+              <Text style={{fontSize: 15, color: 'white'}}>
+                Payment method: Cash, SCB, ZaloPay, Momo, Grab Moca, Airpay,
+                ViettelPay
+              </Text>
+            </View>
+          </View>
+
           <View style={{flexDirection: 'row'}}>
             <View
               style={{

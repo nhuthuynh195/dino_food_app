@@ -18,6 +18,7 @@ index.navigationOptions = {
   headerTitle: (
     <Text style={{color: 'white', fontSize: 18}}>Quên mật khẩu</Text>
   ),
+  headerTintColor: 'white',
   headerTransparent: true,
   headerStyle: {borderBottomWidth: 0},
 };

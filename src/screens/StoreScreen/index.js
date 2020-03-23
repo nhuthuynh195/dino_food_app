@@ -8,6 +8,7 @@ import {
   Dimensions,
   Image,
   ScrollView,
+  TextInput,
   SafeAreaView,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
@@ -16,6 +17,7 @@ const {width, height} = Dimensions.get('window');
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
 import _ from 'ramda';
 import update from 'immutability-helper';
@@ -40,10 +42,8 @@ class index extends Component {
     };
   }
   componentDidMount() {
-    this.props.actions.dataLocal.addToCart([]),
-      this.props.actions.app.getStoreById(
-        this.props.navigation.state.params.id,
-      );
+    // this.props.actions.dataLocal.addToCart([]),
+    this.props.actions.app.getStoreById(this.props.navigation.state.params.id);
   }
   componentWillReceiveProps(nextProps) {
     if (checkAllArrayIsNotEmpty(nextProps.menu) && this.state.menuIsNull) {
@@ -139,7 +139,6 @@ class index extends Component {
         },
       },
     });
-    console.log('product', newCollection[_index_menu].dishes[_index_product]);
     let product = {
       _id: newCollection[_index_menu].dishes[_index_product]._id,
       name: newCollection[_index_menu].dishes[_index_product].name,
@@ -235,7 +234,10 @@ class index extends Component {
           }
         });
       });
+
       return total_name_option.toString().replace(/\,/g, ', ');
+    } else {
+      return '';
     }
   }
   renderModal() {
@@ -472,7 +474,7 @@ class index extends Component {
       );
   }
   renderCartModal() {
-    console.log('cart', this.props.cart);
+    console.log('this.props.cart', this.props.cart);
     return (
       <Modal
         isVisible={this.state.showCartModal}
@@ -493,8 +495,7 @@ class index extends Component {
             <View
               style={{
                 flexDirection: 'row',
-                borderBottomWidth: 0.5,
-                borderBottomColor: '#E6E6E6',
+
                 alignItems: 'center',
               }}>
               <View style={{flex: 0.5}}>
@@ -519,14 +520,121 @@ class index extends Component {
                   Giỏ hàng
                 </Text>
               </View>
-              <View style={{flex: 0.5}}>
-                <ScrollView></ScrollView>
-              </View>
+              <View style={{flex: 0.5}}></View>
             </View>
+            <ScrollView>
+              {this.props.cart.map((item, index) => (
+                <View
+                  style={{
+                    padding: 10,
+                    borderTopWidth: 0.5,
+                    borderTopColor: '#E6E6E6',
+                  }}>
+                  <View
+                    style={{
+                      flex: 1,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <View style={{flex: 1}}>
+                      <Text style={{fontSize: 18}}>{item.name}</Text>
+                      {item.option !== '' && (
+                        <Text
+                          style={{fontSize: 15}}
+                          numberOfLines={1}
+                          ellipsizeMode="tail">
+                          {item.option}
+                        </Text>
+                      )}
+                      <Text style={{fontSize: 15}}>{`${formatMoney(
+                        item.price,
+                      )}đ`}</Text>
+                    </View>
+                    <View style={{paddingHorizontal: 10}}>
+                      <View
+                        style={{
+                          flex: 1,
+                          justifyContent: 'flex-end',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                        }}>
+                        <TouchableOpacity>
+                          <AntDesign
+                            name="minuscircleo"
+                            size={25}
+                            color="#0D8BD1"
+                          />
+                        </TouchableOpacity>
+
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            color: '#a4a4a4',
+                            marginHorizontal: 10,
+                          }}>
+                          {item.quantity}
+                        </Text>
+                        <TouchableOpacity>
+                          <AntDesign
+                            name="pluscircleo"
+                            size={25}
+                            color="#0D8BD1"
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      backgroundColor: 'red',
+                      marginTop: 10,
+                    }}>
+                    <View
+                      style={{
+                        backgroundColor: '#E6E6E6',
+                        flex: 1,
+                        paddingHorizontal: 10,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <SimpleLineIcons
+                        name="note"
+                        size={20}
+                        style={{paddingVertical: 8}}
+                      />
+                      <TextInput
+                        placeholder="Ghi chú"
+                        value={item.note}
+                        onChangeText={value => this.onChangeNote(value, index)}
+                        style={{
+                          marginLeft: 10,
+                          paddingVertical: 8,
+                          flex: 1,
+                        }}
+                      />
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </ScrollView>
           </View>
         </SafeAreaView>
       </Modal>
     );
+  }
+  onChangeNote(value, index) {
+    const {cart} = this.props;
+    let newCart = update(cart, {
+      [index]: {
+        note: {
+          $apply: function() {
+            return value;
+          },
+        },
+      },
+    });
+    this.props.actions.dataLocal.addToCart(newCart);
   }
   hideCartModal() {
     this.setState({showCartModal: false});
@@ -783,7 +891,7 @@ class index extends Component {
                 <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
               </TouchableOpacity>
             </View>
-            {this.renderCartModal()}
+            {checkAllArrayIsNotEmpty(this.props.cart) && this.renderCartModal()}
           </TouchableOpacity>
         )}
       </View>
