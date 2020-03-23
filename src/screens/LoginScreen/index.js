@@ -12,16 +12,13 @@ import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
 index.navigationOptions = {
   title: 'Back',
   headerShown: false,
 };
 function index(props) {
-  const [email, setEmail] = useState('nhut.pham@dinovative.com');
-  const [password, setPassword] = useState('123456');
-
+  const [email, setEmail] = useState(props.user.email);
+  const [password, setPassword] = useState('123123asd');
   function handleEmailChange(value) {
     setEmail(value);
   }
@@ -29,11 +26,19 @@ function index(props) {
     setPassword(value);
   }
   function login() {
-    props.actions.auth.login({
-      email: email,
-      password: password,
-      remember: true,
-    });
+    if (email !== '' && password !== '') {
+      props.actions.auth.login({
+        email: email,
+        password: password,
+        remember: true,
+      });
+    } else {
+      props.alertWithType(
+        'warn',
+        'Thông báo',
+        'Vui lòng nhập đầy đủ thông tin.',
+      );
+    }
   }
   function logout() {
     props.actions.auth.logout();
@@ -47,6 +52,9 @@ function index(props) {
     if (loginSuccess) {
       props.actions.auth.resetStateLogin();
       if (checkAllArrayIsNotEmpty(profile)) {
+        props.actions.dataLocal.saveUser({
+          email: email,
+        });
         props.navigation.navigate('Main');
       }
     }
@@ -80,6 +88,7 @@ function index(props) {
               borderColor: 'gray',
               borderWidth: 1,
             }}
+            autoCapitalize="none"
             placeholder="Email"
             value={email}
             onChangeText={handleEmailChange}
@@ -111,7 +120,7 @@ function index(props) {
               marginHorizontal: 20,
             }}
             onPress={login}>
-            <Text style={{color: 'white'}}>Đăng nhập</Text>
+            <Text style={{color: 'white', fontSize: 15}}>Đăng nhập</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -139,6 +148,7 @@ function index(props) {
   );
 }
 const mapStateToProps = state => ({
+  user: state.dataLocal.user,
   profile: state.dataLocal.profile,
   loginSuccess: state.auth.loginSuccess,
   errorLogin: state.auth.errorLogin,

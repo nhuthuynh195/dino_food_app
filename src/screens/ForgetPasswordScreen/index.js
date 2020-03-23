@@ -22,7 +22,7 @@ index.navigationOptions = {
   headerStyle: {borderBottomWidth: 0},
 };
 function index(props) {
-  const [email, setEmail] = useState('nhut.pham@dinovative.com');
+  const [email, setEmail] = useState(props.user.email);
 
   function handleEmailChange(value) {
     setEmail(value);
@@ -99,6 +99,7 @@ function index(props) {
 }
 
 const mapStateToProps = state => ({
+  user: state.dataLocal.user,
   forgetPasswordMessage: state.auth.forgetPassword.message,
   forgetPasswordCode: state.auth.forgetPassword.code,
 });

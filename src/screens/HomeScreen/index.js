@@ -21,6 +21,7 @@ class index extends Component {
   }
 
   componentDidMount() {
+    console.log('sadasd', this.props);
     this.props.actions.app.getStores();
     this.props.actions.auth.getProfile();
   }
@@ -222,6 +223,8 @@ const styles = StyleSheet.create({
   },
 });
 const mapStateToProps = state => ({
+  dataLocal: state.dataLocal,
+
   loading: state.auth.loadingLogin,
   profile: state.dataLocal.profile,
   loginSuccess: state.auth.loginSuccess,

@@ -2,6 +2,7 @@ const initialState = {
   profile: {},
   headers: {},
   cart: [],
+  user: {},
 };
 
 function dataLocal(state = initialState, action) {
@@ -17,6 +18,11 @@ function dataLocal(state = initialState, action) {
         ...state,
         profile: action.payload,
       };
+    case 'SAVE_USER':
+      return {
+        ...state,
+        user: action.payload,
+      };
     case 'ADD_TO_CART':
       return {
         ...state,
@@ -28,7 +34,12 @@ function dataLocal(state = initialState, action) {
         cart: [],
       };
     case 'APP_LOGOUT':
-      return initialState;
+      return {
+        ...state,
+        profile: {},
+        headers: {},
+        cart: [],
+      };
     default:
       return state;
   }

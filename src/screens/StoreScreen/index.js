@@ -40,9 +40,10 @@ class index extends Component {
     };
   }
   componentDidMount() {
-    console.log('vasasdas cart');
-    // this.props.actions.dataLocal.addToCart([]),
-    this.props.actions.app.getStoreById(this.props.navigation.state.params.id);
+    this.props.actions.dataLocal.addToCart([]),
+      this.props.actions.app.getStoreById(
+        this.props.navigation.state.params.id,
+      );
   }
   componentWillReceiveProps(nextProps) {
     if (checkAllArrayIsNotEmpty(nextProps.menu) && this.state.menuIsNull) {

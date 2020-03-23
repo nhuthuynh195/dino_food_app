@@ -16,3 +16,9 @@ export function removeCart() {
     payload: {},
   };
 }
+export function saveUser(user) {
+  return {
+    type: 'SAVE_USER',
+    payload: user,
+  };
+}
