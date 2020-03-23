@@ -19,6 +19,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
 import _ from 'ramda';
 import update from 'immutability-helper';
+import Cart from './Cart';
 
 class index extends Component {
   static navigationOptions = ({navigation}) => ({
@@ -124,7 +125,7 @@ class index extends Component {
       this.setState({options: newCollection});
     }
   }
-  addProduct(_index_menu, _index_product, _quantity) {
+  addProduct(_index_menu, _index_product, _quantity, _option = null) {
     const {menu} = this.state;
     let newCollection = update(menu, {
       [_index_menu]: {
@@ -139,19 +140,43 @@ class index extends Component {
         },
       },
     });
+    let cart;
+    const selectedProductId =
+      newCollection[_index_menu].dishes[_index_product]._id;
+    const option = _option === null ? this.calculateOption() : _option;
+    const found = this.props.cart.find(
+      product => product._id === selectedProductId && product.option === option,
+    );
+    if (found) {
+      const oldCart = [...this.props.cart];
+      cart = oldCart.map(product => {
+        if (product._id === selectedProductId && product.option === option) {
+          return {
+            ...product,
+            quantity: product.quantity + _quantity,
+          };
+        } else {
+          return {...product};
+        }
+      });
+    } else {
+      let product = {
+        _id: newCollection[_index_menu].dishes[_index_product]._id,
+        name: newCollection[_index_menu].dishes[_index_product].name,
+        price:
+          this.calculatePrice(
+            newCollection[_index_menu].dishes[_index_product].price,
+            _quantity,
+          ) / _quantity,
+        quantity: _quantity,
+        option: this.calculateOption(),
+        note: '',
+        _index_menu,
+        _index_product,
+      };
+      cart = [...this.props.cart, product];
+    }
 
-    let product = {
-      _id: newCollection[_index_menu].dishes[_index_product]._id,
-      name: newCollection[_index_menu].dishes[_index_product].name,
-      price: this.calculatePrice(
-        newCollection[_index_menu].dishes[_index_product].price,
-        _quantity,
-      ),
-      quantity: _quantity,
-      option: this.calculateOption(),
-      note: '',
-    };
-    let cart = [...this.props.cart, product];
     this.setState({menu: newCollection}, () =>
       this.props.actions.dataLocal.addToCart(cart),
     );
@@ -173,14 +198,14 @@ class index extends Component {
     });
     this.setState({menu: newCollection});
   }
-  removeProduct(_index_menu, _index_product, quantity) {
+  removeProduct(_index_menu, _index_product, _quantity, _option = null) {
     const {menu} = this.state;
     let newCollection = update(menu, {
       [_index_menu]: {
         dishes: {
           [_index_product]: {
             quantity: {
-              $apply: function() {
+              $apply: function(quantity) {
                 return quantity - 1;
               },
             },
@@ -188,7 +213,32 @@ class index extends Component {
         },
       },
     });
-    this.setState({menu: newCollection});
+    let cart;
+    const selectedProductId =
+      newCollection[_index_menu].dishes[_index_product]._id;
+    const option = _option === null ? this.calculateOption() : _option;
+    const foundIndex = this.props.cart.findIndex(
+      product => product._id === selectedProductId && product.option === option,
+    );
+    if (this.props.cart[foundIndex].quantity > 1) {
+      const oldCart = [...this.props.cart];
+      cart = oldCart.map(product => {
+        if (product._id === selectedProductId && product.option === option) {
+          return {
+            ...product,
+            quantity: product.quantity - 1,
+          };
+        } else {
+          return {...product};
+        }
+      });
+    } else {
+      cart = [...this.props.cart];
+      cart.splice(foundIndex, 1);
+    }
+    this.setState({menu: newCollection}, () =>
+      this.props.actions.dataLocal.addToCart(cart),
+    );
   }
   addProductModal(_index_menu, _index_product, quantity) {
     let product = {...this.state.product};
@@ -628,11 +678,23 @@ class index extends Component {
                         justifyContent: 'center',
                       }}
                       onPress={() => {
-                        this.removeProduct(
-                          index_menu,
-                          index_product,
-                          item.quantity,
+                        const checkOptionsInCart = this.props.cart.filter(
+                          product => {
+                            return (
+                              this.state.menu[index_menu].dishes[index_product]
+                                ._id === product._id
+                            );
+                          },
                         );
+                        if (checkOptionsInCart.length > 1) {
+                          this.showCartModal();
+                        } else {
+                          this.removeProduct(
+                            index_menu,
+                            index_product,
+                            item.quantity,
+                          );
+                        }
                       }}>
                       <AntDesign
                         name="minuscircleo"
@@ -679,7 +741,7 @@ class index extends Component {
     const {cart} = this.props;
     let price = 0;
     cart.forEach(element => {
-      price = price + element.price;
+      price = price + element.price * element.quantity;
     });
     return price;
   }
@@ -732,7 +794,7 @@ class index extends Component {
             onPress={() => this.showCartModal()}
             activeOpacity={0.8}
             style={{
-              padding: 10,
+              padding: 15,
               flexDirection: 'row',
               alignItems: 'center',
               backgroundColor: '#0D8BD1',
@@ -768,7 +830,7 @@ class index extends Component {
               <TouchableOpacity
                 activeOpacity={0.5}
                 style={{
-                  padding: 15,
+                  padding: 10,
                   backgroundColor: 'white',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -777,7 +839,28 @@ class index extends Component {
                 <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
               </TouchableOpacity>
             </View>
-            {this.renderCartModal()}
+            <Cart
+              isVisible={this.state.showCartModal}
+              onClose={() => {
+                this.hideCartModal();
+              }}
+              addProduct={(_index_menu, _index_product, _quantity, _option) => {
+                this.addProduct(_index_menu, _index_product, 1, _option);
+              }}
+              removeProduct={(
+                _index_menu,
+                _index_product,
+                _quantity,
+                _option,
+              ) => {
+                this.removeProduct(
+                  _index_menu,
+                  _index_product,
+                  _quantity,
+                  _option,
+                );
+              }}
+            />
           </TouchableOpacity>
         )}
       </View>
