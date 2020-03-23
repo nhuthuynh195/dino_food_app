@@ -6,7 +6,7 @@ import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
 
 export class index extends Component {
   static navigationOptions = ({navigation}) => ({
-    title: 'Lịch sử',
+    title: 'Lịch sử thanh toán',
   });
   componentDidMount() {
     let page = 1;

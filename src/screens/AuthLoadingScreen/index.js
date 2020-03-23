@@ -14,9 +14,7 @@ class index extends Component {
   componentDidMount() {
     SplashScreen.hide();
     this._bootstrapAsync();
-    // this.props.navigation.navigate('Main');
   }
-
   // Fetch the token from storage then navigate to our appropriate place
   _bootstrapAsync = async () => {
     if (checkAllArrayIsNotEmpty(this.props.profile)) {

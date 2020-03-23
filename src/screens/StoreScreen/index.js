@@ -8,6 +8,7 @@ import {
   Dimensions,
   Image,
   ScrollView,
+  TextInput,
   SafeAreaView,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
@@ -16,6 +17,7 @@ const {width, height} = Dimensions.get('window');
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
 import _ from 'ramda';
 import update from 'immutability-helper';
@@ -282,7 +284,10 @@ class index extends Component {
           }
         });
       });
+
       return total_name_option.toString().replace(/\,/g, ', ');
+    } else {
+      return '';
     }
   }
   renderModal() {
@@ -518,59 +523,18 @@ class index extends Component {
         </Modal>
       );
   }
-  renderCartModal() {
-    return (
-      <Modal
-        isVisible={this.state.showCartModal}
-        animationIn={'slideInUp'}
-        animationOut={'slideOutDown'}
-        onRequestClose={() => this.hideCartModal()}
-        style={{justifyContent: 'flex-end', margin: 0}}>
-        <SafeAreaView
-          style={{
-            flex: 1,
-          }}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: '#FFF',
-              borderRadius: 5,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                borderBottomWidth: 0.5,
-                borderBottomColor: '#E6E6E6',
-                alignItems: 'center',
-              }}>
-              <View style={{flex: 0.5}}>
-                <TouchableOpacity
-                  onPress={() => this.hideCartModal()}
-                  style={{padding: 10}}>
-                  <Ionicons name="md-close" size={30} color="#5F5F5F" />
-                </TouchableOpacity>
-              </View>
-
-              <View
-                style={{
-                  flex: 2,
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: '#5F5F5F',
-                    fontWeight: 'bold',
-                  }}>
-                  Giỏ hàng
-                </Text>
-              </View>
-              <View style={{flex: 0.5}}></View>
-            </View>
-          </View>
-        </SafeAreaView>
-      </Modal>
-    );
+  onChangeNote(value, index) {
+    const {cart} = this.props;
+    let newCart = update(cart, {
+      [index]: {
+        note: {
+          $apply: function() {
+            return value;
+          },
+        },
+      },
+    });
+    this.props.actions.dataLocal.addToCart(newCart);
   }
   hideCartModal() {
     this.setState({showCartModal: false});

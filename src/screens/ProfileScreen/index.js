@@ -12,6 +12,7 @@ import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
 
 class index extends Component {
   static navigationOptions = ({navigation}) => ({
@@ -23,6 +24,12 @@ class index extends Component {
   componentDidMount() {
     this.actionTypeAlert();
     this.props.actions.auth.getProfile();
+    this.checkBalance();
+  }
+  checkBalance() {
+    let page = 1;
+    let email = this.props.profile.email;
+    this.props.actions.app.checkBalance(page, email);
   }
   logout = () => {
     this.props.openAlert(`Bạn có muốn đăng xuất?`, eventTypeLogout);
@@ -37,7 +44,7 @@ class index extends Component {
     this.props.navigation.navigate('Payment');
   };
   render() {
-    const {profile} = this.props;
+    const {profile, currentBalance} = this.props;
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <View
@@ -94,7 +101,7 @@ class index extends Component {
                 justifyContent: 'center',
                 padding: 15,
               }}>
-              <Text>140</Text>
+              <Text>{formatMoney(currentBalance)} VND</Text>
               <Text>Số dư</Text>
             </TouchableOpacity>
           </View>
@@ -112,7 +119,7 @@ class index extends Component {
                 justifyContent: 'center',
                 padding: 15,
               }}>
-              <Text>10</Text>
+              <Text>0</Text>
               <Text>Đơn hàng</Text>
             </TouchableOpacity>
           </View>
@@ -152,6 +159,8 @@ class index extends Component {
 
 const mapStateToProps = state => ({
   profile: state.auth.profile,
+  listBalance: state.app.listBalance,
+  currentBalance: state.app.currentBalance,
 });
 
 export default connectRedux(mapStateToProps, index);
