@@ -139,7 +139,7 @@ class index extends Component {
         },
       },
     });
-
+    console.log('product', newCollection[_index_menu].dishes[_index_product]);
     let product = {
       _id: newCollection[_index_menu].dishes[_index_product]._id,
       name: newCollection[_index_menu].dishes[_index_product].name,
@@ -149,6 +149,9 @@ class index extends Component {
       ),
       quantity: _quantity,
       option: this.calculateOption(),
+      photos: newCollection[_index_menu].dishes[_index_product].photos,
+      description:
+        newCollection[_index_menu].dishes[_index_product].description,
       note: '',
     };
     let cart = [...this.props.cart, product];
@@ -469,6 +472,7 @@ class index extends Component {
       );
   }
   renderCartModal() {
+    console.log('cart', this.props.cart);
     return (
       <Modal
         isVisible={this.state.showCartModal}
@@ -515,7 +519,9 @@ class index extends Component {
                   Giỏ hàng
                 </Text>
               </View>
-              <View style={{flex: 0.5}}></View>
+              <View style={{flex: 0.5}}>
+                <ScrollView></ScrollView>
+              </View>
             </View>
           </View>
         </SafeAreaView>
