@@ -18,7 +18,7 @@ index.navigationOptions = {
 };
 function index(props) {
   const [email, setEmail] = useState(props.user.email);
-  const [password, setPassword] = useState('123123asd');
+  const [password, setPassword] = useState('');
   function handleEmailChange(value) {
     setEmail(value);
   }
