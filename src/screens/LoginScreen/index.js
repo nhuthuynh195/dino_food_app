@@ -10,6 +10,8 @@ import {
 import {TextInput} from 'react-native-gesture-handler';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
+import Feather from 'react-native-vector-icons/Feather';
+
 import {width, height} from '@configs/styles';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
 index.navigationOptions = {
@@ -17,20 +19,33 @@ index.navigationOptions = {
   headerShown: false,
 };
 function index(props) {
-  const [email, setEmail] = useState(props.user.email);
-  const [password, setPassword] = useState('');
+  let remember_email = checkAllArrayIsNotEmpty(props.user.email)
+    ? props.user.email
+    : '';
+  let remember_password = checkAllArrayIsNotEmpty(props.user.password)
+    ? props.user.password
+    : '';
+  let remember_me = props.user.remember;
+  const [email, setEmail] = useState(remember_email);
+  const [password, setPassword] = useState(remember_password);
+  const [remember, setRemember] = useState(remember_me);
+
   function handleEmailChange(value) {
     setEmail(value);
   }
   function handlePasswordChange(value) {
     setPassword(value);
   }
+  function rememberMe() {
+    setRemember(!remember);
+  }
   function login() {
+    console.log('remember', remember);
     if (email !== '' && password !== '') {
       props.actions.auth.login({
         email: email,
         password: password,
-        remember: true,
+        remember: remember,
       });
     } else {
       props.alertWithType(
@@ -40,9 +55,7 @@ function index(props) {
       );
     }
   }
-  function logout() {
-    props.actions.auth.logout();
-  }
+
   function forgetPassword() {
     props.navigation.navigate('ForgetPassword');
   }
@@ -52,9 +65,19 @@ function index(props) {
     if (loginSuccess) {
       props.actions.auth.resetStateLogin();
       if (checkAllArrayIsNotEmpty(profile)) {
-        props.actions.dataLocal.saveUser({
-          email: email,
-        });
+        if (remember) {
+          props.actions.dataLocal.saveUser({
+            email: email,
+            password: password,
+            remember: remember,
+          });
+        } else {
+          props.actions.dataLocal.saveUser({
+            email: '',
+            password: '',
+            remember: false,
+          });
+        }
         props.navigation.navigate('Main');
       }
     }
@@ -82,7 +105,7 @@ function index(props) {
             style={{
               backgroundColor: 'white',
               height: 40,
-              paddingHorizontal: 20,
+              paddingHorizontal: 10,
               marginHorizontal: 20,
               borderRadius: 4,
               borderColor: 'gray',
@@ -97,7 +120,7 @@ function index(props) {
             style={{
               backgroundColor: 'white',
               height: 40,
-              paddingHorizontal: 20,
+              paddingHorizontal: 10,
               marginHorizontal: 20,
               borderRadius: 4,
               borderColor: 'gray',
@@ -109,7 +132,65 @@ function index(props) {
             value={password}
             onChangeText={handlePasswordChange}
           />
-
+          <View
+            style={{
+              marginTop: 15,
+              marginHorizontal: 20,
+              alignItems: 'center',
+              flexDirection: 'row',
+            }}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'flex-start',
+              }}>
+              <TouchableOpacity
+                onPress={remember => rememberMe(remember)}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                {remember ? (
+                  <Feather
+                    name="check-square"
+                    size={25}
+                    style={{height: 25}}
+                    color="#00bbc9"
+                  />
+                ) : (
+                  <Feather
+                    name="square"
+                    size={25}
+                    style={{height: 25}}
+                    color="white"
+                  />
+                )}
+                <View
+                  style={{
+                    paddingLeft: 5,
+                  }}>
+                  <Text style={{fontSize: 15, color: 'white'}}>
+                    Remember me?
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                alignItems: 'flex-end',
+                flex: 1,
+              }}>
+              <TouchableOpacity
+                style={{
+                  alignItems: 'center',
+                }}
+                onPress={forgetPassword}>
+                <Text style={{color: 'white', fontSize: 15}}>
+                  Quên mật khẩu?
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
           <TouchableOpacity
             style={{
               padding: 10,
@@ -122,7 +203,7 @@ function index(props) {
             onPress={login}>
             <Text style={{color: 'white', fontSize: 15}}>Đăng nhập</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               padding: 5,
               marginTop: 15,
@@ -131,7 +212,7 @@ function index(props) {
             }}
             onPress={forgetPassword}>
             <Text style={{color: 'white', fontSize: 15}}>Quên mật khẩu?</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {/* <TouchableOpacity
             style={{
               padding: 5,
@@ -147,11 +228,14 @@ function index(props) {
     </View>
   );
 }
-const mapStateToProps = state => ({
-  user: state.dataLocal.user,
-  profile: state.dataLocal.profile,
-  loginSuccess: state.auth.loginSuccess,
-  errorLogin: state.auth.errorLogin,
-});
+const mapStateToProps = state => (
+  console.log('state', state),
+  {
+    user: state.dataLocal.user,
+    profile: state.dataLocal.profile,
+    loginSuccess: state.auth.loginSuccess,
+    errorLogin: state.auth.errorLogin,
+  }
+);
 
 export default connectRedux(mapStateToProps, index);

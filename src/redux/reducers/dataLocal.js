@@ -2,7 +2,11 @@ const initialState = {
   profile: {},
   headers: {},
   cart: [],
-  user: {},
+  user: {
+    email: '',
+    password: '',
+    rembember: false,
+  },
 };
 
 function dataLocal(state = initialState, action) {
