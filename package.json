@@ -8,7 +8,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "lint": "eslint .",
-    "lint:fix": "eslint app/ --fix",
+    "lint:fix": "eslint src/ --fix",
     "images": "node scripts/images.js",
     "screens": "node scripts/screens.js"
   },
