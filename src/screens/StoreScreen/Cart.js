@@ -7,6 +7,7 @@ import {
   FlatList,
   TextInput,
   Keyboard,
+  Platform,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import Modal from 'react-native-modal';
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   container: {
-    height: '80%',
+    height: normalize(400, 'height'),
     backgroundColor: '#FFF',
     borderRadius: 5,
   },
@@ -78,8 +79,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#efefef',
     borderRadius: 3,
     padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  itemNote: {flex: 1, marginLeft: 10},
+  itemNote: {flex: 1, marginLeft: 10, padding: 0, lineHeight: 15},
   itemQuantityContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -137,7 +140,7 @@ const Item = ({data, index, addNote, addProduct, removeProduct}) => {
           <TextInput
             style={styles.itemNote}
             value={data.note}
-            placeholder="Ghi chú"
+            placeholder="Ghi chú ... "
             onChange={value => {
               addNote(value.nativeEvent.text, index);
             }}
@@ -181,7 +184,7 @@ const Cart = props => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
-        setBottom(normalize(215, 'height'));
+        setBottom(normalize(Platform.OS === 'ios' ? 215 : 0, 'height'));
       },
     );
     const keyboardDidHideListener = Keyboard.addListener(
