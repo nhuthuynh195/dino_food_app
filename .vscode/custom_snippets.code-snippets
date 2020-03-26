@@ -97,7 +97,7 @@
     "body": ["import { Text, TextInput } from '@components'"],
     "description": "Import Components."
   },
-  "import-assets-colors": {
+  "import-colors": {
     "prefix": ["import-colors"],
     "body": ["import  Colors  from '@assets/colors'"],
     "description": "Import Colors."
