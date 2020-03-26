@@ -2,25 +2,39 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   TouchableOpacity,
-  Text,
   ImageBackground,
   StyleSheet,
   SafeAreaView,
   Image,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
-import SplashScreen from 'react-native-splash-screen';
+import {Text, TextInput} from '@components';
+import Colors from '@assets/colors';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import NavigatorServices from '@navigators/NavigatorServices';
 index.navigationOptions = {
   title: 'Back',
   headerTitle: (
     <Text style={{color: 'white', fontSize: 18}}>Quên mật khẩu</Text>
   ),
-  headerTintColor: 'white',
+  headerLeft: () => (
+    <TouchableOpacity
+      onPress={() => NavigatorServices.back()}
+      style={{
+        padding: 10,
+        borderRadius: 4,
+        alignItems: 'center',
+        flexDirection: 'row',
+      }}>
+      <Ionicons name="ios-arrow-back" size={25} color={Colors.WHITE} />
+      <View style={{paddingLeft: 10}}>
+        <Text style={{color: 'white', fontSize: 18}}>Back</Text>
+      </View>
+    </TouchableOpacity>
+  ),
   headerTransparent: true,
-  headerStyle: {borderBottomWidth: 0},
 };
 function index(props) {
   const [email, setEmail] = useState(props.user.email);
@@ -86,7 +100,7 @@ function index(props) {
             style={{
               padding: 10,
               marginTop: 20,
-              backgroundColor: '#0273CC',
+              backgroundColor: Colors.BUTTON,
               borderRadius: 4,
               alignItems: 'center',
             }}

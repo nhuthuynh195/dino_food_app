@@ -1,6 +1,6 @@
 {
-  "rn-template": {
-    "prefix": ["rn-template"],
+  "rn-class-template": {
+    "prefix": ["rn-class-template"],
     "body": [
       "import React, { Component } from 'react'",
       "import { View, Text, StyleSheet } from 'react-native'",
@@ -35,11 +35,76 @@
       "export default connectRedux(mapStateToProps, index)",
       ""
     ],
-    "description": "Create React Native Template"
+    "description": "Create React Native Template Class"
+  },
+  "rn-hook-template": {
+    "prefix": ["rn-hook-template"],
+    "body": [
+      "import React, {useState, useEffect} from 'react'",
+      "import { View, Text, StyleSheet } from 'react-native'",
+      "import connectRedux from '@redux/connectRedux'",
+      "import Colors from '@assets/colors'",
+      "import connectRedux from '@redux/connectRedux'",
+      "import images from '@resources/images'",
+      "import {width, height} from '@configs/styles'",
+      "import Ionicons from 'react-native-vector-icons/Ionicons'",
+      "import NavigatorServices from '@navigators/NavigatorServices'",
+      "",
+      "index.navigationOptions = {",
+      "title: '',",
+      "headerTitle: (",
+      "  <Text style={{color: 'white', fontSize: 18}}></Text>",
+      "),",
+      "headerLeft: () => (",
+      "  <TouchableOpacity",
+      "    onPress={() => NavigatorServices.back()}",
+      "    style={{",
+      "      padding: 10,",
+      "      borderRadius: 4,",
+      "      alignItems: 'center',",
+      "      flexDirection: 'row',",
+      "    }}>",
+      "    <Ionicons name={'ios-arrow-back'} size={25} color={Colors.WHITE} />",
+      "    <View style={{paddingLeft: 10}}>",
+      "      <Text style={{color: 'white', fontSize: 18}}>Back</Text>",
+      "    </View>",
+      "  </TouchableOpacity>",
+      "),",
+      "headerTransparent: true",
+      "};",
+      "function index(props){",
+      "\tconst [] = useState();",
+      "",
+      "\treturn (",
+      "\t\t<View>",
+      "\t\t\t<Text> ${2:textInComponent} </Text>",
+      "\t\t</View>",
+      "\t)",
+      "}",
+      "",
+      "const mapStateToProps = (state) => ({",
+      "\t",
+      "})",
+      "",
+      "",
+      "export default connectRedux(mapStateToProps, index)",
+      ""
+    ],
+    "description": "Create React Native Template With Hook"
   },
   "ip-components": {
     "prefix": ["ic"],
     "body": ["import { Text, TextInput } from '@components'"],
     "description": "Import Components."
+  },
+  "ip-assets-colors": {
+    "prefix": ["iac"],
+    "body": ["import  Colors  from '@assets/colors'"],
+    "description": "Import Colors."
+  },
+  "ip-connect-redux": {
+    "prefix": ["icr"],
+    "body": ["import connectRedux from '@redux/connectRedux'"],
+    "description": "Import Connect to Redux."
   }
 }

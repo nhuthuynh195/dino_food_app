@@ -52,7 +52,7 @@ export class index extends Component {
                 padding: 10,
                 borderRadius: 5,
                 marginVertical: 5,
-                backgroundColor: '#0273CC',
+                backgroundColor: Colors.BUTTON,
                 alignSelf: 'center',
               }}>
               <Text style={{fontSize: 18, color: 'white'}}>

@@ -3,17 +3,17 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
-  SafeAreaView,
+  StyleSheet,
   Image,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {Text, TextInput} from '@components';
+import Colors from '@assets/colors';
 import Feather from 'react-native-vector-icons/Feather';
 import {width, height} from '@configs/styles';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
 index.navigationOptions = {
-  title: 'Back',
   headerShown: false,
 };
 function index(props) {
@@ -27,7 +27,6 @@ function index(props) {
   const [email, setEmail] = useState(remember_email);
   const [password, setPassword] = useState(remember_password);
   const [remember, setRemember] = useState(remember_me);
-
   function handleEmailChange(value) {
     setEmail(value);
   }
@@ -38,7 +37,6 @@ function index(props) {
     setRemember(!remember);
   }
   function login() {
-    console.log('remember', remember);
     if (email !== '' && password !== '') {
       props.actions.auth.login({
         email: email,
@@ -58,7 +56,6 @@ function index(props) {
     props.navigation.navigate('ForgetPassword');
   }
   useEffect(() => {
-    console.log('props', props);
     const {loginSuccess, errorLogin, profile} = props;
     if (loginSuccess) {
       props.actions.auth.resetStateLogin();
@@ -86,130 +83,65 @@ function index(props) {
     }
   }, [props.loginSuccess, props.errorLogin]);
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-      }}>
+    <View style={styles.container}>
       <ImageBackground
         source={images.background}
         resizeMode="cover"
-        style={{height: height, width: width}}>
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            flex: 1,
-          }}>
-          <Image source={images.logo} style={{width: 110, height: 98}} />
+        style={styles.image_background}>
+        <View style={styles.content}>
+          <Image source={images.logo} style={styles.image} />
         </View>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1.5}}>
           <TextInput
-            bold
-            style={{
-              backgroundColor: 'white',
-              height: 40,
-              paddingHorizontal: 10,
-              marginHorizontal: 20,
-              borderRadius: 4,
-              borderColor: 'gray',
-              borderWidth: 1,
-            }}
+            style={styles.text_input}
             autoCapitalize="none"
             placeholder="Email"
             value={email}
             onChangeText={handleEmailChange}
           />
           <TextInput
-            style={{
-              backgroundColor: 'white',
-              height: 40,
-              paddingHorizontal: 10,
-              marginHorizontal: 20,
-              borderRadius: 4,
-              borderColor: 'gray',
-              borderWidth: 1,
-              marginTop: 10,
-            }}
+            style={styles.text_input}
             secureTextEntry
             placeholder="Mật khẩu"
             value={password}
             onChangeText={handlePasswordChange}
           />
-          <View
-            style={{
-              marginTop: 15,
-              marginHorizontal: 20,
-              alignItems: 'center',
-              flexDirection: 'row',
-            }}>
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'flex-start',
-              }}>
+          <View style={styles.remember_me}>
+            <View style={{flex: 1, alignItems: 'flex-start'}}>
               <TouchableOpacity
                 onPress={remember => rememberMe(remember)}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
+                style={{flexDirection: 'row', alignItems: 'center'}}>
                 {remember ? (
                   <Feather
                     name="check-square"
                     size={25}
-                    style={{height: 25}}
-                    color="#F8931F"
+                    style={styles.check_box}
+                    color={Colors.BUTTON}
                   />
                 ) : (
                   <Feather
                     name="square"
                     size={25}
-                    style={{height: 25}}
-                    color="white"
+                    style={styles.check_box}
+                    color={Colors.WHITE}
                   />
                 )}
-                <View
-                  style={{
-                    paddingLeft: 5,
-                  }}>
-                  <Text style={{fontSize: 15, color: 'white'}}>
-                    Remember me
-                  </Text>
+
+                <View style={{paddingLeft: 5}}>
+                  <Text style={styles.text_button}>Remember me</Text>
                 </View>
               </TouchableOpacity>
             </View>
-            <View
-              style={{
-                alignItems: 'flex-end',
-                flex: 1,
-              }}>
+            <View style={{flex: 1, alignItems: 'flex-end'}}>
               <TouchableOpacity
-                style={{
-                  alignItems: 'center',
-                }}
+                style={{alignItems: 'center'}}
                 onPress={forgetPassword}>
-                <Text style={{color: 'white', fontSize: 15}}>
-                  Quên mật khẩu?
-                </Text>
+                <Text style={styles.text_button}>Quên mật khẩu?</Text>
               </TouchableOpacity>
             </View>
           </View>
-          <TouchableOpacity
-            style={{
-              padding: 10,
-              marginTop: 15,
-              backgroundColor: '#F8931F',
-              borderRadius: 4,
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={login}>
-            <Text
-              style={{
-                color: '#ffffff',
-                fontSize: 15,
-              }}>
+          <TouchableOpacity style={styles.login_button} onPress={login}>
+            <Text bold style={styles.text_button}>
               Đăng nhập
             </Text>
           </TouchableOpacity>
@@ -218,14 +150,59 @@ function index(props) {
     </View>
   );
 }
-const mapStateToProps = state => (
-  console.log('state', state),
-  {
-    user: state.dataLocal.user,
-    profile: state.dataLocal.profile,
-    loginSuccess: state.auth.loginSuccess,
-    errorLogin: state.auth.errorLogin,
-  }
-);
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  image_background: {
+    height: height,
+    width: width,
+  },
+  content: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  image: {
+    width: 110,
+    height: 98,
+  },
+  text_input: {
+    backgroundColor: Colors.WHITE,
+    height: 40,
+    paddingHorizontal: 10,
+    marginHorizontal: 20,
+    borderRadius: 4,
+    marginBottom: 10,
+  },
+  remember_me: {
+    marginVertical: 10,
+    marginHorizontal: 20,
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  check_box: {
+    height: 25,
+  },
+  text_button: {
+    fontSize: 15,
+    color: Colors.WHITE,
+  },
+  login_button: {
+    padding: 10,
+    marginTop: 15,
+    backgroundColor: Colors.BUTTON,
+    borderRadius: 4,
+    alignItems: 'center',
+    marginHorizontal: 20,
+  },
+});
+const mapStateToProps = state => ({
+  user: state.dataLocal.user,
+  profile: state.dataLocal.profile,
+  loginSuccess: state.auth.loginSuccess,
+  errorLogin: state.auth.errorLogin,
+});
 
 export default connectRedux(mapStateToProps, index);

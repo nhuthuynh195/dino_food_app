@@ -12,7 +12,6 @@ index.navigationOptions = {
   headerStyle: {borderBottomWidth: 0},
   headerTintColor: 'white',
 };
-
 function index(props) {
   const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
