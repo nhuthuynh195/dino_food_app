@@ -92,19 +92,31 @@
     ],
     "description": "Create React Native Template With Hook"
   },
-  "ip-components": {
-    "prefix": ["ic"],
+  "import-components": {
+    "prefix": ["import-components"],
     "body": ["import { Text, TextInput } from '@components'"],
     "description": "Import Components."
   },
-  "ip-assets-colors": {
-    "prefix": ["iac"],
+  "import-assets-colors": {
+    "prefix": ["import-colors"],
     "body": ["import  Colors  from '@assets/colors'"],
     "description": "Import Colors."
   },
-  "ip-connect-redux": {
-    "prefix": ["icr"],
+  "import-connect-redux": {
+    "prefix": ["import-connect-redux"],
     "body": ["import connectRedux from '@redux/connectRedux'"],
     "description": "Import Connect to Redux."
+  },
+  "import-images": {
+    "prefix": ["import-images"],
+    "body": ["import images from '@resources/images'"],
+    "description": "Import Image."
+  },
+  "import-func": {
+    "prefix": ["import-func"],
+    "body": [
+      "import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func'"
+    ],
+    "description": "Import Func."
   }
 }
