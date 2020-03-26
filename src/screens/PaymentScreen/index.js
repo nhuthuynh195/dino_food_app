@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  View,
   DeviceEventEmitter,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
@@ -27,7 +28,6 @@ import {
   Textarea,
   Button,
 } from 'native-base';
-import {View, TextInput} from '@shoutem/ui';
 import {TextInputMask} from 'react-native-masked-text';
 eventType = 'REQUEST_PAYMENT';
 class index extends Component {

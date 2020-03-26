@@ -1,6 +1,6 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {connectAlert} from '@components/Alert';
+import {connectAlert} from '@components/AlertConfirm';
 import {connectNoti} from '@components/NotificationError';
 
 import actions from './actions';

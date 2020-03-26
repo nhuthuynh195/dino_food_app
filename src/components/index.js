@@ -1,9 +1,13 @@
+import AlertConfirm from './AlertConfirm';
 import Loading from './Loading';
-import Alert from './Alert';
 import NotificationError from './NotificationError';
+import Text from './Text';
+import TextInput from './TextInput';
 
-module.exports = {
-  Loading,
-  Alert,
-  NotificationError,
-};
+module.exports = { 
+	AlertConfirm,
+	Loading,
+	NotificationError,
+	Text,
+	TextInput 
+}

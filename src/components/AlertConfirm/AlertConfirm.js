@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 const {width} = Dimensions.get('window');
 
-class AlertProvider extends Component {
+class AlertConfirm extends Component {
   static get childContextTypes() {
     return {
       openAlert: PropTypes.func,
@@ -160,7 +160,7 @@ export class Alert extends Component {
   };
 }
 
-export default AlertProvider;
+export default AlertConfirm;
 
 const styles = StyleSheet.create({
   buttonAlert: {

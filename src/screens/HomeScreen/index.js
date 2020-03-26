@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
-
+import firestore from '@react-native-firebase/firestore';
 class index extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Trang chủ',
@@ -20,8 +20,15 @@ class index extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    console.log('sadasd', this.props);
+  async componentDidMount() {
+    // const documentSnapshot = await firestore()
+    //   .collection('users')
+    //   .doc('alovelace')
+    //   .get();
+
+    // console.log('User data', documentSnapshot.data());
+
+    // console.log('sadasd', this.props);
     this.props.actions.app.getStores();
     this.props.actions.auth.getProfile();
   }

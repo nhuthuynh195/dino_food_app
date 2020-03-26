@@ -2,16 +2,14 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   TouchableOpacity,
-  Text,
   ImageBackground,
   SafeAreaView,
   Image,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
+import {Text, TextInput} from '@components';
 import Feather from 'react-native-vector-icons/Feather';
-
 import {width, height} from '@configs/styles';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
 index.navigationOptions = {
@@ -97,11 +95,17 @@ function index(props) {
         source={images.background}
         resizeMode="cover"
         style={{height: height, width: width}}>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <Image source={images.logo} style={{width: 300, height: 300}} />
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            flex: 1,
+          }}>
+          <Image source={images.logo} style={{width: 110, height: 98}} />
         </View>
         <View style={{flex: 1}}>
           <TextInput
+            bold
             style={{
               backgroundColor: 'white',
               height: 40,
@@ -155,7 +159,7 @@ function index(props) {
                     name="check-square"
                     size={25}
                     style={{height: 25}}
-                    color="#00bbc9"
+                    color="#F8931F"
                   />
                 ) : (
                   <Feather
@@ -170,7 +174,7 @@ function index(props) {
                     paddingLeft: 5,
                   }}>
                   <Text style={{fontSize: 15, color: 'white'}}>
-                    Remember me?
+                    Remember me
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -195,34 +199,20 @@ function index(props) {
             style={{
               padding: 10,
               marginTop: 15,
-              backgroundColor: '#0273CC',
+              backgroundColor: '#F8931F',
               borderRadius: 4,
               alignItems: 'center',
               marginHorizontal: 20,
             }}
             onPress={login}>
-            <Text style={{color: 'white', fontSize: 15}}>Đăng nhập</Text>
+            <Text
+              style={{
+                color: '#ffffff',
+                fontSize: 15,
+              }}>
+              Đăng nhập
+            </Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity
-            style={{
-              padding: 5,
-              marginTop: 15,
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={forgetPassword}>
-            <Text style={{color: 'white', fontSize: 15}}>Quên mật khẩu?</Text>
-          </TouchableOpacity> */}
-          {/* <TouchableOpacity
-            style={{
-              padding: 5,
-              marginTop: 15,
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={logout}>
-            <Text style={{color: 'white'}}>Logout</Text>
-          </TouchableOpacity> */}
         </View>
       </ImageBackground>
     </View>

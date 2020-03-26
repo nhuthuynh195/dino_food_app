@@ -7,14 +7,14 @@ import configureStore from '@redux/store';
 import NavigatorServices from './src/navigators/NavigatorServices';
 console.disableYellowBox = true;
 import {Loading} from '@components';
-import {AlertProvider} from '@components/Alert';
+import {AlertConfirm} from '@components/AlertConfirm';
 import {NotiProvider} from '@components/NotificationError';
 
 function App() {
   const {persistor, store} = configureStore();
   return (
     <Provider store={store}>
-      <AlertProvider>
+      <AlertConfirm>
         <NotiProvider>
           <PersistGate loading={<View />} persistor={persistor}>
             <AppNavigator
@@ -25,7 +25,7 @@ function App() {
             <Loading />
           </PersistGate>
         </NotiProvider>
-      </AlertProvider>
+      </AlertConfirm>
     </Provider>
   );
 }

@@ -8,7 +8,6 @@ import NotificationScreen from './NotificationScreen';
 import PaymentScreen from './PaymentScreen';
 import ProfileScreen from './ProfileScreen';
 import StoreScreen from './StoreScreen';
-import TestAnimation from './TestAnimation';
 
 module.exports = { 
 	AuthLoadingScreen,
@@ -20,6 +19,5 @@ module.exports = {
 	NotificationScreen,
 	PaymentScreen,
 	ProfileScreen,
-	StoreScreen,
-	TestAnimation 
+	StoreScreen 
 }

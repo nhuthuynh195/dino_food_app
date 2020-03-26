@@ -1,0 +1,45 @@
+{
+  "rn-template": {
+    "prefix": ["rn-template"],
+    "body": [
+      "import React, { Component } from 'react'",
+      "import { View, Text, StyleSheet } from 'react-native'",
+      "import connectRedux from '@redux/connectRedux'",
+      "",
+      "class ${1:${index}} extends Component {",
+      "\t static navigationOptions = ({navigation}) => ({",
+      "\t\t${2:title}: ${3:''}",
+      "\t})",
+      "",
+      "\t constructor(props) {",
+      "\t\tsuper(props);",
+      "\t\tthis.state = {};",
+      "\t }",
+      "",
+      "\tcomponentDidMount() {}",
+      "",
+      "\trender() {",
+      "\t\treturn (",
+      "\t\t\t<View>",
+      "\t\t\t\t<Text> ${2:textInComponent} </Text>",
+      "\t\t\t</View>",
+      "\t\t)",
+      "\t}",
+      "}",
+      "",
+      "const mapStateToProps = (state) => ({",
+      "\t",
+      "})",
+      "",
+      "",
+      "export default connectRedux(mapStateToProps, index)",
+      ""
+    ],
+    "description": "Create React Native Template"
+  },
+  "ip-components": {
+    "prefix": ["ic"],
+    "body": ["import { Text, TextInput } from '@components'"],
+    "description": "Import Components."
+  }
+}

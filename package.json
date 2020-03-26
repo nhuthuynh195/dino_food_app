@@ -10,12 +10,14 @@
     "lint": "eslint .",
     "lint:fix": "eslint src/ --fix",
     "images": "node scripts/images.js",
-    "screens": "node scripts/screens.js"
+    "screens": "node scripts/screens.js",
+    "components": "node scripts/components.js"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.8.0",
     "@react-native-community/masked-view": "^0.1.6",
-    "@shoutem/ui": "^2.0.3",
+    "@react-native-firebase/app": "^6.3.4",
+    "@react-native-firebase/firestore": "^6.3.4",
     "add": "^2.0.6",
     "hoist-non-react-statics": "^3.3.2",
     "immutability-helper": "^3.0.1",

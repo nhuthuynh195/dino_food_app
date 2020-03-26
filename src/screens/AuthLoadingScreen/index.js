@@ -12,7 +12,7 @@ import SplashScreen from 'react-native-splash-screen';
 
 class index extends Component {
   componentDidMount() {
-    SplashScreen.hide();
+    // SplashScreen.hide();
     this._bootstrapAsync();
   }
   // Fetch the token from storage then navigate to our appropriate place

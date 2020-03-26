@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 import DropdownAlert from 'react-native-dropdownalert';
 
-class AlertProvider extends Component {
+class NotiProvider extends Component {
   static get childContextTypes() {
     return {
       alertWithType: PropTypes.func,
@@ -38,4 +38,4 @@ class AlertProvider extends Component {
   }
 }
 
-export default AlertProvider;
+export default NotiProvider;
