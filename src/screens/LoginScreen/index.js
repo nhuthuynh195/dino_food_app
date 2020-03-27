@@ -13,6 +13,7 @@ import Colors from '@assets/colors';
 import Feather from 'react-native-vector-icons/Feather';
 import {width, height} from '@configs/styles';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
+
 index.navigationOptions = {
   headerShown: false,
 };
@@ -27,6 +28,7 @@ function index(props) {
   const [email, setEmail] = useState(remember_email);
   const [password, setPassword] = useState(remember_password);
   const [remember, setRemember] = useState(remember_me);
+
   function handleEmailChange(value) {
     setEmail(value);
   }
@@ -55,6 +57,7 @@ function index(props) {
   function forgetPassword() {
     props.navigation.navigate('ForgetPassword');
   }
+
   useEffect(() => {
     const {loginSuccess, errorLogin, profile} = props;
     if (loginSuccess) {

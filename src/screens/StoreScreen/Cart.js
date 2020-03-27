@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  TextInput,
   Keyboard,
   Platform,
 } from 'react-native';
@@ -17,14 +15,16 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import normalize from 'react-native-normalize';
 import {formatMoney} from '@utils/func';
-
+import {Text, TextInput} from '@components';
+import {width, height} from '@configs/styles';
 const styles = StyleSheet.create({
   modal: {
     justifyContent: 'flex-end',
     margin: 0,
   },
   container: {
-    height: normalize(400, 'height'),
+    flex: 1,
+    marginTop: height / 5,
     backgroundColor: '#FFF',
     borderRadius: 5,
   },

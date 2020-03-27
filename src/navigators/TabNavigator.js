@@ -10,7 +10,7 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createAppContainer} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import IconWithBadge from './IconWithBadge';
-
+import Colors from '@assets/colors';
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
@@ -98,7 +98,7 @@ const TabNavigator = createBottomTabNavigator(
       },
     }),
     tabBarOptions: {
-      activeTintColor: '#0273CC',
+      activeTintColor: Colors.BUTTON,
       inactiveTintColor: 'gray',
     },
   },

@@ -2,33 +2,24 @@ import React, {Component} from 'react';
 import {
   View,
   TouchableOpacity,
-  Text,
   FlatList,
   StyleSheet,
   Dimensions,
   Image,
 } from 'react-native';
+import {Text, TextInput} from '@components';
 import connectRedux from '@redux/connectRedux';
-import firestore from '@react-native-firebase/firestore';
+
 class index extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Trang chủ',
   });
   constructor(props) {
     super(props);
-
     this.state = {};
   }
 
-  async componentDidMount() {
-    // const documentSnapshot = await firestore()
-    //   .collection('users')
-    //   .doc('alovelace')
-    //   .get();
-
-    // console.log('User data', documentSnapshot.data());
-
-    // console.log('sadasd', this.props);
+  componentDidMount() {
     this.props.actions.app.getStores();
     this.props.actions.auth.getProfile();
   }
@@ -36,7 +27,6 @@ class index extends Component {
     this.props.actions.auth.logout();
     this.props.navigation.navigate('Login');
   };
-
   gotoStore = _id => {
     this.props.navigation.navigate('Store', {id: _id});
   };
@@ -81,6 +71,7 @@ class index extends Component {
     );
   }
   render() {
+    console.log('this.props.listStores', this.props.listStores);
     return (
       <View
         style={{

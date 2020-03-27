@@ -3,7 +3,7 @@ import {View, Text, FlatList} from 'react-native';
 import PropTypes from 'prop-types';
 import connectRedux from '@redux/connectRedux';
 import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
-
+import Colors from '@assets/colors';
 export class index extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Lịch sử thanh toán',

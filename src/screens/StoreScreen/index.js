@@ -2,14 +2,11 @@ import React, {Component} from 'react';
 import {
   View,
   TouchableOpacity,
-  Text,
   FlatList,
   StyleSheet,
   Dimensions,
   Image,
   ScrollView,
-  TextInput,
-  SafeAreaView,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import Modal from 'react-native-modal';
@@ -22,7 +19,7 @@ import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
 import _ from 'ramda';
 import update from 'immutability-helper';
 import Cart from './Cart';
-
+import {Text, TextInput} from '@components';
 class index extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Cửa hàng',
@@ -44,9 +41,10 @@ class index extends Component {
   }
   componentDidMount() {
     this.props.actions.dataLocal.addToCart([]),
-      this.props.actions.app.getStoreById(
-        this.props.navigation.state.params.id,
-      );
+      this.props.actions.app.createOrder({
+        store: this.props.navigation.state.params.id,
+      });
+    this.props.actions.app.getStoreById(this.props.navigation.state.params.id);
   }
   componentWillReceiveProps(nextProps) {
     if (checkAllArrayIsNotEmpty(nextProps.menu) && this.state.menuIsNull) {
@@ -618,7 +616,9 @@ class index extends Component {
             }}>
             <View style={{flex: 1}}>
               <Text style={styles.itemThreeTitle}>{item.name}</Text>
-              <Text style={styles.itemThreeSubtitle}>{item.description}</Text>
+              <Text numberOfLines={2} style={styles.itemThreeSubtitle}>
+                {item.description}
+              </Text>
             </View>
             <View>
               <View style={{flexDirection: 'row'}}>
@@ -737,6 +737,7 @@ class index extends Component {
   };
   render() {
     const {menu, optionInfo} = this.state;
+    console.log('menu', menu);
     return (
       <View
         style={{

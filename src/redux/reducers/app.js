@@ -55,6 +55,11 @@ function appReducer(state = initialState, action) {
         ...state,
         requestPaymentSucces: false,
       };
+    case 'CREATE_ORDER_SUCCESS':
+      return {
+        ...state,
+        requestPaymentSucces: false,
+      };
     case 'APP_LOGOUT':
       return initialState;
     default:

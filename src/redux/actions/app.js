@@ -49,3 +49,12 @@ export function requestPayment(body) {
     body,
   };
 }
+export function createOrder(body) {
+  return {
+    type: 'CREATE_ORDER',
+    method: 'POST',
+    api: `${apiConfigs.BASE_API}/orders`,
+    token: true,
+    body,
+  };
+}

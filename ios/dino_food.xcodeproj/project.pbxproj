@@ -20,6 +20,7 @@
 		3E882AA543C32434A34519D3 /* libPods-dino_food-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED109F83BF6DC141A6438C48 /* libPods-dino_food-tvOSTests.a */; };
 		8DCB78FB00AC1677808E7033 /* libPods-dino_food-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 947F0A7BAB6E68C4FEA1F6B2 /* libPods-dino_food-tvOS.a */; };
 		919B33FDC2D0253130946C6D /* libPods-dino_food.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 803789BBDE875A8822092E1E /* libPods-dino_food.a */; };
+		EC5E3589242D0173003E89F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC5E3588242D0172003E89F7 /* GoogleService-Info.plist */; };
 		ECDDF21B242C5BB400E5E59D /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECDDF215242C5BB400E5E59D /* Quicksand-Regular.ttf */; };
 		ECDDF21C242C5BB400E5E59D /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECDDF216242C5BB400E5E59D /* Quicksand-Light.ttf */; };
 		ECDDF21D242C5BB400E5E59D /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = ECDDF217242C5BB400E5E59D /* OFL.txt */; };
@@ -70,6 +71,7 @@
 		CFFD25442FB4A77F7628A262 /* Pods-dino_foodTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dino_foodTests.release.xcconfig"; path = "Target Support Files/Pods-dino_foodTests/Pods-dino_foodTests.release.xcconfig"; sourceTree = "<group>"; };
 		E078EF3066D37C767F19A6AC /* Pods-dino_food-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dino_food-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-dino_food-tvOS/Pods-dino_food-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		E8577841C14F8CF159FE00BB /* Pods-dino_food-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dino_food-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-dino_food-tvOSTests/Pods-dino_food-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		EC5E3588242D0172003E89F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ECDDF215242C5BB400E5E59D /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
 		ECDDF216242C5BB400E5E59D /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
 		ECDDF217242C5BB400E5E59D /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 		13B07FAE1A68108700A75B9A /* dino_food */ = {
 			isa = PBXGroup;
 			children = (
+				EC5E3588242D0172003E89F7 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -369,6 +372,7 @@
 			files = (
 				ECDDF21D242C5BB400E5E59D /* OFL.txt in Resources */,
 				ECDDF21F242C5BB400E5E59D /* Quicksand-SemiBold.ttf in Resources */,
+				EC5E3589242D0173003E89F7 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				ECDDF21E242C5BB400E5E59D /* Quicksand-Medium.ttf in Resources */,
 				ECDDF220242C5BB400E5E59D /* Quicksand-Bold.ttf in Resources */,

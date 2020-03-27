@@ -1,11 +1,10 @@
 import * as React from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+import {View} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/es/integration/react';
-import AppNavigator from './src/navigators/AppNavigator';
+import AppNavigator from '@navigators/AppNavigator';
 import configureStore from '@redux/store';
-import NavigatorServices from './src/navigators/NavigatorServices';
-console.disableYellowBox = true;
+import NavigatorServices from '@navigators/NavigatorServices';
 import {Loading} from '@components';
 import {AlertConfirm} from '@components/AlertConfirm';
 import {NotiProvider} from '@components/NotificationError';
@@ -30,3 +29,4 @@ function App() {
   );
 }
 export default App;
+console.disableYellowBox = true;
