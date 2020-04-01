@@ -57,7 +57,9 @@ function index(props) {
   function forgetPassword() {
     props.navigation.navigate('ForgetPassword');
   }
-  function registerUser() {}
+  function registerUser() {
+    props.navigation.navigate('Register');
+  }
   useEffect(() => {
     const {loginSuccess, errorLogin, profile} = props;
     if (loginSuccess) {

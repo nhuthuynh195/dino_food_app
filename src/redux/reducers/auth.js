@@ -1,11 +1,19 @@
 const initialState = {
   loginSuccess: false,
   errorLogin: '',
+  //
   profile: {},
+  //
+  register: {
+    message: '',
+    code: '',
+  },
+  //
   changePassword: {
     message: '',
     code: '',
   },
+  //
   forgetPassword: {
     message: '',
     code: '',
@@ -31,6 +39,15 @@ function authReducer(state = initialState, action) {
         loginSuccess: false,
         errorLogin: action.payload.error,
       };
+    case 'REGISTER_SUCCESS':
+      return {
+        ...state,
+        register: {
+          message: action.payload.message,
+          code: action.payload.statusCode,
+        },
+      };
+
     case 'FORGET_PASSWORD_SUCCESS':
       return {
         ...state,
@@ -52,6 +69,14 @@ function authReducer(state = initialState, action) {
         ...state,
         loginSuccess: false,
         errorLogin: '',
+        register: {
+          message: '',
+          code: '',
+        },
+        changePassword: {
+          message: '',
+          code: '',
+        },
         forgetPassword: {
           message: '',
           code: '',
@@ -69,21 +94,5 @@ function authReducer(state = initialState, action) {
       return state;
   }
 }
-
-// function calculatePage({ current_page, per_page, total_count }) {
-//     const temptTotalPage = total_count % per_page === 0 ? parseInt(total_count / per_page) : parseInt(total_count / per_page) + 1;
-//     return {
-//         currentPage: current_page,
-//         totalPage: temptTotalPage
-//     }
-// }
-
-// function concatListData(page, oldData, newData) {
-//     if (page === 1) {
-//         return newData;
-//     } else {
-//         return oldData.concat(newData);
-//     }
-// }
 
 export default authReducer;

@@ -15,10 +15,10 @@ import {width, height} from '@configs/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NavigatorServices from '@navigators/NavigatorServices';
 index.navigationOptions = {
-  title: 'Back',
   headerTitle: (
     <Text style={{color: 'white', fontSize: 18}}>Quên mật khẩu</Text>
   ),
+  title: 'Back',
   headerLeft: () => (
     <TouchableOpacity
       onPress={() => NavigatorServices.back()}
@@ -50,8 +50,8 @@ function index(props) {
   useEffect(() => {
     const {forgetPasswordMessage, forgetPasswordCode} = props;
     if (forgetPasswordMessage !== '' && forgetPasswordCode == 200) {
-      let errorMessage = `${forgetPasswordMessage}`;
-      props.alertWithType('success', 'Success', errorMessage);
+      let successMessage = `${forgetPasswordMessage}`;
+      props.alertWithType('success', 'Success', successMessage);
       props.actions.auth.resetStateLogin();
       props.navigation.navigate('ChangePassword');
     } else if (forgetPasswordMessage !== '') {

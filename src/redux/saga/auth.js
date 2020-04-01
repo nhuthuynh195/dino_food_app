@@ -36,6 +36,21 @@ function* login(action) {
     });
   }
 }
+function* register(action) {
+  try {
+    yield put({
+      type: 'SHOW_LOADING',
+    });
+    const response = yield requestAPI(action);
+    yield put({...action, type: 'REGISTER_SUCCESS', payload: response});
+  } catch (error) {
+    console.log('error: ', error);
+  } finally {
+    yield put({
+      type: 'HIDE_LOADING',
+    });
+  }
+}
 function* getProfile(action) {
   try {
     // yield delay(5000);
@@ -131,11 +146,10 @@ function* changePassword(action) {
 export default function* saga() {
   yield all([
     takeLatest('LOGIN_APP', login),
-    // takeLatest('CHANGE_PASSWORD', changePassword),
+    takeLatest('REGISTER', register),
     takeLatest('LOGOUT_APP', logout),
     takeLatest('GET_PROFILE', getProfile),
     takeLatest('FORGET_PASSWORD', forgetPassword),
     takeLatest('CHANGE_PASSWORD', changePassword),
-    // takeLatest('UPDATE_ENDPOINT_NOTIFICAITON', updateEndPoint),
   ]);
 }

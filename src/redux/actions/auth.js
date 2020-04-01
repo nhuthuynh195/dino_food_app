@@ -8,6 +8,14 @@ export function login(body) {
     api: `${apiConfigs.BASE_API}/auth/login`,
   };
 }
+export function register(body) {
+  return {
+    type: 'REGISTER',
+    body,
+    method: 'POST',
+    api: `${apiConfigs.BASE_API}/auth/register`,
+  };
+}
 export function forgetPassword(body) {
   return {
     type: 'FORGET_PASSWORD',

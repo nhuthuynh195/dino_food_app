@@ -8,6 +8,7 @@ import NotificationScreen from './NotificationScreen';
 import OrderListScreen from './OrderListScreen';
 import PaymentScreen from './PaymentScreen';
 import ProfileScreen from './ProfileScreen';
+import RegisterScreen from './RegisterScreen';
 import StoreScreen from './StoreScreen';
 
 module.exports = { 
@@ -21,5 +22,6 @@ module.exports = {
 	OrderListScreen,
 	PaymentScreen,
 	ProfileScreen,
+	RegisterScreen,
 	StoreScreen 
 }
