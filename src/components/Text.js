@@ -8,7 +8,7 @@ const CustomText = React.memo(function CustomText(props) {
       style={[
         DefaultStyle.text,
         props.style,
-        {fontFamily: props.bold ? 'Quicksand-Medium' : 'Quicksand-Regular'},
+        {fontFamily: props.bold ? 'Quicksand-Bold' : 'Quicksand-Regular'},
       ]}>
       {props.children}
     </Text>

@@ -6,30 +6,57 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  TextInput,
+  Text,
 } from 'react-native';
-import {Text, TextInput} from '@components';
+// import {Text, TextInput} from '@components';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import connectRedux from '@redux/connectRedux';
-
+import Insets from '@assets/insets';
+import Colors from '@assets/colors';
 class index extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Trang chủ',
   });
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      keyword: '',
+    };
   }
-
   componentDidMount() {
+    this.props.actions.app.showLoading();
     this.props.actions.app.getStores();
     this.props.actions.auth.getProfile();
   }
-  logout = () => {
-    this.props.actions.auth.logout();
-    this.props.navigation.navigate('Login');
-  };
   gotoStore = _id => {
     this.props.navigation.navigate('Store', {id: _id});
   };
+  onChaneKeyword(value) {
+    clearTimeout(this.timer);
+    this.setState({keyword: value});
+    this.timer = setTimeout(() => {
+      this.searchStore(value);
+    }, 1000);
+  }
+  clearKeyword() {
+    clearTimeout(this.timer);
+    this.setState({keyword: ''});
+    this.props.actions.app.showLoading();
+    this.props.actions.app.getStores();
+  }
+  searchStore() {
+    const {keyword} = this.state;
+    this.props.actions.app.showLoading();
+    this.props.actions.app.getStores(1, (sortBy = '-createdAt'), keyword);
+  }
+  loadMoreStore() {
+    const {metaDataListStore} = this.props;
+    const {page, pages} = metaDataListStore;
+    if (page < pages) {
+      this.props.actions.app.getStores(page + 1, (sortBy = '-createdAt'));
+    }
+  }
   renderItem({item, index}) {
     return (
       <TouchableOpacity
@@ -71,16 +98,69 @@ class index extends Component {
     );
   }
   render() {
-    console.log('this.props.listStores', this.props.listStores);
+    const {listStores} = this.props;
+    const {keyword} = this.state;
     return (
       <View
         style={{
           flex: 1,
+          backgroundColor: Colors.WHITE,
         }}>
+        <View style={{paddingHorizontal: 15, paddingVertical: 10}}>
+          <View
+            style={{
+              borderColor: Colors.BLUE_MEDIUM,
+              borderWidth: 1,
+              borderRadius: 50,
+              flexDirection: 'row',
+            }}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingHorizontal: 10,
+              }}>
+              <Ionicons name="ios-search" size={24} />
+            </View>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+              }}>
+              <TextInput
+                placeholderTextColor={Colors.GRAY_MEDIUM}
+                placeholder="Tìm kiếm..."
+                style={{
+                  color: Colors.BLACK,
+                  paddingVertical: 10,
+                }}
+                value={keyword}
+                onChangeText={value => this.onChaneKeyword(value)}
+              />
+            </View>
+            {keyword !== '' && (
+              <TouchableOpacity
+                onPress={() => this.clearKeyword()}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingHorizontal: 10,
+                }}>
+                <Ionicons
+                  name="ios-close-circle"
+                  size={24}
+                  color={Colors.GRAY_MEDIUM}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
         <FlatList
-          data={this.props.listStores}
+          keyExtractor={item => item._id}
+          data={listStores}
           style={{paddingHorizontal: 15, backgroundColor: 'white'}}
           renderItem={(item, index) => this.renderItem(item, index)}
+          onEndReached={() => this.loadMoreStore()}
         />
       </View>
     );
@@ -222,7 +302,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = state => ({
   dataLocal: state.dataLocal,
-
+  metaDataListStore: state.app.metaDataListStore,
   loading: state.auth.loadingLogin,
   profile: state.dataLocal.profile,
   loginSuccess: state.auth.loginSuccess,

@@ -123,5 +123,15 @@
     "prefix": ["import-width-height"],
     "body": ["import {width, height} from '@configs/styles'"],
     "description": "Import Width Height"
+  },
+  "import-insets": {
+    "prefix": ["import-insets"],
+    "body": ["import Insets from '@assets/insets'"],
+    "description": "Import Insets"
+  },
+  "import-icon": {
+    "prefix": ["import-icon"],
+    "body": ["import Ionicons from 'react-native-vector-icons/Ionicons'"],
+    "description": "Import Icon"
   }
 }

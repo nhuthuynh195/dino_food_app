@@ -22,13 +22,16 @@ export function checkBalance(page = 1, email) {
     token: true,
   };
 }
-export function getStores(page = 1, sortBy = '-createdAt') {
+
+export function getStores(page = 1, sortBy = '-createdAt', keyword = '') {
+  console.log('keyword', keyword);
+  console.log('sortBy', sortBy);
   return {
     type: 'GET_STORES',
     method: 'GET',
     api: `${
       apiConfigs.BASE_API
-    }/stores?page=${page}&limit=${10}&sortBy=${sortBy}`,
+    }/stores?page=${page}&limit=${10}&sortBy=${sortBy}&keyword=${keyword}`,
     token: true,
   };
 }
@@ -54,6 +57,24 @@ export function createOrder(body) {
     type: 'CREATE_ORDER',
     method: 'POST',
     api: `${apiConfigs.BASE_API}/orders`,
+    token: true,
+    body,
+  };
+}
+export function getListOrder(body) {
+  return {
+    type: 'CREATE_ORDER',
+    method: 'POST',
+    api: `${apiConfigs.BASE_API}/orders`,
+    token: true,
+    body,
+  };
+}
+export function updateOrderDetail(body, id) {
+  return {
+    type: 'UPDATE_ORDER',
+    method: 'PUT',
+    api: `${apiConfigs.BASE_API}/orders/${id}`,
     token: true,
     body,
   };

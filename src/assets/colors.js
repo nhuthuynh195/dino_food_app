@@ -1,6 +1,6 @@
 const Colors = {
   PRIMARY: '#602BB2',
-  TEXT: '#000000',
+  BLACK: '#000000',
   BUTTON: '#F8931F',
   WHITE: '#FFFFFF',
   BLACK: '#000000',
@@ -10,5 +10,6 @@ const Colors = {
   GRAY_LIGHT: '#e6e6e6',
   GRAY_MEDIUM: '#cacaca',
   GRAY_DARK: '#8a8a8a',
+  BLUE_MEDIUM: '#005993',
 };
 export default Colors;

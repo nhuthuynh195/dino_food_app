@@ -11,8 +11,15 @@ export default Main = createStackNavigator(
         headerShown: false,
       },
     },
-    Payment: PaymentScreen,
-    Store: StoreScreen,
+    Payment: {
+      screen: PaymentScreen,
+      navigationOptions: {},
+    },
+    Store: {
+      screen: StoreScreen,
+      navigationOptions: {},
+    },
+    // Store: StoreScreen,
     OrderList: OrderListScreen,
   },
   {

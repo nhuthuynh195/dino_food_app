@@ -4,19 +4,46 @@ import {
   AsyncStorage,
   StatusBar,
   StyleSheet,
+  ImageBackground,
   View,
+  Linking,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
 import SplashScreen from 'react-native-splash-screen';
-
+import {width, height} from '@configs/styles';
+import images from '@resources/images';
 class index extends Component {
   componentDidMount() {
-    // SplashScreen.hide();
-    this._bootstrapAsync();
+    SplashScreen.hide();
+    this.checkRouter();
+    if (Platform.OS === 'android') {
+      Linking.getInitialURL().then(url => {
+        this.navigate(url);
+      });
+    } else {
+      Linking.addEventListener('url', this.handleOpenURL);
+    }
   }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURL);
+  }
+  handleOpenURL = event => {
+    this.navigate(event.url);
+  };
+  navigate = url => {
+    const {navigate} = this.props.navigation;
+    const route = url.replace(/.*?:\/\//g, '');
+    // const id = route.match(/\/([^\/]+)\/?$/)[1];
+    const routeName = route.split('/')[0];
+    console.log('routeName', routeName);
+    if (routeName === 'store') {
+      navigate('Store', {id: ''});
+    }
+  };
   // Fetch the token from storage then navigate to our appropriate place
-  _bootstrapAsync = async () => {
+  checkRouter = async () => {
     if (checkAllArrayIsNotEmpty(this.props.profile)) {
       this.props.navigation.navigate('Main');
     } else {
@@ -26,8 +53,14 @@ class index extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <ActivityIndicator size="large" color="white" />
+      // <View style={{flex: 1, alignItems: 'center'}}>
+      //   <ImageBackground
+      //     source={images.splash_screen}
+      //     resizeMode="cover"
+      //     style={{width: width, height: height}}></ImageBackground>
+      // </View>
+      <View>
+        <ActivityIndicator />
         <StatusBar barStyle="default" />
       </View>
     );

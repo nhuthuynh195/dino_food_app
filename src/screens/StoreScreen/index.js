@@ -20,6 +20,11 @@ import _ from 'ramda';
 import update from 'immutability-helper';
 import Cart from './Cart';
 import {Text, TextInput} from '@components';
+import SafeAreaView from 'react-native-safe-area-view';
+import {SafeAreaConsumer} from 'react-native-safe-area-context';
+import Colors from '@assets/colors';
+import Insets from '@assets/insets';
+//outputs bottom safe area height
 class index extends Component {
   static navigationOptions = ({navigation}) => ({
     title: 'Cửa hàng',
@@ -53,6 +58,19 @@ class index extends Component {
         menuIsNull: false,
       });
     }
+  }
+  updateOrder(id) {
+    this.hideModal();
+    // console.log('id', id);
+    let param = {
+      action: 'add',
+      note: 'teasda',
+      dish: '5e7cb204a0660f5a0d5e2fda',
+      _id: '5e7cb204a0660f5a0d5e2fda',
+    };
+    // let id_order = this.props.order._id;
+    let id_order = '5e8062167f0bcd56ebbacd5b';
+    this.props.actions.app.updateOrderDetail(param, id_order);
   }
   hideCartModal() {
     this.setState({showCartModal: false});
@@ -327,6 +345,7 @@ class index extends Component {
                 borderRadius: 5,
                 backgroundColor: '#FFF',
                 marginTop: height / 5,
+                paddingBottom: Insets.BOTTOM,
               }}>
               <View
                 style={{
@@ -496,28 +515,36 @@ class index extends Component {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <View style={{flex: 1}}>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                  }}>
                   <Text style={{fontSize: 17, fontWeight: 'bold'}}>
                     {`${formatMoney(
                       this.calculatePrice(product.price, product.quantity),
                     )}đ`}
                   </Text>
-                  <Text
-                    style={styles.itemThreeSubtitle}
-                    numberOfLines={1}
-                    ellipsizeMode="tail">
-                    {this.calculateOption()}
-                  </Text>
+                  {this.calculateOption() !== '' && (
+                    <Text
+                      style={styles.itemThreeSubtitle}
+                      numberOfLines={1}
+                      ellipsizeMode="tail">
+                      {this.calculateOption()}
+                    </Text>
+                  )}
                 </View>
                 <View style={{flex: 1}}>
                   <TouchableOpacity
-                    onPress={() =>
-                      this.addToCart(
-                        _index_menu,
-                        _index_product,
-                        product.quantity,
-                        product,
-                      )
+                    onPress={
+                      () =>
+                        this.addToCart(
+                          _index_menu,
+                          _index_product,
+                          product.quantity,
+                          product,
+                        )
+                      // this.updateOrder(product._id)
                     }
                     style={{
                       padding: 15,
@@ -737,127 +764,139 @@ class index extends Component {
   };
   render() {
     const {menu, optionInfo} = this.state;
-    console.log('menu', menu);
+    const {order} = this.props;
     return (
-      <View
-        style={{
-          flex: 1,
-        }}>
-        <ScrollView style={{flex: 1}}>
-          {menu.map((item_menu, index_menu) => (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'space-between',
-                backgroundColor: 'white',
-              }}>
+      <SafeAreaView style={{flex: 1}} forceInset={{bottom: 'always'}}>
+        <View
+          style={{
+            flex: 1,
+          }}>
+          <ScrollView style={{flex: 1}}>
+            {menu.map((item_menu, index_menu) => (
               <View
                 style={{
-                  backgroundColor: '#0D8BD1',
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
+                  flex: 1,
+                  justifyContent: 'space-between',
+                  backgroundColor: 'white',
                 }}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: 'white',
-                    fontWeight: 'bold',
-                  }}>
-                  {item_menu.group}
-                </Text>
-              </View>
-
-              <View style={{paddingHorizontal: 15}}>
-                <FlatList
-                  keyExtractor={(item, index) => item._id.toString()}
-                  data={item_menu.dishes}
-                  extraData={this.state}
-                  renderItem={({item, index}) =>
-                    this.renderItem(index_menu, item_menu.dishes, item, index)
-                  }></FlatList>
-              </View>
-            </View>
-          ))}
-        </ScrollView>
-        {checkAllArrayIsNotEmpty(optionInfo) && this.renderModal()}
-        {this.props.cart.length > 0 && (
-          <TouchableOpacity
-            onPress={() => this.showCartModal()}
-            activeOpacity={0.8}
-            style={{
-              padding: 15,
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: '#0D8BD1',
-            }}>
-            <View>
-              <FontAwesome name="shopping-cart" size={28} color="white" />
-              {this.props.cart.length > 0 && (
                 <View
                   style={{
-                    position: 'absolute',
-                    right: -8,
-                    top: -4,
-                    backgroundColor: 'red',
-                    borderRadius: 9,
-                    width: 18,
-                    height: 18,
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    backgroundColor: '#0D8BD1',
+                    paddingHorizontal: 15,
+                    paddingVertical: 5,
                   }}>
                   <Text
-                    style={{color: 'white', fontSize: 10, fontWeight: 'bold'}}>
-                    {this.totalProduct()}
+                    style={{
+                      fontSize: 16,
+                      color: 'white',
+                      fontWeight: 'bold',
+                    }}>
+                    {item_menu.group}
                   </Text>
                 </View>
-              )}
-            </View>
-            <View style={{flex: 1, paddingLeft: 15, paddingRight: 10}}>
-              <Text style={{fontSize: 17, color: 'white', fontWeight: '600'}}>
-                {`${formatMoney(this.calculatePriceCart())}đ`}
-              </Text>
-            </View>
-            <View>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                style={{
-                  padding: 10,
-                  backgroundColor: 'white',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 5,
-                }}>
-                <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
-              </TouchableOpacity>
-            </View>
-            <Cart
-              isVisible={this.state.showCartModal}
-              onClose={() => {
-                this.hideCartModal();
-              }}
-              addNote={(value, index) => {
-                this.addNote(value, index);
-              }}
-              addProduct={(_index_menu, _index_product, _quantity, _option) => {
-                this.addProduct(_index_menu, _index_product, 1, _option);
-              }}
-              removeProduct={(
-                _index_menu,
-                _index_product,
-                _quantity,
-                _option,
-              ) => {
-                this.removeProduct(
+
+                <View style={{paddingHorizontal: 15}}>
+                  <FlatList
+                    keyExtractor={(item, index) => item._id.toString()}
+                    data={item_menu.dishes}
+                    extraData={this.state}
+                    renderItem={({item, index}) =>
+                      this.renderItem(index_menu, item_menu.dishes, item, index)
+                    }></FlatList>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+          {checkAllArrayIsNotEmpty(optionInfo) && this.renderModal()}
+          {this.props.cart.length > 0 && (
+            <TouchableOpacity
+              onPress={() => this.showCartModal()}
+              activeOpacity={0.8}
+              style={{
+                padding: 15,
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: '#0D8BD1',
+              }}>
+              <View>
+                <FontAwesome name="shopping-cart" size={28} color="white" />
+                {this.props.cart.length > 0 && (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      right: -8,
+                      top: -4,
+                      backgroundColor: 'red',
+                      borderRadius: 9,
+                      width: 18,
+                      height: 18,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontSize: 10,
+                        fontWeight: 'bold',
+                      }}>
+                      {this.totalProduct()}
+                    </Text>
+                  </View>
+                )}
+              </View>
+              <View style={{flex: 1, paddingLeft: 15, paddingRight: 10}}>
+                <Text style={{fontSize: 17, color: 'white', fontWeight: '600'}}>
+                  {`${formatMoney(this.calculatePriceCart())}đ`}
+                </Text>
+              </View>
+              <View>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  style={{
+                    padding: 10,
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                  }}>
+                  <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
+                </TouchableOpacity>
+              </View>
+              <Cart
+                isVisible={this.state.showCartModal}
+                onClose={() => {
+                  this.hideCartModal();
+                }}
+                addNote={(value, index) => {
+                  this.addNote(value, index);
+                }}
+                addProduct={(
                   _index_menu,
                   _index_product,
                   _quantity,
                   _option,
-                );
-              }}
-            />
-          </TouchableOpacity>
-        )}
-      </View>
+                ) => {
+                  this.addProduct(_index_menu, _index_product, 1, _option);
+                }}
+                data={order}
+                removeProduct={(
+                  _index_menu,
+                  _index_product,
+                  _quantity,
+                  _option,
+                ) => {
+                  this.removeProduct(
+                    _index_menu,
+                    _index_product,
+                    _quantity,
+                    _option,
+                  );
+                }}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -878,9 +917,13 @@ const styles = StyleSheet.create({
     color: '#a4a4a4',
   },
 });
-const mapStateToProps = state => ({
-  menu: state.app.menu,
-  cart: state.dataLocal.cart,
-});
+const mapStateToProps = state => (
+  console.log('state', state),
+  {
+    menu: state.app.menu,
+    cart: state.dataLocal.cart,
+    order: state.app.order,
+  }
+);
 
 export default connectRedux(mapStateToProps, index);

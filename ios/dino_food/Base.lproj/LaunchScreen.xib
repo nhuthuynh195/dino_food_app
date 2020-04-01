@@ -1,38 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="697"/>
+            <rect key="frame" x="0.0" y="0.0" width="521" height="717"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="SplashImage" translatesAutoresizingMaskIntoConstraints="NO" id="gcE-2r-Aa0">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="697"/>
-                    <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SplashLogo" translatesAutoresizingMaskIntoConstraints="NO" id="4iy-JV-K7T">
+                    <rect key="frame" x="139" y="296" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-            <constraints>
-                <constraint firstItem="gcE-2r-Aa0" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="0KH-2D-P08"/>
-                <constraint firstItem="gcE-2r-Aa0" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="CQP-Se-Blc"/>
-                <constraint firstItem="gcE-2r-Aa0" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="UdF-gX-2n6"/>
-                <constraint firstItem="gcE-2r-Aa0" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Ysr-Vq-7ff"/>
-            </constraints>
+            <color key="backgroundColor" red="0.37647058820000001" green="0.16862745100000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="547.82608695652175" y="502.56696428571428"/>
+            <point key="canvasLocation" x="577.536231884058" y="509.26339285714283"/>
         </view>
     </objects>
     <resources>
-        <image name="SplashImage" width="375" height="812"/>
+        <image name="SplashLogo" width="256" height="228.5"/>
     </resources>
 </document>

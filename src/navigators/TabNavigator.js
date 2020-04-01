@@ -1,4 +1,5 @@
 import React from 'react';
+import {StyleSheet} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {
   HomeScreen,
@@ -11,9 +12,18 @@ import {createAppContainer} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import IconWithBadge from './IconWithBadge';
 import Colors from '@assets/colors';
+import {Text, TextInput} from '@components';
 const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        safeAreaInsets: {top: 0},
+        headerStyle: {
+          shadowColor: 'transparent',
+        },
+      },
+    },
   },
   {
     initialRouteName: 'Home',
@@ -54,25 +64,49 @@ const TabNavigator = createBottomTabNavigator(
     Home: {
       screen: HomeStack,
       navigationOptions: {
-        tabBarLabel: 'Trang chủ',
+        tabBarLabel: ({focused, tintColor}) => {
+          return (
+            <Text bold={focused ? true : false} focused style={styles.label}>
+              {'Trang chủ'}
+            </Text>
+          );
+        },
       },
     },
     History: {
       screen: HistoryStack,
       navigationOptions: {
-        tabBarLabel: 'Lịch sử',
+        tabBarLabel: ({focused, tintColor}) => {
+          return (
+            <Text bold={focused ? true : false} focused style={styles.label}>
+              {'Lịch sử'}
+            </Text>
+          );
+        },
       },
     },
     Notification: {
       screen: NotificationStack,
       navigationOptions: {
-        tabBarLabel: 'Thông báo',
+        tabBarLabel: ({focused, tintColor}) => {
+          return (
+            <Text bold={focused ? true : false} focused style={styles.label}>
+              {'Thông báo'}
+            </Text>
+          );
+        },
       },
     },
     Profile: {
       screen: ProfileStack,
       navigationOptions: {
-        tabBarLabel: 'Tài khoản',
+        tabBarLabel: ({focused, tintColor}) => {
+          return (
+            <Text bold={focused ? true : false} focused style={styles.label}>
+              {'Tài khoản'}
+            </Text>
+          );
+        },
       },
     },
   },
@@ -80,10 +114,11 @@ const TabNavigator = createBottomTabNavigator(
     defaultNavigationOptions: ({navigation}) => ({
       tabBarIcon: ({focused, horizontal, tintColor}) => {
         const {routeName} = navigation.state;
+        console.log('routeName', routeName);
         let IconComponent = Ionicons;
         let iconName;
         if (routeName === 'Home') {
-          iconName = 'ios-home';
+          iconName = 'md-home';
         } else if (routeName === 'History') {
           iconName = 'ios-time';
         } else if (routeName === 'Notification') {
@@ -92,16 +127,25 @@ const TabNavigator = createBottomTabNavigator(
         } else if (routeName === 'Profile') {
           iconName = 'ios-contact';
         }
-
-        // You can return any component that you like here!
-        return <IconComponent name={iconName} size={25} color={tintColor} />;
+        return <IconComponent name={iconName} size={24} color={tintColor} />;
       },
     }),
     tabBarOptions: {
       activeTintColor: Colors.BUTTON,
-      inactiveTintColor: 'gray',
+      inactiveTintColor: Colors.WHITE,
+      allowFontScaling: false,
+      style: {
+        borderTopColor: Colors.GRAY_LIGHT,
+        backgroundColor: Colors.PRIMARY,
+        paddingTop: 5,
+      },
     },
   },
 );
-
+const styles = StyleSheet.create({
+  label: {
+    fontSize: 12,
+    color: Colors.WHITE,
+  },
+});
 export default createAppContainer(TabNavigator);

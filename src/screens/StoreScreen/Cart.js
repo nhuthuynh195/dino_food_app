@@ -7,6 +7,7 @@ import {
   Keyboard,
   Platform,
   Image,
+  Share,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import Modal from 'react-native-modal';
@@ -19,148 +20,6 @@ import {formatMoney} from '@utils/func';
 import {Text, TextInput} from '@components';
 import {width, height} from '@configs/styles';
 import Colors from '@assets/colors';
-
-const styles = StyleSheet.create({
-  modal: {justifyContent: 'flex-end', margin: 0},
-  container: {
-    flex: 1,
-    marginTop: height / 5,
-    backgroundColor: Colors.WHITE,
-    borderRadius: 5,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    borderBottomColor: Colors.GRAY_MEDIUM,
-    borderBottomWidth: 0.2,
-  },
-  headerRightContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerLeftContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerTitle: {
-    flex: 8,
-    fontSize: 18,
-    color: Colors.GRAY_DARK,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  cartList: {},
-  item: {},
-  itemUser: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 5,
-    paddingHorizontal: 10,
-    backgroundColor: Colors.GRAY_LIGHT,
-  },
-  itemUserSub: {flexDirection: 'row'},
-  itemUserAvatar: {width: 30, height: 30, borderRadius: 30 / 2},
-  itemUserName: {
-    marginLeft: 5,
-    fontSize: 13,
-    fontWeight: '500',
-    color: Colors.TEXT,
-  },
-  itemUserStatus: {
-    marginLeft: 5,
-    fontSize: 13,
-    fontWeight: 'bold',
-  },
-  itemUserPriceCont: {flexDirection: 'row', alignItems: 'center'},
-  itemUserPriceContSub: {marginRight: 5},
-  itemUserPrice: {fontSize: 13, fontWeight: '500', color: Colors.TEXT},
-  itemUserQty: {
-    fontSize: 11,
-    fontWeight: '100',
-    textAlign: 'right',
-    color: Colors.TEXT,
-  },
-  itemDish: {padding: 5, paddingHorizontal: 10},
-  itemDishSub: {flexDirection: 'row'},
-  itemDishInfo: {flex: 8},
-  itemDishName: {
-    fontSize: 13,
-    fontWeight: '500',
-    lineHeight: 20,
-    color: Colors.TEXT,
-  },
-  itemDishOpts: {
-    fontSize: 13,
-    fontWeight: '500',
-    lineHeight: 20,
-    color: Colors.GRAY_DARK,
-  },
-  itemDishPrice: {
-    fontSize: 13,
-    fontWeight: '500',
-    lineHeight: 20,
-    color: Colors.TEXT,
-  },
-  itemDishQtyCont: {
-    flex: 2,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingLeft: 10,
-  },
-  itemQuantity: {
-    fontSize: 13,
-    fontWeight: '100',
-    color: Colors.TEXT,
-  },
-  itemDishNoteCont: {
-    flex: 8,
-    flexDirection: 'row',
-    marginTop: 5,
-    borderRadius: 3,
-    paddingVertical: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  itemDishNote: {flex: 1, marginLeft: 10, padding: 0, color: Colors.TEXT},
-  buttomContainer: {
-    padding: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.PRIMARY,
-  },
-  badgeContainer: {
-    position: 'absolute',
-    right: -8,
-    top: -4,
-    backgroundColor: Colors.ALERT,
-    borderRadius: 9,
-    width: 18,
-    height: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  badge: {color: Colors.WHITE, fontSize: 10, fontWeight: 'bold'},
-  totalPrice: {
-    fontSize: 17,
-    color: Colors.WHITE,
-    fontWeight: '600',
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 10,
-  },
-  confirmButton: {
-    padding: 10,
-    backgroundColor: Colors.WHITE,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  confirm: {color: Colors.TEXT, fontSize: 18},
-});
 
 const mockData = {
   _id: '5e7dcc485a44625d82f9d5a5',
@@ -516,10 +375,12 @@ const mockData = {
 const TotalDish = data => {
   let totalQty = 0;
   let totalPrice = 0;
-  data.forEach(dish => {
-    totalQty = totalQty + dish.qty;
-    totalPrice = totalPrice + dish.price * dish.qty;
-  });
+  if (data.length > 0) {
+    data.forEach(dish => {
+      totalQty = totalQty + dish.qty;
+      totalPrice = totalPrice + dish.price * dish.qty;
+    });
+  }
   return {totalQty, totalPrice};
 };
 
@@ -566,6 +427,7 @@ const ItemDish = ({data}) => {
 
 const Item = ({data, author}) => {
   const {user, dishes} = data;
+  console.log('dishes', dishes);
   const {totalQty, totalPrice} = TotalDish(dishes);
   const [isShow, setIsShow] = useState(true);
   return (
@@ -646,19 +508,30 @@ const Cart = props => {
     return total;
   };
 
+  const shareLink = async () => {
+    const url = 'dinofood://store';
+    const options = {
+      url: url,
+      message: '',
+    };
+    const result = await Share.share(options);
+    console.log('result', result);
+  };
   const CalculateTotal = data => {
+    console.log('data', data);
     let totalCartQty = 0;
     let totalCartPrice = 0;
-    data.forEach(user => {
-      const {totalQty, totalPrice} = TotalDish(user.dishes);
-      totalCartQty = totalCartQty + totalQty;
-      totalCartPrice = totalCartPrice + totalPrice;
-    });
+    // if (data.length > 0) {
+    //   data.forEach(user => {
+    //     const {totalQty, totalPrice} = TotalDish(user.dishes);
+    //     totalCartQty = totalCartQty + totalQty;
+    //     totalCartPrice = totalCartPrice + totalPrice;
+    //   });
+    // }
     return {totalCartQty, totalCartPrice};
   };
 
-  console.log('mockData', mockData);
-
+  const {data} = props;
   return (
     <Modal
       isVisible={props.isVisible}
@@ -678,23 +551,42 @@ const Cart = props => {
         </View>
         <FlatList
           style={styles.cartList}
-          data={mockData.users}
+          data={data.users}
           showsVerticalScrollIndicator={false}
           renderItem={({item, index}) => (
-            <Item data={item} author={mockData.author} />
+            <Item data={item} author={data.author} />
+          )}
+          ListFooterComponent={() => (
+            <View
+              style={{
+                paddingVertical: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity
+                onPress={shareLink}
+                style={{
+                  padding: 10,
+                  borderRadius: 5,
+                  borderWidth: 1,
+                }}>
+                <Text>Mời tham gia nhóm</Text>
+              </TouchableOpacity>
+            </View>
           )}
         />
+
         <View style={styles.buttomContainer}>
           <View>
             <FontAwesome name="shopping-cart" size={28} color={Colors.WHITE} />
             <View style={styles.badgeContainer}>
               <Text style={styles.badge}>
-                {CalculateTotal(mockData.users).totalCartQty}
+                {/* {CalculateTotal(data.users).totalCartQty} */}
               </Text>
             </View>
           </View>
           <Text style={styles.totalPrice}>
-            {`${formatMoney(CalculateTotal(mockData.users).totalCartPrice)}đ`}
+            {`${formatMoney(CalculateTotal(data.users).totalCartPrice)}đ`}
           </Text>
           <View>
             <TouchableOpacity activeOpacity={0.5} style={styles.confirmButton}>
@@ -706,7 +598,147 @@ const Cart = props => {
     </Modal>
   );
 };
-
+const styles = StyleSheet.create({
+  modal: {justifyContent: 'flex-end', margin: 0},
+  container: {
+    flex: 1,
+    marginTop: height / 5,
+    backgroundColor: Colors.WHITE,
+    borderRadius: 5,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomColor: Colors.GRAY_MEDIUM,
+    borderBottomWidth: 0.2,
+  },
+  headerRightContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerLeftContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  headerTitle: {
+    flex: 8,
+    fontSize: 18,
+    color: Colors.GRAY_DARK,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  cartList: {},
+  item: {},
+  itemUser: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 5,
+    paddingHorizontal: 10,
+    backgroundColor: Colors.GRAY_LIGHT,
+  },
+  itemUserSub: {flexDirection: 'row'},
+  itemUserAvatar: {width: 30, height: 30, borderRadius: 30 / 2},
+  itemUserName: {
+    marginLeft: 5,
+    fontSize: 13,
+    fontWeight: '500',
+    color: Colors.BLACK,
+  },
+  itemUserStatus: {
+    marginLeft: 5,
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
+  itemUserPriceCont: {flexDirection: 'row', alignItems: 'center'},
+  itemUserPriceContSub: {marginRight: 5},
+  itemUserPrice: {fontSize: 13, fontWeight: '500', color: Colors.BLACK},
+  itemUserQty: {
+    fontSize: 11,
+    fontWeight: '100',
+    textAlign: 'right',
+    color: Colors.BLACK,
+  },
+  itemDish: {padding: 5, paddingHorizontal: 10},
+  itemDishSub: {flexDirection: 'row'},
+  itemDishInfo: {flex: 8},
+  itemDishName: {
+    fontSize: 13,
+    fontWeight: '500',
+    lineHeight: 20,
+    color: Colors.BLACK,
+  },
+  itemDishOpts: {
+    fontSize: 13,
+    fontWeight: '500',
+    lineHeight: 20,
+    color: Colors.GRAY_DARK,
+  },
+  itemDishPrice: {
+    fontSize: 13,
+    fontWeight: '500',
+    lineHeight: 20,
+    color: Colors.BLACK,
+  },
+  itemDishQtyCont: {
+    flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: 10,
+  },
+  itemQuantity: {
+    fontSize: 13,
+    fontWeight: '100',
+    color: Colors.BLACK,
+  },
+  itemDishNoteCont: {
+    flex: 8,
+    flexDirection: 'row',
+    marginTop: 5,
+    borderRadius: 3,
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  itemDishNote: {flex: 1, marginLeft: 10, padding: 0, color: Colors.BLACK},
+  buttomContainer: {
+    padding: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.PRIMARY,
+  },
+  badgeContainer: {
+    position: 'absolute',
+    right: -8,
+    top: -4,
+    backgroundColor: Colors.ALERT,
+    borderRadius: 9,
+    width: 18,
+    height: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  badge: {color: Colors.WHITE, fontSize: 10, fontWeight: 'bold'},
+  totalPrice: {
+    fontSize: 17,
+    color: Colors.WHITE,
+    fontWeight: '600',
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 10,
+  },
+  confirmButton: {
+    padding: 10,
+    backgroundColor: Colors.WHITE,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+  },
+  confirm: {color: Colors.BLACK, fontSize: 18},
+});
 export default Cart;
 
 /**

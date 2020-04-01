@@ -12,9 +12,9 @@ function* checkBalance(action) {
 
 function* getStores(action) {
   try {
-    yield put({
-      type: 'SHOW_LOADING',
-    });
+    // yield put({
+    //   type: 'SHOW_LOADING',
+    // });
     const response = yield requestAPI(action);
     console.log('response', response);
     yield put({...action, type: 'GET_STORES_SUCCESS', payload: response});
@@ -96,6 +96,34 @@ function* createrOrder(action) {
     });
   }
 }
+function* updateOrderDetail(action) {
+  try {
+    yield put({
+      type: 'SHOW_LOADING',
+    });
+    const response = yield requestAPI(action);
+    console.log('response updateOrderDetail', response);
+    if (response.statusCode == 200) {
+      yield put({
+        ...action,
+        type: 'UPDATE_ORDER_SUCCESS',
+        payload: response,
+      });
+    } else {
+      yield put({
+        ...action,
+        type: 'UPDATE_ORDER_FAIL',
+      });
+    }
+  } catch (error) {
+    console.log('error saga app: ', error);
+  } finally {
+    console.log('run finally');
+    yield put({
+      type: 'HIDE_LOADING',
+    });
+  }
+}
 export default function* saga() {
   yield all([
     takeLatest('CHECK_BALANCE', checkBalance),
@@ -103,5 +131,6 @@ export default function* saga() {
     takeLatest('GET_STORE_BY_ID', getStoresById),
     takeLatest('REQUEST_PAYMENT', requestPayment),
     takeLatest('CREATE_ORDER', createrOrder),
+    takeLatest('UPDATE_ORDER', updateOrderDetail),
   ]);
 }

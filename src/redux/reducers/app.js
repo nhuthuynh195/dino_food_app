@@ -5,9 +5,25 @@ const initialState = {
   listStores: [],
   menu: {},
   requestPaymentSucces: false,
+  order: {},
+  metaDataListStore: {
+    page: 0,
+    pages: 0,
+  },
 };
 
 function appReducer(state = initialState, action) {
+  const metaData =
+    action.payload &&
+    action.payload.page !== undefined &&
+    action.payload.pages !== undefined
+      ? {
+          page: action.payload.page,
+          pages: action.payload.pages,
+          total: action.payload.total,
+        }
+      : {page: 0, pages: 0, total: 0};
+
   switch (action.type) {
     case 'SHOW_LOADING':
       return {
@@ -33,7 +49,12 @@ function appReducer(state = initialState, action) {
     case 'GET_STORES_SUCCESS':
       return {
         ...state,
-        listStores: action.payload.docs,
+        listStores: concatListData(
+          metaData.page,
+          state.listStores,
+          action.payload.docs,
+        ),
+        metaDataListStore: metaData,
       };
     case 'GET_STORE_BY_ID':
       return {
@@ -58,7 +79,12 @@ function appReducer(state = initialState, action) {
     case 'CREATE_ORDER_SUCCESS':
       return {
         ...state,
-        requestPaymentSucces: false,
+        order: action.payload,
+      };
+    case 'UPDATE_ORDER_SUCCESS':
+      return {
+        ...state,
+        order: action.payload,
       };
     case 'APP_LOGOUT':
       return initialState;
@@ -67,4 +93,22 @@ function appReducer(state = initialState, action) {
   }
 }
 
+// function calculatePage({page, pages, total}) {
+//   const temptTotalPage =
+//     total_count % per_page === 0
+//       ? parseInt(total_count / per_page)
+//       : parseInt(total_count / per_page) + 1;
+//   return {
+//     currentPage: current_page,
+//     totalPage: temptTotalPage,
+//   };
+// }
+
+function concatListData(page, oldData, newData) {
+  if (page === 1) {
+    return newData;
+  } else {
+    return oldData.concat(newData);
+  }
+}
 export default appReducer;
