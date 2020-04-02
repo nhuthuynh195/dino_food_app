@@ -7,7 +7,6 @@ function* login(action) {
       type: 'SHOW_LOADING',
     });
     const response = yield requestAPI(action);
-    console.log('response', response);
     if (response.success) {
       yield put({
         type: 'SAVE_PROFILE_LOCAL',
@@ -63,7 +62,6 @@ function* getProfile(action) {
 function* logout(action) {
   try {
     const response = yield requestAPI(action);
-    console.log('response logout', response);
     yield put({
       type: 'APP_LOGOUT',
       payload: {},
@@ -76,7 +74,6 @@ function* forgetPassword(action) {
       type: 'SHOW_LOADING',
     });
     const response = yield requestAPI(action);
-    console.log('response', response);
     yield put({
       ...action,
       type: 'FORGET_PASSWORD_SUCCESS',
@@ -96,7 +93,6 @@ function* changePassword(action) {
       type: 'SHOW_LOADING',
     });
     const response = yield requestAPI(action);
-    console.log('response changePassword', response);
     yield put({
       ...action,
       type: 'CHANGE_PASSWORD_SUCCESS',

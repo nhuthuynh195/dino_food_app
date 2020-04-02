@@ -75,7 +75,6 @@ export const checkAllArrayIsNotEmpty = (...values) => {
 };
 
 export const requestAPI = async (action, headers = {}) => {
-  console.log('action.api', action);
   let method = action.method || 'GET';
   let request = {
     method: method,

@@ -24,8 +24,6 @@ export function checkBalance(page = 1, email) {
 }
 
 export function getStores(page = 1, sortBy = '-createdAt', keyword = '') {
-  console.log('keyword', keyword);
-  console.log('sortBy', sortBy);
   return {
     type: 'GET_STORES',
     method: 'GET',

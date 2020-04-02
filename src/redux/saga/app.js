@@ -16,7 +16,6 @@ function* getStores(action) {
     //   type: 'SHOW_LOADING',
     // });
     const response = yield requestAPI(action);
-    console.log('response', response);
     yield put({...action, type: 'GET_STORES_SUCCESS', payload: response});
   } catch (error) {
     console.log('error saga app: ', error);
@@ -61,8 +60,6 @@ function* requestPayment(action) {
   } catch (error) {
     console.log('error saga app: ', error);
   } finally {
-    console.log('run finally');
-
     yield put({
       type: 'HIDE_LOADING',
     });
@@ -74,7 +71,6 @@ function* createrOrder(action) {
       type: 'SHOW_LOADING',
     });
     const response = yield requestAPI(action);
-    console.log('response', response);
     if (response.statusCode == 200) {
       yield put({
         ...action,
@@ -90,7 +86,6 @@ function* createrOrder(action) {
   } catch (error) {
     console.log('error saga app: ', error);
   } finally {
-    console.log('run finally');
     yield put({
       type: 'HIDE_LOADING',
     });

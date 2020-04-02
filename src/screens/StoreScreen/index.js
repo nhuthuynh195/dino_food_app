@@ -24,6 +24,8 @@ import SafeAreaView from 'react-native-safe-area-view';
 import {SafeAreaConsumer} from 'react-native-safe-area-context';
 import Colors from '@assets/colors';
 import Insets from '@assets/insets';
+import firestore from '@react-native-firebase/firestore';
+
 //outputs bottom safe area height
 class index extends Component {
   constructor(props) {
@@ -35,9 +37,21 @@ class index extends Component {
       showCartModal: false,
       product: {},
       options: [],
+      order: {},
     };
+    this.ref = React.createRef();
+    // this.ref = firestore()
+    //   .collection('orders')
+    //   .doc('5e85d6d6e52c1465b57257fa');
   }
   componentDidMount() {
+    // const collection = firestore()
+    //   .collection('orders')
+    //   .doc('5e85d6d6e52c1465b57257fa');
+
+    // collection.get().then(order => {
+    //   console.log('doc', order.data());
+    // });
     const {idStore, idOrder} = this.props.navigation.state.params;
     if (idOrder !== '') {
       this.props.actions.app.getOrderDetail(idOrder);
@@ -49,6 +63,24 @@ class index extends Component {
     this.props.actions.app.getStoreById(idStore);
   }
   componentWillReceiveProps(nextProps) {
+    const {idStore, idOrder} = this.props.navigation.state.params;
+    if (idOrder !== '') {
+    }
+    if (checkAllArrayIsNotEmpty(nextProps.order)) {
+      const ref = firestore()
+        .collection('orders')
+        .doc(this.props.order._id);
+      ref.get().then(order => {
+        console.log('doc', order.data());
+        this.setState({order: order.data()});
+      });
+
+      ref.onSnapshot(order => {
+        console.log('order', order.data());
+        this.setState({order: order.data()});
+      });
+    }
+
     if (checkAllArrayIsNotEmpty(nextProps.menu)) {
       this.setState({
         menu: Object.values(nextProps.menu),
@@ -134,7 +166,7 @@ class index extends Component {
     }
   }
   calculatePriceCart() {
-    const {order} = this.props;
+    const {order} = this.state;
     let price = 0;
     order.users.forEach(user => {
       user.dishes.forEach(dish => {
@@ -178,7 +210,7 @@ class index extends Component {
     }
   }
   calculateTotalProduct() {
-    const {order} = this.props;
+    const {order} = this.state;
     let total = 0;
     order.users.forEach(user => {
       user.dishes.forEach(dish => {
@@ -188,7 +220,7 @@ class index extends Component {
     return total;
   }
   renderModal() {
-    const {product, options, _index_menu, _index_product} = this.state;
+    const {product, options} = this.state;
     if (checkAllArrayIsNotEmpty(product) == false) return null;
     else
       return (
@@ -526,8 +558,8 @@ class index extends Component {
     });
   };
   render() {
-    const {menu} = this.state;
-    const {order} = this.props;
+    const {menu, order} = this.state;
+    // const {order} = this.state;
     console.log('order detail', order);
     const dishes = order?.users?.[0]?.dishes ?? [];
     return (

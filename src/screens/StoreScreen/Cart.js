@@ -61,7 +61,7 @@ const ItemDish = ({data}) => {
           <View style={styles.itemDishNoteCont}>
             <SimpleLineIcons name="note" size={13} />
             <Text style={styles.itemDishOpts} numberOfLines={1}>
-              {dish.note}
+              {data.note}
             </Text>
           </View>
           <View style={styles.itemDishQtyCont} />
@@ -299,6 +299,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 20,
     color: Colors.GRAY_DARK,
+    paddingLeft: 5,
   },
   itemDishPrice: {
     fontSize: 13,
