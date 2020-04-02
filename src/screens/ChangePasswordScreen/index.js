@@ -6,12 +6,6 @@ import images from '@resources/images';
 import {width, height} from '@configs/styles';
 import NavigatorServices from '../../navigators/NavigatorServices';
 
-index.navigationOptions = {
-  headerTitle: <Text style={{color: 'white', fontSize: 18}}>Đổi mật khẩu</Text>,
-  headerTransparent: true,
-  headerStyle: {borderBottomWidth: 0},
-  headerTintColor: 'white',
-};
 function index(props) {
   const [token, setToken] = useState('');
   const [password, setPassword] = useState('');

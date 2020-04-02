@@ -14,9 +14,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import {width, height} from '@configs/styles';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
 
-index.navigationOptions = {
-  headerShown: false,
-};
 function index(props) {
   let remember_email = checkAllArrayIsNotEmpty(props.user.email)
     ? props.user.email

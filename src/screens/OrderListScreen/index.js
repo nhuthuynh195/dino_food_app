@@ -1,42 +1,60 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, FlatList, TouchableOpacity} from 'react-native';
 import connectRedux from '@redux/connectRedux';
-import Colors from '@assets/colors';
-import images from '@resources/images';
-import {width, height} from '@configs/styles';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import NavigatorServices from '@navigators/NavigatorServices';
-
-index.navigationOptions = {
-  title: '',
-  headerTitle: <Text style={{color: Colors.BLACK, fontSize: 18}}></Text>,
-  headerLeft: () => (
-    <TouchableOpacity
-      onPress={() => NavigatorServices.back()}
-      style={{
-        padding: 10,
-        borderRadius: 4,
-        alignItems: 'center',
-        flexDirection: 'row',
-      }}>
-      <Ionicons name={'ios-arrow-back'} size={25} color={Colors.BLACK} />
-      <View style={{paddingLeft: 10}}>
-        <Text style={{color: Colors.BLACK, fontSize: 18}}>Back</Text>
-      </View>
-    </TouchableOpacity>
-  ),
-  headerTransparent: true,
-};
+import {formatDay} from '@utils/func';
+import {Text} from '@components';
 function index(props) {
   const [] = useState();
-
+  useEffect(() => {
+    props.actions.app.getListOrder();
+  }, []);
+  const {listOrder} = props;
+  function loadMoreOrder() {
+    const {metaDataListOrder} = this.props;
+    const {page, pages} = metaDataListOrder;
+    if (page < pages) {
+      props.actions.app.getListOrder(page + 1);
+    }
+  }
+  function gotoStore(_idStore, _idOrder) {
+    props.navigation.navigate('Store', {idStore: _idStore, idOrder: _id});
+  }
+  function renderItem({item}) {
+    return (
+      <TouchableOpacity
+        onPress={gotoStore(item.store._id, item._id)}
+        style={{
+          flexDirection: 'row',
+          borderBottomWidth: 1,
+          paddingVertical: 10,
+          borderBottomColor: '#F7F7F7',
+          alignItems: 'center',
+        }}>
+        <View style={{flex: 2}}>
+          <Text numberOfLines={1}>{item.store.name}</Text>
+        </View>
+        <View style={{paddingRight: 15}}>
+          <Text>{formatDay(item.createdAt)}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
   return (
     <View style={{flex: 1, justifyContent: 'center'}}>
-      <Text> textInComponent </Text>
+      <FlatList
+        keyExtractor={item => item._id.toString()}
+        data={listOrder}
+        renderItem={renderItem}
+        style={{paddingHorizontal: 10}}
+        onEndReached={loadMoreOrder}
+      />
     </View>
   );
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  listOrder: state.app.listOrder,
+  metaDataListOrder: state.app.metaDataListOrder,
+});
 
 export default connectRedux(mapStateToProps, index);

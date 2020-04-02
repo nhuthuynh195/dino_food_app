@@ -11,12 +11,7 @@ import {width, height} from '@configs/styles';
 import NavigatorServices from '@navigators/NavigatorServices';
 import Colors from '@assets/colors';
 import {Text, TextInput} from '@components';
-index.navigationOptions = {
-  headerTitle: <Text style={{color: 'white', fontSize: 18}}>Đăng ký</Text>,
-  headerTransparent: true,
-  headerStyle: {borderBottomWidth: 0},
-  headerTintColor: 'white',
-};
+
 function index(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

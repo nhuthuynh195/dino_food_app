@@ -14,28 +14,7 @@ import images from '@resources/images';
 import {width, height} from '@configs/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NavigatorServices from '@navigators/NavigatorServices';
-index.navigationOptions = {
-  headerTitle: (
-    <Text style={{color: 'white', fontSize: 18}}>Quên mật khẩu</Text>
-  ),
-  title: 'Back',
-  headerLeft: () => (
-    <TouchableOpacity
-      onPress={() => NavigatorServices.back()}
-      style={{
-        padding: 10,
-        borderRadius: 4,
-        alignItems: 'center',
-        flexDirection: 'row',
-      }}>
-      <Ionicons name="ios-arrow-back" size={25} color={Colors.WHITE} />
-      <View style={{paddingLeft: 10}}>
-        <Text style={{color: 'white', fontSize: 18}}>Back</Text>
-      </View>
-    </TouchableOpacity>
-  ),
-  headerTransparent: true,
-};
+
 function index(props) {
   const [email, setEmail] = useState(props.user.email);
 

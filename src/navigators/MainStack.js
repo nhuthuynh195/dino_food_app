@@ -7,7 +7,6 @@ export default Main = createStackNavigator(
     TabNavigator: {
       screen: TabNavigator,
       navigationOptions: {
-        title: '',
         headerShown: false,
       },
     },
@@ -17,9 +16,9 @@ export default Main = createStackNavigator(
     },
     Store: {
       screen: StoreScreen,
+      params: {idStore: '', idOrder: ''},
       navigationOptions: {},
     },
-    // Store: StoreScreen,
     OrderList: OrderListScreen,
   },
   {

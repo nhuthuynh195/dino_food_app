@@ -60,22 +60,6 @@ function* getProfile(action) {
     console.log('error: ', error);
   }
 }
-// function* changePassword(action) {
-//   try {
-//     const response = yield requestAPI(action);
-//     // console.log("askjaskdjasdlkasjdklasd", response);
-//     if (response.success) {
-//       yield put({
-//         ...action,
-//         type: 'CHANGE_PASSWORD_SUCCESS',
-//         payload: response,
-//       });
-//     } else {
-//       yield put({...action, type: 'CHANGE_PASSWORD_FAIL', payload: response});
-//     }
-//   } catch (error) {}
-// }
-
 function* logout(action) {
   try {
     const response = yield requestAPI(action);
@@ -84,11 +68,6 @@ function* logout(action) {
       type: 'APP_LOGOUT',
       payload: {},
     });
-    // if (response.success) {
-    //   yield put({...action, type: 'LOGOUT_APP_SUCCESS'});
-    // } else {
-    //   yield put({...action, type: 'LOGOUT_APP_FAIL'});
-    // }
   } catch (error) {}
 }
 function* forgetPassword(action) {
@@ -131,17 +110,6 @@ function* changePassword(action) {
     });
   }
 }
-
-// function* updateEndPoint(action) {
-//   try {
-//     const response = yield requestAPI(action);
-//     if (response.data.status === 200) {
-//       yield put({...action, type: 'UPDATE_ENDPOINT_NOTIFICAITON_SUCCESS'});
-//     } else {
-//       yield put({...action, type: 'UPDATE_ENDPOINT_NOTIFICAITON_FAIL'});
-//     }
-//   } catch (error) {}
-// }
 
 export default function* saga() {
   yield all([

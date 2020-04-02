@@ -15,9 +15,6 @@ import connectRedux from '@redux/connectRedux';
 import Insets from '@assets/insets';
 import Colors from '@assets/colors';
 class index extends Component {
-  static navigationOptions = ({navigation}) => ({
-    title: 'Trang chủ',
-  });
   constructor(props) {
     super(props);
     this.state = {
@@ -30,7 +27,7 @@ class index extends Component {
     this.props.actions.auth.getProfile();
   }
   gotoStore = _id => {
-    this.props.navigation.navigate('Store', {id: _id});
+    this.props.navigation.navigate('Store', {idStore: _id});
   };
   onChaneKeyword(value) {
     clearTimeout(this.timer);

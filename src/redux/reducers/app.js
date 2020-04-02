@@ -2,11 +2,16 @@ const initialState = {
   loading: false,
   listBalance: [],
   currentBalance: '',
-  listStores: [],
   menu: {},
   requestPaymentSucces: false,
   order: {},
+  listStores: [],
   metaDataListStore: {
+    page: 0,
+    pages: 0,
+  },
+  listOrder: [],
+  metaDataListOrder: {
     page: 0,
     pages: 0,
   },
@@ -55,6 +60,16 @@ function appReducer(state = initialState, action) {
           action.payload.docs,
         ),
         metaDataListStore: metaData,
+      };
+    case 'GET_LIST_ORDER_SUCCESS':
+      return {
+        ...state,
+        listOrder: concatListData(
+          metaData.page,
+          state.listOrder,
+          action.payload.docs,
+        ),
+        metaDataListOrder: metaData,
       };
     case 'GET_STORE_BY_ID':
       return {

@@ -96,6 +96,25 @@ function* createrOrder(action) {
     });
   }
 }
+function* getListOrder(action) {
+  try {
+    yield put({
+      type: 'SHOW_LOADING',
+    });
+    const response = yield requestAPI(action);
+    yield put({
+      ...action,
+      type: 'GET_LIST_ORDER_SUCCESS',
+      payload: response,
+    });
+  } catch (error) {
+    console.log('error saga app: ', error);
+  } finally {
+    yield put({
+      type: 'HIDE_LOADING',
+    });
+  }
+}
 function* updateOrderDetail(action) {
   try {
     yield put({
@@ -118,7 +137,6 @@ function* updateOrderDetail(action) {
   } catch (error) {
     console.log('error saga app: ', error);
   } finally {
-    console.log('run finally');
     yield put({
       type: 'HIDE_LOADING',
     });
@@ -132,5 +150,6 @@ export default function* saga() {
     takeLatest('REQUEST_PAYMENT', requestPayment),
     takeLatest('CREATE_ORDER', createrOrder),
     takeLatest('UPDATE_ORDER', updateOrderDetail),
+    takeLatest('GET_LIST_ORDER', getListOrder),
   ]);
 }

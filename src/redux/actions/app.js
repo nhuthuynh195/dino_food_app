@@ -61,11 +61,11 @@ export function createOrder(body) {
     body,
   };
 }
-export function getListOrder(body) {
+export function getListOrder(page = 1) {
   return {
-    type: 'CREATE_ORDER',
-    method: 'POST',
-    api: `${apiConfigs.BASE_API}/orders`,
+    type: 'GET_LIST_ORDER',
+    method: 'GET',
+    api: `${apiConfigs.BASE_API}/orders?page=${page}&limit=10`,
     token: true,
     body,
   };
