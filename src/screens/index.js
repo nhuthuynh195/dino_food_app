@@ -11,17 +11,17 @@ import ProfileScreen from './ProfileScreen';
 import RegisterScreen from './RegisterScreen';
 import StoreScreen from './StoreScreen';
 
-module.exports = {
-  AuthLoadingScreen,
-  ChangePasswordScreen,
-  ForgetPasswordScreen,
-  HistoryPaymentScreen,
-  HomeScreen,
-  LoginScreen,
-  NotificationScreen,
-  OrderListScreen,
-  PaymentScreen,
-  ProfileScreen,
-  RegisterScreen,
-  StoreScreen,
-};
+module.exports = { 
+	AuthLoadingScreen,
+	ChangePasswordScreen,
+	ForgetPasswordScreen,
+	HistoryPaymentScreen,
+	HomeScreen,
+	LoginScreen,
+	NotificationScreen,
+	OrderListScreen,
+	PaymentScreen,
+	ProfileScreen,
+	RegisterScreen,
+	StoreScreen 
+}

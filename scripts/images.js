@@ -15,6 +15,8 @@ const imageFileNames = () => {
   return Array.from(new Set(array));
 };
 const generate = () => {
+  console.log('imageFileNames()', imageFileNames());
+
   let properties = imageFileNames()
     .map(name => {
       return `${name.replace('.png', '')}: require('./${name}.png')`;

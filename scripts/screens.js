@@ -4,7 +4,7 @@ const imageFileNames = () => {
   const array = fs
     .readdirSync('src/screens')
     .filter(file => {
-      return file !== 'index.js';
+      return file !== 'index.js' && file !== '.DS_Store';
     })
     .map(file => {
       return file;
