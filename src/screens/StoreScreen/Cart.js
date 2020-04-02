@@ -60,7 +60,9 @@ const ItemDish = ({data}) => {
         <View style={styles.itemDishSub}>
           <View style={styles.itemDishNoteCont}>
             <SimpleLineIcons name="note" size={13} />
-            <Text style={styles.itemDishOpts} numberOfLines={1}>
+            <Text
+              style={[styles.itemDishOpts, {paddingLeft: 5}]}
+              numberOfLines={1}>
               {data.note}
             </Text>
           </View>
@@ -170,7 +172,9 @@ const Cart = props => {
             onPress={props.onClose}>
             <Ionicons name="md-close" size={30} color={Colors.GRAY_MEDIUM} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Giỏ hàng</Text>
+          <Text bold style={styles.headerTitle}>
+            Giỏ hàng
+          </Text>
           <View style={styles.headerRightContainer} />
         </View>
         <FlatList
@@ -251,7 +255,6 @@ const styles = StyleSheet.create({
     flex: 8,
     fontSize: 18,
     color: Colors.GRAY_DARK,
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   cartList: {},
@@ -285,7 +288,12 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     color: Colors.BLACK,
   },
-  itemDish: {padding: 5, paddingHorizontal: 10},
+  itemDish: {
+    padding: 5,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.GRAY_LIGHT,
+  },
   itemDishSub: {flexDirection: 'row'},
   itemDishInfo: {flex: 1},
   itemDishName: {
@@ -297,9 +305,9 @@ const styles = StyleSheet.create({
   itemDishOpts: {
     fontSize: 13,
     fontWeight: '500',
+
     lineHeight: 20,
     color: Colors.GRAY_DARK,
-    paddingLeft: 5,
   },
   itemDishPrice: {
     fontSize: 13,
@@ -320,7 +328,6 @@ const styles = StyleSheet.create({
   itemDishNoteCont: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: 5,
     borderRadius: 3,
     paddingVertical: 10,
     alignItems: 'center',

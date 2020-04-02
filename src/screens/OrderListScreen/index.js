@@ -4,11 +4,20 @@ import connectRedux from '@redux/connectRedux';
 import {formatDay, formatDate} from '@utils/func';
 import {Text} from '@components';
 import Colors from '@assets/colors';
+import {checkAllArrayIsNotEmpty, formatMoney} from '@utils/func';
+import firestore from '@react-native-firebase/firestore';
 function index(props) {
-  const [] = useState();
+  const [listOrder, setListOrder] = useState([]);
   useEffect(() => {
     props.actions.app.showLoading();
-    props.actions.app.getListOrder();
+
+    const ref = firestore()
+      .collection('orders')
+      .orderBy('createdAt', 'desc');
+    ref.onSnapshot(list => {
+      setListOrder(list.docs);
+      props.actions.app.hideLoading();
+    });
   }, []);
   function loadMoreOrder() {
     const {metaDataListOrder} = props;
@@ -20,27 +29,32 @@ function index(props) {
   function gotoStore(_idStore, _idOrder) {
     props.navigation.navigate('Store', {idStore: _idStore, idOrder: _idOrder});
   }
-  function renderItem({item, index}) {
+  function renderItem({item}) {
+    let data = item.data();
+    console.log('item', data);
     return (
-      <TouchableOpacity
-        onPress={() => gotoStore(item.store._id, item._id)}
-        style={{
-          flexDirection: 'row',
-          borderBottomWidth: 1,
-          paddingVertical: 20,
-          borderBottomColor: '#F7F7F7',
-          alignItems: 'center',
-        }}>
-        <View style={{flex: 2}}>
-          <Text numberOfLines={1}>{item.store.name}</Text>
-        </View>
-        <View style={{paddingLeft: 15}}>
-          <Text>{formatDate(item.createdAt)}</Text>
-        </View>
-      </TouchableOpacity>
+      <View>
+        {checkAllArrayIsNotEmpty(data) && (
+          <TouchableOpacity
+            onPress={() => gotoStore(data.store._id, data._id)}
+            style={{
+              flexDirection: 'row',
+              borderBottomWidth: 1,
+              paddingVertical: 20,
+              borderBottomColor: '#F7F7F7',
+              alignItems: 'center',
+            }}>
+            <View style={{flex: 2}}>
+              <Text numberOfLines={1}>{data.store.name}</Text>
+            </View>
+            <View style={{paddingLeft: 15}}>
+              <Text>{formatDate(data.createdAt)}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
     );
   }
-  const {listOrder} = props;
   console.log('listOrder', listOrder);
   return (
     <View
@@ -50,7 +64,7 @@ function index(props) {
         backgroundColor: Colors.WHITE,
       }}>
       <FlatList
-        keyExtractor={item => item._id.toString()}
+        keyExtractor={item => item.data()._id}
         data={listOrder}
         renderItem={renderItem}
         style={{paddingHorizontal: 10}}

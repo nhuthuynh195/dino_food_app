@@ -106,24 +106,17 @@ function appReducer(state = initialState, action) {
         ...state,
         order: action.payload,
       };
+    case 'RESET_STATE_ORDER':
+      return {
+        ...state,
+        order: {},
+      };
     case 'APP_LOGOUT':
       return initialState;
     default:
       return state;
   }
 }
-
-// function calculatePage({page, pages, total}) {
-//   const temptTotalPage =
-//     total_count % per_page === 0
-//       ? parseInt(total_count / per_page)
-//       : parseInt(total_count / per_page) + 1;
-//   return {
-//     currentPage: current_page,
-//     totalPage: temptTotalPage,
-//   };
-// }
-
 function concatListData(page, oldData, newData) {
   if (page === 1) {
     return newData;

@@ -23,6 +23,7 @@ import {Text, TextInput} from '@components';
 import Colors from '@assets/colors';
 import Insets from '@assets/insets';
 import firestore from '@react-native-firebase/firestore';
+import * as Animatable from 'react-native-animatable';
 class index extends Component {
   constructor(props) {
     super(props);
@@ -37,13 +38,15 @@ class index extends Component {
   }
   componentDidMount() {
     const {idStore, idOrder} = this.props.navigation.state.params;
+    console.log('idOrder', idOrder);
     if (idOrder !== '') {
       this.props.actions.app.getOrderDetail(idOrder);
+    } else {
+      this.props.actions.app.resetStateOrder();
     }
     this.props.actions.app.getStoreById(idStore);
   }
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps.order', nextProps.order);
     if (checkAllArrayIsNotEmpty(nextProps.order)) {
       const ref = firestore()
         .collection('orders')
@@ -69,7 +72,13 @@ class index extends Component {
       _id: product._id,
     };
     const {idStore} = this.props.navigation.state.params;
-    this.props.actions.app.createOrder(idStore, param);
+    const {order} = this.props;
+    let idOrder = order?._id;
+    if (idOrder) {
+      this.props.actions.app.updateOrderDetail(param, idOrder);
+    } else {
+      this.props.actions.app.createOrder(idStore, param);
+    }
   }
   // modal option
   showOptionModal(item) {
@@ -297,10 +306,10 @@ class index extends Component {
                     alignItems: 'center',
                   }}>
                   <Text
+                    bold
                     style={{
                       fontSize: 18,
                       color: '#5F5F5F',
-                      fontWeight: 'bold',
                     }}>
                     Tuỳ chọn món
                   </Text>
@@ -446,7 +455,7 @@ class index extends Component {
                     onPress={() => this.updateOrder(product)}
                     style={{
                       padding: 15,
-                      backgroundColor: 'green',
+                      backgroundColor: Colors.BUTTON,
                       justifyContent: 'center',
                       alignItems: 'center',
                       borderRadius: 5,
@@ -590,73 +599,75 @@ class index extends Component {
           ))}
         </ScrollView>
         {this.renderOptionModal()}
-        {checkAllArrayIsNotEmpty(dishes) && (
-          <TouchableOpacity
-            onPress={() => this.showCartModal()}
-            activeOpacity={0.8}
-            style={{
-              padding: 15,
-              paddingBottom: Insets.BOTTOM,
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: Colors.PRIMARY,
-            }}>
-            <View>
-              <FontAwesome name="shopping-cart" size={28} color="white" />
-              <View
-                style={{
-                  position: 'absolute',
-                  right: -8,
-                  top: -4,
-                  backgroundColor: Colors.ALERT,
-                  borderRadius: 9,
-                  width: 18,
-                  height: 18,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+        <Animatable.View animation="fadeInUp">
+          {checkAllArrayIsNotEmpty(dishes) && (
+            <TouchableOpacity
+              onPress={() => this.showCartModal()}
+              activeOpacity={0.8}
+              style={{
+                padding: 15,
+                paddingBottom: Insets.BOTTOM,
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: Colors.PRIMARY,
+              }}>
+              <View>
+                <FontAwesome name="shopping-cart" size={28} color="white" />
+                <View
+                  style={{
+                    position: 'absolute',
+                    right: -8,
+                    top: -4,
+                    backgroundColor: Colors.ALERT,
+                    borderRadius: 9,
+                    width: 18,
+                    height: 18,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 10,
+                      fontWeight: 'bold',
+                    }}>
+                    {this.calculateTotalProduct()}
+                  </Text>
+                </View>
+              </View>
+              <View style={{flex: 1, paddingLeft: 15, paddingRight: 10}}>
                 <Text
                   style={{
+                    fontSize: 17,
                     color: 'white',
-                    fontSize: 10,
-                    fontWeight: 'bold',
+                    fontWeight: '600',
                   }}>
-                  {this.calculateTotalProduct()}
+                  {`${formatMoney(this.calculatePriceCart())}đ`}
                 </Text>
               </View>
-            </View>
-            <View style={{flex: 1, paddingLeft: 15, paddingRight: 10}}>
-              <Text
-                style={{
-                  fontSize: 17,
-                  color: 'white',
-                  fontWeight: '600',
-                }}>
-                {`${formatMoney(this.calculatePriceCart())}đ`}
-              </Text>
-            </View>
-            <View>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                style={{
-                  padding: 10,
-                  backgroundColor: 'white',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 5,
-                }}>
-                <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
-              </TouchableOpacity>
-            </View>
-            <Cart
-              isVisible={this.state.showCartModal}
-              onClose={() => {
-                this.hideCartModal();
-              }}
-              data={order}
-            />
-          </TouchableOpacity>
-        )}
+              <View>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  style={{
+                    padding: 10,
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                  }}>
+                  <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
+                </TouchableOpacity>
+              </View>
+              <Cart
+                isVisible={this.state.showCartModal}
+                onClose={() => {
+                  this.hideCartModal();
+                }}
+                data={order}
+              />
+            </TouchableOpacity>
+          )}
+        </Animatable.View>
       </View>
     );
   }

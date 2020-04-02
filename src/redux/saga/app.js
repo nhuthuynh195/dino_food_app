@@ -13,9 +13,6 @@ function* checkBalance(action) {
 
 function* getStores(action) {
   try {
-    // yield put({
-    //   type: 'SHOW_LOADING',
-    // });
     const response = yield requestAPI(action);
     yield put({...action, type: 'GET_STORES_SUCCESS', payload: response});
   } catch (error) {
@@ -78,8 +75,6 @@ function* createrOrder(action) {
         type: 'CREATE_ORDER_SUCCESS',
         payload: response,
       });
-      console.log('response', response);
-
       yield call(
         updateOrderDetail,
         (actions = {
@@ -105,22 +100,39 @@ function* createrOrder(action) {
   } catch (error) {
     console.log('error saga app: ', error);
   } finally {
-    yield put({
-      type: 'HIDE_LOADING',
-    });
+    // yield put({
+    //   type: 'HIDE_LOADING',
+    // });
   }
 }
 function* updateOrderDetail(action) {
   try {
-    yield put({
-      type: 'SHOW_LOADING',
-    });
-    console.log('action updateOrderDetail', action);
+    // yield put({
+    //   type: 'SHOW_LOADING',
+    // });
     const response = yield requestAPI(action.updateOrderDetail);
-    console.log('response updateOrderDetail', response);
     if (response.statusCode == 200) {
       yield call(getOrderDetail, action.getOrderDetail);
     }
+  } catch (error) {
+    console.log('error saga app: ', error);
+  } finally {
+    // yield put({
+    //   type: 'HIDE_LOADING',
+    // });
+  }
+}
+function* getOrderDetail(action) {
+  try {
+    yield put({
+      type: 'SHOW_LOADING',
+    });
+    const response = yield requestAPI(action);
+    yield put({
+      ...action,
+      type: 'GET_ORDER_DETAIL_SUCCESS',
+      payload: response,
+    });
   } catch (error) {
     console.log('error saga app: ', error);
   } finally {
@@ -145,25 +157,7 @@ function* getListOrder(action) {
     });
   }
 }
-function* getOrderDetail(action) {
-  try {
-    yield put({
-      type: 'SHOW_LOADING',
-    });
-    const response = yield requestAPI(action);
-    yield put({
-      ...action,
-      type: 'GET_ORDER_DETAIL_SUCCESS',
-      payload: response,
-    });
-  } catch (error) {
-    console.log('error saga app: ', error);
-  } finally {
-    yield put({
-      type: 'HIDE_LOADING',
-    });
-  }
-}
+
 export default function* saga() {
   yield all([
     takeLatest('CHECK_BALANCE', checkBalance),

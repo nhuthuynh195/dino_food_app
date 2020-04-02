@@ -104,3 +104,9 @@ export function getOrderDetail(id) {
     token: true,
   };
 }
+export function resetStateOrder() {
+  return {
+    type: 'RESET_STATE_ORDER',
+    payload: false,
+  };
+}
