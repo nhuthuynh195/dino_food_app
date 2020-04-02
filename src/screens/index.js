@@ -1,7 +1,7 @@
 import AuthLoadingScreen from './AuthLoadingScreen';
 import ChangePasswordScreen from './ChangePasswordScreen';
 import ForgetPasswordScreen from './ForgetPasswordScreen';
-import HistoryScreen from './HistoryScreen';
+import HistoryPaymentScreen from './HistoryPaymentScreen';
 import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
 import NotificationScreen from './NotificationScreen';
@@ -11,17 +11,17 @@ import ProfileScreen from './ProfileScreen';
 import RegisterScreen from './RegisterScreen';
 import StoreScreen from './StoreScreen';
 
-module.exports = { 
-	AuthLoadingScreen,
-	ChangePasswordScreen,
-	ForgetPasswordScreen,
-	HistoryScreen,
-	HomeScreen,
-	LoginScreen,
-	NotificationScreen,
-	OrderListScreen,
-	PaymentScreen,
-	ProfileScreen,
-	RegisterScreen,
-	StoreScreen 
-}
+module.exports = {
+  AuthLoadingScreen,
+  ChangePasswordScreen,
+  ForgetPasswordScreen,
+  HistoryPaymentScreen,
+  HomeScreen,
+  LoginScreen,
+  NotificationScreen,
+  OrderListScreen,
+  PaymentScreen,
+  ProfileScreen,
+  RegisterScreen,
+  StoreScreen,
+};

@@ -15,12 +15,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
 
 class index extends Component {
-  static navigationOptions = ({navigation}) => ({
-    title: 'Tài khoản',
-    // headerShown: false,
-    // headerTransparent: true,
-    headerStyle: {borderBottomWidth: 0},
-  });
   componentDidMount() {
     this.actionTypeAlert();
     this.props.actions.auth.getProfile();

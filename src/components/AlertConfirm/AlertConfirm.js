@@ -10,7 +10,7 @@ import {
   Text,
 } from 'react-native';
 const {width} = Dimensions.get('window');
-
+import Colors from '@assets/colors';
 class AlertConfirm extends Component {
   static get childContextTypes() {
     return {
@@ -128,20 +128,14 @@ export class Alert extends Component {
             {this.renderSubTitle()}
             <View style={{flexDirection: 'row', height: 40, marginTop: 26}}>
               <TouchableOpacity
-                style={styles.buttonAlert}
+                style={styles.buttonCancel}
                 onPress={this.closeAlert}>
-                <Text bold style={{color: '#0273CC'}}>
+                <Text bold style={{color: Colors.BLACK}}>
                   Hủy
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[
-                  styles.buttonAlert,
-                  {
-                    marginLeft: 15,
-                    backgroundColor: '#0273CC',
-                  },
-                ]}
+                style={[styles.buttonConfirm, {}]}
                 onPress={() => this.clickButton(this.state.eventType)}>
                 <Text bold style={{color: '#FFF'}}>
                   Xác nhận
@@ -163,12 +157,24 @@ export class Alert extends Component {
 export default AlertConfirm;
 
 const styles = StyleSheet.create({
-  buttonAlert: {
+  buttonCancel: {
     flex: 1,
     borderRadius: 20,
-    borderColor: '#0273CC',
+    borderColor: Colors.GRAY_MEDIUM,
+    backgroundColor: Colors.GRAY_MEDIUM,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  buttonConfirm: {
+    flex: 1,
+    borderRadius: 20,
+    borderColor: Colors.BUTTON,
+    backgroundColor: Colors.BUTTON,
+
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 15,
   },
 });

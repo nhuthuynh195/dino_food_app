@@ -4,7 +4,7 @@ import {TextInput, ScrollView} from 'react-native-gesture-handler';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
-import NavigatorServices from '../../navigators/NavigatorServices';
+import NavigatorServices from '@navigators/NavigatorServices';
 
 function index(props) {
   const [token, setToken] = useState('');

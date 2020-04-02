@@ -1,19 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  ImageBackground,
-  StyleSheet,
-  SafeAreaView,
-  Image,
-} from 'react-native';
+import {View, TouchableOpacity, ImageBackground} from 'react-native';
 import {Text, TextInput} from '@components';
 import Colors from '@assets/colors';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import NavigatorServices from '@navigators/NavigatorServices';
 
 function index(props) {
   const [email, setEmail] = useState(props.user.email);

@@ -5,9 +5,6 @@ import connectRedux from '@redux/connectRedux';
 import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
 import Colors from '@assets/colors';
 export class index extends Component {
-  static navigationOptions = ({navigation}) => ({
-    title: 'Lịch sử thanh toán',
-  });
   componentDidMount() {
     let page = 1;
     let email = this.props.profile.email;

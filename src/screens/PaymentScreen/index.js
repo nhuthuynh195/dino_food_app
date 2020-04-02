@@ -31,30 +31,29 @@ import {
 import {TextInputMask} from 'react-native-masked-text';
 eventType = 'REQUEST_PAYMENT';
 class index extends Component {
-  static navigationOptions = ({navigation}) => ({
-    title: 'Thanh toán',
-  });
-
-  state = {
-    showModal: false,
-    selectedTypePayment: '',
-    paymentType: [
-      {label: 'Thanh toán', value: 'income'},
-      {label: 'Rút tiền', value: 'outcome'},
-    ],
-    paymentMethod: [
-      {label: 'AirPay', value: 'air-pay'},
-      {label: 'Cash', value: 'cash'},
-      {label: 'Momo', value: 'momo'},
-      {label: 'Grab Moca', value: 'moca'},
-      {label: 'ViettelPay', value: 'viettel-pay'},
-      {label: 'SCB', value: 'scb'},
-      {label: 'ZaloPay', value: 'zalo-pay'},
-    ],
-    selectedTypePaymentMethod: '',
-    amount: '',
-    description: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal: false,
+      selectedTypePayment: '',
+      paymentType: [
+        {label: 'Thanh toán', value: 'income'},
+        {label: 'Rút tiền', value: 'outcome'},
+      ],
+      paymentMethod: [
+        {label: 'AirPay', value: 'air-pay'},
+        {label: 'Cash', value: 'cash'},
+        {label: 'Momo', value: 'momo'},
+        {label: 'Grab Moca', value: 'moca'},
+        {label: 'ViettelPay', value: 'viettel-pay'},
+        {label: 'SCB', value: 'scb'},
+        {label: 'ZaloPay', value: 'zalo-pay'},
+      ],
+      selectedTypePaymentMethod: '',
+      amount: '',
+      description: '',
+    };
+  }
   componentDidMount() {
     this.actionTypeAlert();
   }

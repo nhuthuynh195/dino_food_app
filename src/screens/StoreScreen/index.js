@@ -10,27 +10,22 @@ import {
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import Modal from 'react-native-modal';
-const {width, height} = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
-import _ from 'ramda';
+import {checkAllArrayIsNotEmpty, formatMoney} from '@utils/func';
+import _ from 'lodash';
 import update from 'immutability-helper';
 import Cart from './cart';
 import {Text, TextInput} from '@components';
-import SafeAreaView from 'react-native-safe-area-view';
-import {SafeAreaConsumer} from 'react-native-safe-area-context';
 import Colors from '@assets/colors';
 import Insets from '@assets/insets';
 import firestore from '@react-native-firebase/firestore';
-
-//outputs bottom safe area height
 class index extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       menu: [],
       showModal: false,
@@ -39,19 +34,8 @@ class index extends Component {
       options: [],
       order: {},
     };
-    this.ref = React.createRef();
-    // this.ref = firestore()
-    //   .collection('orders')
-    //   .doc('5e85d6d6e52c1465b57257fa');
   }
   componentDidMount() {
-    // const collection = firestore()
-    //   .collection('orders')
-    //   .doc('5e85d6d6e52c1465b57257fa');
-
-    // collection.get().then(order => {
-    //   console.log('doc', order.data());
-    // });
     const {idStore, idOrder} = this.props.navigation.state.params;
     if (idOrder !== '') {
       this.props.actions.app.getOrderDetail(idOrder);
@@ -63,30 +47,21 @@ class index extends Component {
     this.props.actions.app.getStoreById(idStore);
   }
   componentWillReceiveProps(nextProps) {
-    const {idStore, idOrder} = this.props.navigation.state.params;
-    if (idOrder !== '') {
-    }
     if (checkAllArrayIsNotEmpty(nextProps.order)) {
       const ref = firestore()
         .collection('orders')
-        .doc(this.props.order._id);
-      ref.get().then(order => {
-        console.log('doc', order.data());
-        this.setState({order: order.data()});
-      });
-
+        .doc(nextProps.order._id);
       ref.onSnapshot(order => {
-        console.log('order', order.data());
         this.setState({order: order.data()});
       });
     }
-
     if (checkAllArrayIsNotEmpty(nextProps.menu)) {
       this.setState({
         menu: Object.values(nextProps.menu),
       });
     }
   }
+  // update order
   updateOrder(product) {
     this.hideOptionModal();
     let param = {
@@ -97,15 +72,8 @@ class index extends Component {
     };
     this.props.actions.app.updateOrderDetail(param, this.props.order._id);
   }
-  hideCartModal() {
-    this.setState({showCartModal: false});
-  }
-  showCartModal() {
-    this.setState({showCartModal: true});
-  }
   // modal option
   showOptionModal(item) {
-    console.log('item', item);
     let _product = {
       _id: item._id,
       name: item.name,
@@ -126,7 +94,15 @@ class index extends Component {
       showModal: false,
     });
   }
-  seleteOption(index_options, index_option, item_option, isRequired) {
+  // modal cart
+  showCartModal() {
+    this.setState({showCartModal: true});
+  }
+  hideCartModal() {
+    this.setState({showCartModal: false});
+  }
+  // select option
+  selectOption(index_options, index_option, item_option, isRequired) {
     const {options} = this.state;
     if (isRequired) {
       this.state.options[index_options].items.forEach((element, i) => {
@@ -165,6 +141,18 @@ class index extends Component {
       this.setState({options: newCollection});
     }
   }
+  addNote = value => {
+    const {product} = this.state;
+    let newCollection = update(product, {
+      note: {
+        $apply: function(note) {
+          return value;
+        },
+      },
+    });
+    this.setState({product: newCollection});
+  };
+  // calculate cart
   calculatePriceCart() {
     const {order} = this.state;
     let price = 0;
@@ -175,11 +163,22 @@ class index extends Component {
     });
     return price;
   }
-  calculatePrice(price, quantity) {
+  calculateTotalProduct() {
+    const {order} = this.state;
+    let total = 0;
+    order.users.forEach(user => {
+      user.dishes.forEach(dish => {
+        total = total + dish.qty;
+      });
+    });
+    return total;
+  }
+  // calculate option
+  calculatePriceOption(price, quantity) {
     const {options} = this.state;
     if (checkAllArrayIsNotEmpty(options)) {
       let total_price_option = [];
-      options.forEach((element, index) => {
+      options.forEach(element => {
         element.items.forEach(item => {
           if (item.isDefault) {
             total_price_option = [...total_price_option, item.price];
@@ -196,7 +195,7 @@ class index extends Component {
     const {options} = this.state;
     if (checkAllArrayIsNotEmpty(options)) {
       let total_name_option = [];
-      options.forEach((element, index) => {
+      options.forEach(element => {
         element.items.forEach(item => {
           if (item.isDefault) {
             total_name_option = [...total_name_option, item.name];
@@ -209,17 +208,51 @@ class index extends Component {
       return '';
     }
   }
-  calculateTotalProduct() {
-    const {order} = this.state;
-    let total = 0;
-    order.users.forEach(user => {
-      user.dishes.forEach(dish => {
-        total = total + dish.qty;
-      });
-    });
-    return total;
+  //render item option
+  renderItemOption(index_options, index_option, item_option, isRequired) {
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          this.selectOption(
+            index_options,
+            index_option,
+            item_option,
+            isRequired,
+            item_option.isDefault,
+          )
+        }>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            borderBottomWidth: 0.5,
+            borderBottomColor: '#E6E6E6',
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              flex: 2,
+              justifyContent: 'space-around',
+            }}>
+            <Text style={{fontSize: 16}}>{item_option.name}</Text>
+            <Text style={{fontSize: 16}}>{`${formatMoney(
+              item_option.price,
+            )}đ`}</Text>
+          </View>
+          <View style={{justifyContent: 'flex-end'}}>
+            {item_option.isDefault ? (
+              <AntDesign name="checkcircle" size={20} color="green" />
+            ) : (
+              <AntDesign name="checkcircleo" size={20} />
+            )}
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
   }
-  renderModal() {
+  renderOptionModal() {
     const {product, options} = this.state;
     if (checkAllArrayIsNotEmpty(product) == false) return null;
     else
@@ -333,6 +366,9 @@ class index extends Component {
                   <SimpleLineIcons name="note" size={13} />
                 </View>
                 <TextInput
+                  placeholder={'Ghi chú'}
+                  value={product.note}
+                  onChangeText={value => this.addNote(value)}
                   style={{
                     flex: 1,
                     padding: 10,
@@ -391,7 +427,10 @@ class index extends Component {
                   }}>
                   <Text style={{fontSize: 17, fontWeight: 'bold'}}>
                     {`${formatMoney(
-                      this.calculatePrice(product.price, product.quantity),
+                      this.calculatePriceOption(
+                        product.price,
+                        product.quantity,
+                      ),
                     )}đ`}
                   </Text>
                   {this.calculateOption() !== '' && (
@@ -423,55 +462,6 @@ class index extends Component {
           </View>
         </Modal>
       );
-  }
-  hideCartModal() {
-    this.setState({showCartModal: false});
-  }
-  showCartModal() {
-    this.setState({showCartModal: true});
-  }
-  renderItemOption(index_options, index_option, item_option, isRequired) {
-    return (
-      <TouchableOpacity
-        onPress={() =>
-          this.seleteOption(
-            index_options,
-            index_option,
-            item_option,
-            isRequired,
-            item_option.isDefault,
-          )
-        }>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            borderBottomWidth: 0.5,
-            borderBottomColor: '#E6E6E6',
-            paddingHorizontal: 10,
-            paddingVertical: 10,
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              flex: 2,
-              justifyContent: 'space-around',
-            }}>
-            <Text style={{fontSize: 16}}>{item_option.name}</Text>
-            <Text style={{fontSize: 16}}>{`${formatMoney(
-              item_option.price,
-            )}đ`}</Text>
-          </View>
-          <View style={{justifyContent: 'flex-end'}}>
-            {item_option.isDefault ? (
-              <AntDesign name="checkcircle" size={20} color="green" />
-            ) : (
-              <AntDesign name="checkcircleo" size={20} />
-            )}
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
   }
   // render list product
   renderItem(dishes, item, index) {
@@ -511,16 +501,25 @@ class index extends Component {
               <View style={{flexDirection: 'row'}}>
                 <View
                   style={{
-                    paddingRight: 10,
-                    justifyContent: 'center',
+                    flex: 1,
+                    alignItems: 'center',
+                    flexDirection: 'row',
                   }}>
-                  <Text style={{fontSize: 15, color: '#a4a4a4'}}>
+                  <Text style={{fontSize: 17, color: Colors.PRIMARY}}>
+                    {`${formatMoney(item.discountPrice)}đ`}
+                  </Text>
+                  <Text
+                    style={{
+                      paddingLeft: 5,
+                      fontSize: 15,
+                      color: '#a4a4a4',
+                      textDecorationLine: 'line-through',
+                    }}>
                     {`${formatMoney(item.price)}đ`}
                   </Text>
                 </View>
                 <View
                   style={{
-                    flex: 1,
                     justifyContent: 'flex-end',
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -544,33 +543,19 @@ class index extends Component {
       </TouchableOpacity>
     );
   }
-
-  addNote = (value, index) => {
-    const {cart} = this.props;
-    let newCart = update(cart, {
-      [index]: {
-        note: {
-          $apply: function() {
-            return value;
-          },
-        },
-      },
-    });
-  };
   render() {
     const {menu, order} = this.state;
-    // const {order} = this.state;
-    console.log('order detail', order);
     const dishes = order?.users?.[0]?.dishes ?? [];
     return (
       <View
         style={{
           flex: 1,
+          backgroundColor: Colors.WHITE,
         }}>
         <ScrollView
           style={{flex: 1}}
           contentContainerStyle={{paddingBottom: Insets.BOTTOM}}>
-          {menu.map((item_menu, index_menu) => (
+          {menu.map(item_menu => (
             <View
               style={{
                 flex: 1,
@@ -595,7 +580,7 @@ class index extends Component {
 
               <View style={{paddingHorizontal: 15}}>
                 <FlatList
-                  keyExtractor={(item, index) => item._id.toString()}
+                  keyExtractor={item => item._id.toString()}
                   data={item_menu.dishes}
                   extraData={this.state}
                   renderItem={({item, index}) =>
@@ -605,7 +590,7 @@ class index extends Component {
             </View>
           ))}
         </ScrollView>
-        {this.renderModal()}
+        {this.renderOptionModal()}
         {checkAllArrayIsNotEmpty(dishes) && (
           <TouchableOpacity
             onPress={() => this.showCartModal()}
@@ -694,13 +679,10 @@ const styles = StyleSheet.create({
     color: '#a4a4a4',
   },
 });
-const mapStateToProps = state => (
-  console.log('state', state),
-  {
-    menu: state.app.menu,
-    cart: state.dataLocal.cart,
-    order: state.app.order,
-  }
-);
+const mapStateToProps = state => ({
+  menu: state.app.menu,
+  cart: state.dataLocal.cart,
+  order: state.app.order,
+});
 
 export default connectRedux(mapStateToProps, index);

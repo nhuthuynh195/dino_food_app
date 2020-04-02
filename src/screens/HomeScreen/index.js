@@ -112,7 +112,7 @@ class index extends Component {
         <View style={{paddingHorizontal: 15, paddingVertical: 10}}>
           <View
             style={{
-              borderColor: Colors.BLUE_MEDIUM,
+              borderColor: Colors.PRIMARY,
               borderWidth: 1,
               borderRadius: 50,
               flexDirection: 'row',

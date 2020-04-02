@@ -1,10 +1,9 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {
   HomeScreen,
   ProfileScreen,
-  HistoryScreen,
+  HistoryPaymentScreen,
   NotificationScreen,
   OrderListScreen,
 } from '../screens';
@@ -13,7 +12,27 @@ import {createAppContainer} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import IconWithBadge from './IconWithBadge';
 import Colors from '@assets/colors';
-import {Text, TextInput} from '@components';
+import {TouchableOpacity, View, StyleSheet} from 'react-native';
+import {Text} from '@components';
+import NavigatorServices from '@navigators/NavigatorServices';
+const styles = StyleSheet.create({
+  buttonBack: {
+    padding: 10,
+    borderRadius: 4,
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  labelBack: {
+    color: Colors.BLACK,
+    fontSize: 18,
+  },
+  titleScreen: {color: Colors.BLACK, fontSize: 18},
+  label: {
+    fontSize: 12,
+    color: Colors.WHITE,
+  },
+});
+
 const HomeStack = createStackNavigator(
   {
     Home: {
@@ -32,23 +51,38 @@ const HomeStack = createStackNavigator(
 );
 const OrderListStack = createStackNavigator(
   {
-    OrderList: OrderListScreen,
+    OrderList: {
+      screen: OrderListScreen,
+      navigationOptions: {
+        headerTitle: <Text style={styles.titleScreen}>Đơn hàng</Text>,
+      },
+    },
   },
   {
     initialRouteName: 'OrderList',
   },
 );
-const NotificationStack = createStackNavigator(
+const HistoryPaymentStack = createStackNavigator(
   {
-    Notification: NotificationScreen,
+    HistoryPayment: {
+      screen: HistoryPaymentScreen,
+      navigationOptions: {
+        headerTitle: <Text style={styles.titleScreen}>Lịch sử thanh toán</Text>,
+      },
+    },
   },
   {
-    initialRouteName: 'Notification',
+    initialRouteName: 'HistoryPayment',
   },
 );
 const ProfileStack = createStackNavigator(
   {
-    Profile: ProfileScreen,
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        headerTitle: <Text style={styles.titleScreen}>Tài khoản</Text>,
+      },
+    },
   },
   {
     initialRouteName: 'Profile',
@@ -56,10 +90,10 @@ const ProfileStack = createStackNavigator(
 );
 
 const HomeIconWithBadge = props => {
-  // You should pass down the badgeCount in some other ways like context, redux, mobx or event emitters.
   return <IconWithBadge {...props} badgeCount={0} />;
 };
 
+//bottom tab config
 const TabNavigator = createBottomTabNavigator(
   {
     Home: {
@@ -86,13 +120,13 @@ const TabNavigator = createBottomTabNavigator(
         },
       },
     },
-    Notification: {
-      screen: NotificationStack,
+    HistoryPayment: {
+      screen: HistoryPaymentStack,
       navigationOptions: {
         tabBarLabel: ({focused, tintColor}) => {
           return (
             <Text bold={focused ? true : false} focused style={styles.label}>
-              {'Thông báo'}
+              {'Thanh toán'}
             </Text>
           );
         },
@@ -112,6 +146,8 @@ const TabNavigator = createBottomTabNavigator(
     },
   },
   {
+    navigationOptions: {},
+
     defaultNavigationOptions: ({navigation}) => ({
       tabBarIcon: ({focused, horizontal, tintColor}) => {
         const {routeName} = navigation.state;
@@ -121,8 +157,8 @@ const TabNavigator = createBottomTabNavigator(
           iconName = 'md-home';
         } else if (routeName === 'OrderList') {
           iconName = 'ios-list';
-        } else if (routeName === 'Notification') {
-          iconName = 'ios-notifications';
+        } else if (routeName === 'HistoryPayment') {
+          iconName = 'ios-wallet';
           IconComponent = HomeIconWithBadge;
         } else if (routeName === 'Profile') {
           iconName = 'ios-contact';
@@ -142,10 +178,5 @@ const TabNavigator = createBottomTabNavigator(
     },
   },
 );
-const styles = StyleSheet.create({
-  label: {
-    fontSize: 12,
-    color: Colors.WHITE,
-  },
-});
+
 export default createAppContainer(TabNavigator);

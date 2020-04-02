@@ -1,18 +1,8 @@
 import React, {Component} from 'react';
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  StatusBar,
-  StyleSheet,
-  ImageBackground,
-  View,
-  Linking,
-} from 'react-native';
+import {ActivityIndicator, StatusBar, View, Linking} from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
 import SplashScreen from 'react-native-splash-screen';
-import {width, height} from '@configs/styles';
-import images from '@resources/images';
 class index extends Component {
   componentDidMount() {
     SplashScreen.hide();

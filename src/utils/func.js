@@ -1,5 +1,5 @@
 import {Platform, Dimensions} from 'react-native';
-import _ from 'ramda';
+import _ from 'lodash';
 export const {width, height} = Dimensions.get('window');
 export const guidelineBaseWidth = 350;
 export const guidelineBaseHeight = 680;

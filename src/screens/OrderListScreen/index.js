@@ -3,6 +3,7 @@ import {View, FlatList, TouchableOpacity} from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import {formatDay} from '@utils/func';
 import {Text} from '@components';
+import Colors from '@assets/colors';
 function index(props) {
   const [] = useState();
   useEffect(() => {
@@ -26,7 +27,7 @@ function index(props) {
         style={{
           flexDirection: 'row',
           borderBottomWidth: 1,
-          paddingVertical: 15,
+          paddingVertical: 20,
           borderBottomColor: '#F7F7F7',
           alignItems: 'center',
         }}>
@@ -40,9 +41,13 @@ function index(props) {
     );
   }
   const {listOrder} = props;
-  console.log('listOrder', listOrder);
   return (
-    <View style={{flex: 1, justifyContent: 'center'}}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: Colors.WHITE,
+      }}>
       <FlatList
         keyExtractor={item => item._id.toString()}
         data={listOrder}

@@ -5,6 +5,7 @@ import {
   ImageBackground,
   StyleSheet,
   Image,
+  StatusBar,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
@@ -86,6 +87,7 @@ function index(props) {
   }, [props.loginSuccess, props.errorLogin]);
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
       <ImageBackground
         source={images.background}
         resizeMode="cover"
