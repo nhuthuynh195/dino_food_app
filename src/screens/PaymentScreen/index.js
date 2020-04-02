@@ -1,34 +1,17 @@
 import React, {Component} from 'react';
 import {
   TouchableOpacity,
-  FlatList,
   StyleSheet,
   Dimensions,
-  Image,
   View,
   DeviceEventEmitter,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
-import Modal from 'react-native-modal';
-const {width, height} = Dimensions.get('window');
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ScrollView} from 'react-native-gesture-handler';
-import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
-import {
-  Container,
-  Header,
-  Content,
-  Form,
-  Text,
-  Item,
-  Input,
-  Label,
-  Picker,
-  Textarea,
-  Button,
-} from 'native-base';
+import {Form, Text, Item, Input, Label, Picker} from 'native-base';
 import {TextInputMask} from 'react-native-masked-text';
+import Colors from '@assets/colors';
+import Insets from '@assets/insets';
 eventType = 'REQUEST_PAYMENT';
 class index extends Component {
   constructor(props) {
@@ -61,7 +44,7 @@ class index extends Component {
     this.props.openAlert(`Bạn có muốn thực hiện giao dịch?`, eventType);
   };
   actionTypeAlert = () => {
-    DeviceEventEmitter.addListener(eventType, e => {
+    DeviceEventEmitter.addListener(eventType, () => {
       this.submitPayment();
     });
   };
@@ -97,12 +80,13 @@ class index extends Component {
       <View
         style={{
           flex: 1,
+          paddingBottom: Insets.BOTTOM,
         }}>
         <ScrollView>
           <View
             style={{
               paddingVertical: 5,
-              backgroundColor: '#0D8BD1',
+              backgroundColor: Colors.PRIMARY,
               marginHorizontal: 5,
               marginVertical: 5,
               borderRadius: 5,
@@ -132,7 +116,7 @@ class index extends Component {
           <View style={{flexDirection: 'row'}}>
             <View
               style={{
-                backgroundColor: '#0D8BD1',
+                backgroundColor: Colors.PRIMARY,
                 padding: 5,
                 borderRadius: 5,
                 marginHorizontal: 5,
@@ -142,7 +126,7 @@ class index extends Component {
             </View>
             <View
               style={{
-                backgroundColor: '#0D8BD1',
+                backgroundColor: Colors.PRIMARY,
                 padding: 5,
                 borderRadius: 5,
                 marginRight: 5,
@@ -188,7 +172,7 @@ class index extends Component {
                 onValueChange={value => {
                   this.setState({selectedTypePayment: value});
                 }}>
-                {this.state.paymentType.map((item, index) => (
+                {this.state.paymentType.map(item => (
                   <Picker.Item label={item.label} value={item.value} />
                 ))}
               </Picker>
@@ -201,7 +185,7 @@ class index extends Component {
                 onValueChange={value => {
                   this.setState({selectedTypePaymentMethod: value});
                 }}>
-                {this.state.paymentMethod.map((item, index) => (
+                {this.state.paymentMethod.map(item => (
                   <Picker.Item label={item.label} value={item.value} />
                 ))}
               </Picker>
@@ -222,7 +206,7 @@ class index extends Component {
         <View style={{padding: 10}}>
           <TouchableOpacity
             style={{
-              backgroundColor: '#0D8BD1',
+              backgroundColor: Colors.BUTTON,
               alignItems: 'center',
               padding: 12,
               borderRadius: 5,
@@ -236,41 +220,6 @@ class index extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  itemThreeContainer: {
-    backgroundColor: 'white',
-  },
-  itemThreeSubContainer: {
-    flexDirection: 'row',
-  },
-  itemThreeImage: {
-    height: 100,
-    width: 100,
-    borderRadius: 10,
-  },
-  itemThreeContent: {
-    flex: 1,
-    paddingLeft: 15,
-    justifyContent: 'space-between',
-  },
-
-  itemThreeTitle: {
-    fontSize: 16,
-    color: '#5F5F5F',
-    fontWeight: 'bold',
-  },
-  itemThreeSubtitle: {
-    fontSize: 14,
-    color: '#a4a4a4',
-  },
-
-  itemThreeHr: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#e3e3e3',
-    marginRight: -15,
-  },
-});
 const mapStateToProps = state => ({
   loading: state.auth.loadingLogin,
   profile: state.dataLocal.profile,

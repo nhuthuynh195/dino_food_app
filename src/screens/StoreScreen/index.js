@@ -38,13 +38,12 @@ class index extends Component {
   }
   componentDidMount() {
     const {idStore, idOrder} = this.props.navigation.state.params;
-    console.log('idOrder', idOrder);
+    this.props.actions.app.getStoreById(idStore);
     if (idOrder !== '') {
       this.props.actions.app.getOrderDetail(idOrder);
     } else {
       this.props.actions.app.resetStateOrder();
     }
-    this.props.actions.app.getStoreById(idStore);
   }
   componentWillReceiveProps(nextProps) {
     if (checkAllArrayIsNotEmpty(nextProps.order)) {
@@ -251,7 +250,7 @@ class index extends Component {
           </View>
           <View style={{justifyContent: 'flex-end'}}>
             {item_option.isDefault ? (
-              <AntDesign name="checkcircle" size={20} color="green" />
+              <AntDesign name="checkcircle" size={20} color={Colors.BUTTON} />
             ) : (
               <AntDesign name="checkcircleo" size={20} />
             )}
@@ -392,7 +391,7 @@ class index extends Component {
                     }}>
                     <View
                       style={{
-                        backgroundColor: '#0D8BD1',
+                        backgroundColor: Colors.PRIMARY,
                         paddingHorizontal: 10,
                         paddingVertical: 5,
                       }}>
@@ -541,7 +540,11 @@ class index extends Component {
                     onPress={() => {
                       this.showOptionModal(item);
                     }}>
-                    <AntDesign name="pluscircleo" size={25} color={'#0D8BD1'} />
+                    <AntDesign
+                      name="pluscircleo"
+                      size={25}
+                      color={Colors.BUTTON}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>

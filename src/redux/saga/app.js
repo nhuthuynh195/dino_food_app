@@ -65,9 +65,9 @@ function* requestPayment(action) {
 }
 function* createrOrder(action) {
   try {
-    yield put({
-      type: 'SHOW_LOADING',
-    });
+    // yield put({
+    //   type: 'SHOW_LOADING',
+    // });
     const response = yield requestAPI(action.createOrder);
     if (response.statusCode == 200) {
       yield put({

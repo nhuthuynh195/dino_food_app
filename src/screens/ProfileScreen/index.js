@@ -142,7 +142,7 @@ class index extends Component {
             }}
             onPress={() => this.logout()}>
             <Text style={{color: 'red', marginLeft: 15, fontSize: 15}}>
-              ĐĂNG XUÂT
+              ĐĂNG XUẤT
             </Text>
           </TouchableOpacity>
         </View>
