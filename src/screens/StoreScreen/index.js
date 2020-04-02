@@ -39,19 +39,17 @@ class index extends Component {
     const {idStore, idOrder} = this.props.navigation.state.params;
     if (idOrder !== '') {
       this.props.actions.app.getOrderDetail(idOrder);
-    } else {
-      this.props.actions.app.createOrder({
-        store: idStore,
-      });
     }
     this.props.actions.app.getStoreById(idStore);
   }
   componentWillReceiveProps(nextProps) {
+    console.log('nextProps.order', nextProps.order);
     if (checkAllArrayIsNotEmpty(nextProps.order)) {
       const ref = firestore()
         .collection('orders')
         .doc(nextProps.order._id);
       ref.onSnapshot(order => {
+        console.log('order', order.data());
         this.setState({order: order.data()});
       });
     }
@@ -70,7 +68,8 @@ class index extends Component {
       dish: product._id,
       _id: product._id,
     };
-    this.props.actions.app.updateOrderDetail(param, this.props.order._id);
+    const {idStore} = this.props.navigation.state.params;
+    this.props.actions.app.createOrder(idStore, param);
   }
   // modal option
   showOptionModal(item) {

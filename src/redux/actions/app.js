@@ -50,29 +50,25 @@ export function requestPayment(body) {
     body,
   };
 }
-export function createOrder(body) {
+export function createOrder(idStore, body) {
+  console.log('store', idStore, body);
   return {
     type: 'CREATE_ORDER',
-    method: 'POST',
-    api: `${apiConfigs.BASE_API}/orders`,
-    token: true,
-    body,
-  };
-}
-export function getListOrder(page = 1) {
-  return {
-    type: 'GET_LIST_ORDER',
-    method: 'GET',
-    api: `${apiConfigs.BASE_API}/orders?page=${page}&limit=10`,
-    token: true,
-  };
-}
-export function getOrderDetail(id) {
-  return {
-    type: 'GET_ORDER_DETAIL',
-    method: 'GET',
-    api: `${apiConfigs.BASE_API}/orders/${id}`,
-    token: true,
+    createOrder: {
+      method: 'POST',
+      api: `${apiConfigs.BASE_API}/orders`,
+      token: true,
+      body: {store: idStore},
+    },
+    updateOrderDetail: {
+      method: 'PUT',
+      token: true,
+      body,
+    },
+    getOrderDetail: {
+      method: 'GET',
+      token: true,
+    },
   };
 }
 export function updateOrderDetail(body, id) {
@@ -89,5 +85,22 @@ export function updateOrderDetail(body, id) {
       api: `${apiConfigs.BASE_API}/orders/${id}`,
       token: true,
     },
+  };
+}
+
+export function getListOrder(page = 1) {
+  return {
+    type: 'GET_LIST_ORDER',
+    method: 'GET',
+    api: `${apiConfigs.BASE_API}/orders?page=${page}&limit=10`,
+    token: true,
+  };
+}
+export function getOrderDetail(id) {
+  return {
+    type: 'GET_ORDER_DETAIL',
+    method: 'GET',
+    api: `${apiConfigs.BASE_API}/orders/${id}`,
+    token: true,
   };
 }

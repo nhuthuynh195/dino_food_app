@@ -14,7 +14,6 @@ import IconWithBadge from './IconWithBadge';
 import Colors from '@assets/colors';
 import {TouchableOpacity, View, StyleSheet} from 'react-native';
 import {Text} from '@components';
-import NavigatorServices from '@navigators/NavigatorServices';
 const styles = StyleSheet.create({
   buttonBack: {
     padding: 10,
@@ -32,7 +31,6 @@ const styles = StyleSheet.create({
     color: Colors.WHITE,
   },
 });
-
 const HomeStack = createStackNavigator(
   {
     Home: {
@@ -159,7 +157,7 @@ const TabNavigator = createBottomTabNavigator(
           iconName = 'ios-list';
         } else if (routeName === 'HistoryPayment') {
           iconName = 'ios-wallet';
-          IconComponent = HomeIconWithBadge;
+          // IconComponent = HomeIconWithBadge;
         } else if (routeName === 'Profile') {
           iconName = 'ios-contact';
         }

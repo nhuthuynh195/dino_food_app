@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
 import connectRedux from '@redux/connectRedux';
-import {formatDay} from '@utils/func';
+import {formatDay, formatDate} from '@utils/func';
 import {Text} from '@components';
 import Colors from '@assets/colors';
 function index(props) {
@@ -35,12 +35,13 @@ function index(props) {
           <Text numberOfLines={1}>{item.store.name}</Text>
         </View>
         <View style={{paddingLeft: 15}}>
-          <Text>{formatDay(item.createdAt)}</Text>
+          <Text>{formatDate(item.createdAt)}</Text>
         </View>
       </TouchableOpacity>
     );
   }
   const {listOrder} = props;
+  console.log('listOrder', listOrder);
   return (
     <View
       style={{

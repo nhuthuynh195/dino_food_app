@@ -135,14 +135,14 @@ class index extends Component {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
+              justifyContent: 'center',
               borderTopWidth: 0.5,
               borderColor: '#CCCCCC',
               padding: 15,
             }}
             onPress={() => this.logout()}>
-            <Ionicons name="ios-power" color="red" size={20} />
-            <Text style={{color: 'red', marginLeft: 15, fontSize: 18}}>
-              Logout
+            <Text style={{color: 'red', marginLeft: 15, fontSize: 15}}>
+              ĐĂNG XUÂT
             </Text>
           </TouchableOpacity>
         </View>

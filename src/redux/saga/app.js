@@ -1,5 +1,6 @@
 import {put, takeLatest, all, call} from 'redux-saga/effects';
 import {requestAPI} from '@utils/func';
+import apiConfigs from '@configs/api';
 
 function* checkBalance(action) {
   try {
@@ -70,18 +71,55 @@ function* createrOrder(action) {
     yield put({
       type: 'SHOW_LOADING',
     });
-    const response = yield requestAPI(action);
+    const response = yield requestAPI(action.createOrder);
     if (response.statusCode == 200) {
       yield put({
         ...action,
         type: 'CREATE_ORDER_SUCCESS',
         payload: response,
       });
+      console.log('response', response);
+
+      yield call(
+        updateOrderDetail,
+        (actions = {
+          getOrderDetail: {
+            method: 'GET',
+            api: `${apiConfigs.BASE_API}/orders/${response._id}`,
+            token: true,
+          },
+          updateOrderDetail: {
+            method: action.updateOrderDetail.method,
+            api: `${apiConfigs.BASE_API}/orders/${response._id}`,
+            token: action.updateOrderDetail.token,
+            body: action.updateOrderDetail.body,
+          },
+        }),
+      );
     } else {
       yield put({
         ...action,
         type: 'CREATE_ORDER_FAIL',
       });
+    }
+  } catch (error) {
+    console.log('error saga app: ', error);
+  } finally {
+    yield put({
+      type: 'HIDE_LOADING',
+    });
+  }
+}
+function* updateOrderDetail(action) {
+  try {
+    yield put({
+      type: 'SHOW_LOADING',
+    });
+    console.log('action updateOrderDetail', action);
+    const response = yield requestAPI(action.updateOrderDetail);
+    console.log('response updateOrderDetail', response);
+    if (response.statusCode == 200) {
+      yield call(getOrderDetail, action.getOrderDetail);
     }
   } catch (error) {
     console.log('error saga app: ', error);
@@ -118,23 +156,6 @@ function* getOrderDetail(action) {
       type: 'GET_ORDER_DETAIL_SUCCESS',
       payload: response,
     });
-  } catch (error) {
-    console.log('error saga app: ', error);
-  } finally {
-    yield put({
-      type: 'HIDE_LOADING',
-    });
-  }
-}
-function* updateOrderDetail(action) {
-  try {
-    yield put({
-      type: 'SHOW_LOADING',
-    });
-    const response = yield requestAPI(action.updateOrderDetail);
-    if (response.statusCode == 200) {
-      yield call(getOrderDetail, action.getOrderDetail);
-    }
   } catch (error) {
     console.log('error saga app: ', error);
   } finally {
