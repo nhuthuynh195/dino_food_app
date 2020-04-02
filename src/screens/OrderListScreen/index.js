@@ -6,39 +6,41 @@ import {Text} from '@components';
 function index(props) {
   const [] = useState();
   useEffect(() => {
+    props.actions.app.showLoading();
     props.actions.app.getListOrder();
   }, []);
-  const {listOrder} = props;
   function loadMoreOrder() {
-    const {metaDataListOrder} = this.props;
+    const {metaDataListOrder} = props;
     const {page, pages} = metaDataListOrder;
     if (page < pages) {
       props.actions.app.getListOrder(page + 1);
     }
   }
   function gotoStore(_idStore, _idOrder) {
-    props.navigation.navigate('Store', {idStore: _idStore, idOrder: _id});
+    props.navigation.navigate('Store', {idStore: _idStore, idOrder: _idOrder});
   }
-  function renderItem({item}) {
+  function renderItem({item, index}) {
     return (
       <TouchableOpacity
-        onPress={gotoStore(item.store._id, item._id)}
+        onPress={() => gotoStore(item.store._id, item._id)}
         style={{
           flexDirection: 'row',
           borderBottomWidth: 1,
-          paddingVertical: 10,
+          paddingVertical: 15,
           borderBottomColor: '#F7F7F7',
           alignItems: 'center',
         }}>
         <View style={{flex: 2}}>
           <Text numberOfLines={1}>{item.store.name}</Text>
         </View>
-        <View style={{paddingRight: 15}}>
+        <View style={{paddingLeft: 15}}>
           <Text>{formatDay(item.createdAt)}</Text>
         </View>
       </TouchableOpacity>
     );
   }
+  const {listOrder} = props;
+  console.log('listOrder', listOrder);
   return (
     <View style={{flex: 1, justifyContent: 'center'}}>
       <FlatList

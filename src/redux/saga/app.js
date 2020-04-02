@@ -1,4 +1,4 @@
-import {put, takeLatest, all, delay} from 'redux-saga/effects';
+import {put, takeLatest, all, call} from 'redux-saga/effects';
 import {requestAPI} from '@utils/func';
 
 function* checkBalance(action) {
@@ -98,13 +98,29 @@ function* createrOrder(action) {
 }
 function* getListOrder(action) {
   try {
+    const response = yield requestAPI(action);
+    yield put({
+      ...action,
+      type: 'GET_LIST_ORDER_SUCCESS',
+      payload: response,
+    });
+  } catch (error) {
+    console.log('error saga app: ', error);
+  } finally {
+    yield put({
+      type: 'HIDE_LOADING',
+    });
+  }
+}
+function* getOrderDetail(action) {
+  try {
     yield put({
       type: 'SHOW_LOADING',
     });
     const response = yield requestAPI(action);
     yield put({
       ...action,
-      type: 'GET_LIST_ORDER_SUCCESS',
+      type: 'GET_ORDER_DETAIL_SUCCESS',
       payload: response,
     });
   } catch (error) {
@@ -120,19 +136,9 @@ function* updateOrderDetail(action) {
     yield put({
       type: 'SHOW_LOADING',
     });
-    const response = yield requestAPI(action);
-    console.log('response updateOrderDetail', response);
+    const response = yield requestAPI(action.updateOrderDetail);
     if (response.statusCode == 200) {
-      yield put({
-        ...action,
-        type: 'UPDATE_ORDER_SUCCESS',
-        payload: response,
-      });
-    } else {
-      yield put({
-        ...action,
-        type: 'UPDATE_ORDER_FAIL',
-      });
+      yield call(getOrderDetail, action.getOrderDetail);
     }
   } catch (error) {
     console.log('error saga app: ', error);
@@ -151,5 +157,6 @@ export default function* saga() {
     takeLatest('CREATE_ORDER', createrOrder),
     takeLatest('UPDATE_ORDER', updateOrderDetail),
     takeLatest('GET_LIST_ORDER', getListOrder),
+    takeLatest('GET_ORDER_DETAIL', getOrderDetail),
   ]);
 }

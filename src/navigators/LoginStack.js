@@ -4,6 +4,8 @@ import {Text} from '@components';
 import {createStackNavigator} from 'react-navigation-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '@assets/colors';
+import NavigatorServices from '@navigators/NavigatorServices';
+
 import {
   LoginScreen,
   ForgetPasswordScreen,

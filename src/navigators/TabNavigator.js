@@ -6,6 +6,7 @@ import {
   ProfileScreen,
   HistoryScreen,
   NotificationScreen,
+  OrderListScreen,
 } from '../screens';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createAppContainer} from 'react-navigation';
@@ -29,12 +30,12 @@ const HomeStack = createStackNavigator(
     initialRouteName: 'Home',
   },
 );
-const HistoryStack = createStackNavigator(
+const OrderListStack = createStackNavigator(
   {
-    History: HistoryScreen,
+    OrderList: OrderListScreen,
   },
   {
-    initialRouteName: 'History',
+    initialRouteName: 'OrderList',
   },
 );
 const NotificationStack = createStackNavigator(
@@ -73,13 +74,13 @@ const TabNavigator = createBottomTabNavigator(
         },
       },
     },
-    History: {
-      screen: HistoryStack,
+    OrderList: {
+      screen: OrderListStack,
       navigationOptions: {
         tabBarLabel: ({focused, tintColor}) => {
           return (
             <Text bold={focused ? true : false} focused style={styles.label}>
-              {'Lịch sử'}
+              {'Đơn hàng'}
             </Text>
           );
         },
@@ -119,8 +120,8 @@ const TabNavigator = createBottomTabNavigator(
         let iconName;
         if (routeName === 'Home') {
           iconName = 'md-home';
-        } else if (routeName === 'History') {
-          iconName = 'ios-time';
+        } else if (routeName === 'OrderList') {
+          iconName = 'ios-list';
         } else if (routeName === 'Notification') {
           iconName = 'ios-notifications';
           IconComponent = HomeIconWithBadge;

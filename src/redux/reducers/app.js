@@ -96,6 +96,11 @@ function appReducer(state = initialState, action) {
         ...state,
         order: action.payload,
       };
+    case 'GET_ORDER_DETAIL_SUCCESS':
+      return {
+        ...state,
+        order: action.payload,
+      };
     case 'UPDATE_ORDER_SUCCESS':
       return {
         ...state,

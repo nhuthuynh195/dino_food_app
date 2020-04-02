@@ -18,7 +18,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
 import _ from 'ramda';
 import update from 'immutability-helper';
-import Cart from './Cart';
+import Cart from './cart';
 import {Text, TextInput} from '@components';
 import SafeAreaView from 'react-native-safe-area-view';
 import {SafeAreaConsumer} from 'react-native-safe-area-context';
@@ -26,51 +26,44 @@ import Colors from '@assets/colors';
 import Insets from '@assets/insets';
 //outputs bottom safe area height
 class index extends Component {
-  static navigationOptions = ({navigation}) => ({
-    title: 'Cửa hàng',
-  });
   constructor(props) {
     super(props);
 
     this.state = {
       menu: [],
-      menuIsNull: true,
       showModal: false,
       showCartModal: false,
       product: {},
       options: [],
-      _index_menu: -1,
-      _index_product: -1,
-      cart: [],
     };
   }
   componentDidMount() {
-    this.props.actions.dataLocal.addToCart([]),
+    const {idStore, idOrder} = this.props.navigation.state.params;
+    if (idOrder !== '') {
+      this.props.actions.app.getOrderDetail(idOrder);
+    } else {
       this.props.actions.app.createOrder({
-        store: this.props.navigation.state.params.id,
+        store: idStore,
       });
-    this.props.actions.app.getStoreById(this.props.navigation.state.params.id);
+    }
+    this.props.actions.app.getStoreById(idStore);
   }
   componentWillReceiveProps(nextProps) {
-    if (checkAllArrayIsNotEmpty(nextProps.menu) && this.state.menuIsNull) {
+    if (checkAllArrayIsNotEmpty(nextProps.menu)) {
       this.setState({
         menu: Object.values(nextProps.menu),
-        menuIsNull: false,
       });
     }
   }
-  updateOrder(id) {
-    this.hideModal();
-    // console.log('id', id);
+  updateOrder(product) {
+    this.hideOptionModal();
     let param = {
       action: 'add',
-      note: 'teasda',
-      dish: '5e7cb204a0660f5a0d5e2fda',
-      _id: '5e7cb204a0660f5a0d5e2fda',
+      note: product.note,
+      dish: product._id,
+      _id: product._id,
     };
-    // let id_order = this.props.order._id;
-    let id_order = '5e8062167f0bcd56ebbacd5b';
-    this.props.actions.app.updateOrderDetail(param, id_order);
+    this.props.actions.app.updateOrderDetail(param, this.props.order._id);
   }
   hideCartModal() {
     this.setState({showCartModal: false});
@@ -78,46 +71,28 @@ class index extends Component {
   showCartModal() {
     this.setState({showCartModal: true});
   }
-  calculatePriceCart() {
-    const {cart} = this.props;
-    let price = 0;
-    cart.forEach(element => {
-      price = price + element.price;
-    });
-    return price;
-  }
   // modal option
-  async showModal(item, index_menu, index_product, quantity) {
-    let _option = item.options;
-    let _quantity = quantity !== undefined ? quantity : 0;
+  showOptionModal(item) {
+    console.log('item', item);
     let _product = {
       _id: item._id,
       name: item.name,
       photos: item.photos,
       price: item.price,
       description: item.description,
-      quantity: _quantity,
+      quantity: 1,
+      note: '',
     };
-    await this.setState(
-      {
-        product: _product,
-        options: _option,
-        _index_menu: index_menu,
-        _index_product: index_product,
-        showModal: true,
-      },
-      () => this.addProductModal(index_menu, index_product, 0),
-      this.addDefaultQuantityProduct(index_menu, index_product, _quantity),
-    );
+    this.setState({
+      product: _product,
+      options: item.options,
+      showModal: true,
+    });
   }
-  hideModal() {
+  hideOptionModal() {
     this.setState({
       showModal: false,
     });
-  }
-  addToCart(_index_menu, _index_product, quantity, product) {
-    this.addProduct(_index_menu, _index_product, quantity);
-    this.hideModal();
   }
   seleteOption(index_options, index_option, item_option, isRequired) {
     const {options} = this.state;
@@ -158,135 +133,15 @@ class index extends Component {
       this.setState({options: newCollection});
     }
   }
-  addProduct(_index_menu, _index_product, _quantity, _option = null) {
-    const {menu} = this.state;
-    let newCollection = update(menu, {
-      [_index_menu]: {
-        dishes: {
-          [_index_product]: {
-            quantity: {
-              $apply: function(quantity) {
-                return quantity + _quantity;
-              },
-            },
-          },
-        },
-      },
-    });
-    let cart;
-    const selectedProductId =
-      newCollection[_index_menu].dishes[_index_product]._id;
-    const option = _option === null ? this.calculateOption() : _option;
-    const found = this.props.cart.find(
-      product => product._id === selectedProductId && product.option === option,
-    );
-    if (found) {
-      const oldCart = [...this.props.cart];
-      cart = oldCart.map(product => {
-        if (product._id === selectedProductId && product.option === option) {
-          return {
-            ...product,
-            quantity: product.quantity + _quantity,
-          };
-        } else {
-          return {...product};
-        }
+  calculatePriceCart() {
+    const {order} = this.props;
+    let price = 0;
+    order.users.forEach(user => {
+      user.dishes.forEach(dish => {
+        price = price + dish.price;
       });
-    } else {
-      let product = {
-        _id: newCollection[_index_menu].dishes[_index_product]._id,
-        name: newCollection[_index_menu].dishes[_index_product].name,
-        price:
-          this.calculatePrice(
-            newCollection[_index_menu].dishes[_index_product].price,
-            _quantity,
-          ) / _quantity,
-        quantity: _quantity,
-        option: this.calculateOption(),
-        note: '',
-        _index_menu,
-        _index_product,
-      };
-      cart = [...this.props.cart, product];
-    }
-
-    this.setState({menu: newCollection}, () =>
-      this.props.actions.dataLocal.addToCart(cart),
-    );
-  }
-  addDefaultQuantityProduct(_index_menu, _index_product, _quantity) {
-    const {menu} = this.state;
-    let newCollection = update(menu, {
-      [_index_menu]: {
-        dishes: {
-          [_index_product]: {
-            quantity: {
-              $apply: function() {
-                return _quantity;
-              },
-            },
-          },
-        },
-      },
     });
-    this.setState({menu: newCollection});
-  }
-  removeProduct(_index_menu, _index_product, _quantity, _option = null) {
-    const {menu} = this.state;
-    let newCollection = update(menu, {
-      [_index_menu]: {
-        dishes: {
-          [_index_product]: {
-            quantity: {
-              $apply: function(quantity) {
-                return quantity - 1;
-              },
-            },
-          },
-        },
-      },
-    });
-    let cart;
-    const selectedProductId =
-      newCollection[_index_menu].dishes[_index_product]._id;
-    const option = _option === null ? this.calculateOption() : _option;
-    const foundIndex = this.props.cart.findIndex(
-      product => product._id === selectedProductId && product.option === option,
-    );
-    if (this.props.cart[foundIndex].quantity > 1) {
-      const oldCart = [...this.props.cart];
-      cart = oldCart.map(product => {
-        if (product._id === selectedProductId && product.option === option) {
-          return {
-            ...product,
-            quantity: product.quantity - 1,
-          };
-        } else {
-          return {...product};
-        }
-      });
-    } else {
-      cart = [...this.props.cart];
-      cart.splice(foundIndex, 1);
-    }
-    this.setState({menu: newCollection}, () => {
-      cart.length === 0 && this.hideCartModal();
-      this.props.actions.dataLocal.addToCart(cart);
-    });
-  }
-  addProductModal(_index_menu, _index_product, quantity) {
-    let product = {...this.state.product};
-    product.quantity = quantity + 1;
-    this.setState({
-      product,
-    });
-  }
-  removeProductModal(_index_menu, _index_product, quantity) {
-    let product = {...this.state.product};
-    product.quantity = product.quantity > 1 ? product.quantity - 1 : 1;
-    this.setState({
-      product,
-    });
+    return price;
   }
   calculatePrice(price, quantity) {
     const {options} = this.state;
@@ -322,6 +177,16 @@ class index extends Component {
       return '';
     }
   }
+  calculateTotalProduct() {
+    const {order} = this.props;
+    let total = 0;
+    order.users.forEach(user => {
+      user.dishes.forEach(dish => {
+        total = total + dish.qty;
+      });
+    });
+    return total;
+  }
   renderModal() {
     const {product, options, _index_menu, _index_product} = this.state;
     if (checkAllArrayIsNotEmpty(product) == false) return null;
@@ -331,7 +196,7 @@ class index extends Component {
           isVisible={this.state.showModal}
           animationIn={'slideInUp'}
           animationOut={'slideOutDown'}
-          onRequestClose={() => this.hideModal()}
+          onRequestClose={() => this.hideOptionModal()}
           style={{justifyContent: 'flex-end', margin: 0}}>
           <View
             style={[
@@ -356,7 +221,7 @@ class index extends Component {
                 }}>
                 <View style={{flex: 0.5}}>
                   <TouchableOpacity
-                    onPress={() => this.hideModal()}
+                    onPress={() => this.hideOptionModal()}
                     style={{padding: 10}}>
                     <Ionicons name="md-close" size={30} color="#5F5F5F" />
                   </TouchableOpacity>
@@ -418,57 +283,28 @@ class index extends Component {
                           {`${formatMoney(product.price)}đ`}
                         </Text>
                       </View>
-                      <View
-                        style={{
-                          flex: 1,
-                          justifyContent: 'flex-end',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                        }}>
-                        {product.quantity > 0 && (
-                          <TouchableOpacity
-                            onPress={() =>
-                              this.removeProductModal(
-                                _index_menu,
-                                _index_product,
-                                product.quantity,
-                              )
-                            }>
-                            <AntDesign
-                              name="minuscircleo"
-                              size={25}
-                              color="#0D8BD1"
-                            />
-                          </TouchableOpacity>
-                        )}
-                        {product.quantity > 0 && (
-                          <Text
-                            style={{
-                              fontSize: 15,
-                              color: '#a4a4a4',
-                              marginHorizontal: 10,
-                            }}>
-                            {product.quantity}
-                          </Text>
-                        )}
-                        <TouchableOpacity
-                          onPress={() =>
-                            this.addProductModal(
-                              _index_menu,
-                              _index_product,
-                              product.quantity,
-                            )
-                          }>
-                          <AntDesign
-                            name="pluscircleo"
-                            size={25}
-                            color="#0D8BD1"
-                          />
-                        </TouchableOpacity>
-                      </View>
                     </View>
                   </View>
                 </View>
+              </View>
+              <View
+                style={{
+                  margin: 10,
+                  marginTop: 0,
+                  flexDirection: 'row',
+                  borderWidth: 1,
+                  borderColor: Colors.GRAY_MEDIUM,
+                  alignItems: 'center',
+                  borderRadius: 5,
+                }}>
+                <View style={{paddingLeft: 10}}>
+                  <SimpleLineIcons name="note" size={13} />
+                </View>
+                <TextInput
+                  style={{
+                    flex: 1,
+                    padding: 10,
+                  }}></TextInput>
               </View>
               <ScrollView>
                 {options.map((item_options, index_options) => (
@@ -519,6 +355,7 @@ class index extends Component {
                   style={{
                     flex: 1,
                     justifyContent: 'center',
+                    paddingRight: 5,
                   }}>
                   <Text style={{fontSize: 17, fontWeight: 'bold'}}>
                     {`${formatMoney(
@@ -534,18 +371,9 @@ class index extends Component {
                     </Text>
                   )}
                 </View>
-                <View style={{flex: 1}}>
+                <View>
                   <TouchableOpacity
-                    onPress={
-                      () =>
-                        this.addToCart(
-                          _index_menu,
-                          _index_product,
-                          product.quantity,
-                          product,
-                        )
-                      // this.updateOrder(product._id)
-                    }
+                    onPress={() => this.updateOrder(product)}
                     style={{
                       padding: 15,
                       backgroundColor: 'green',
@@ -614,13 +442,13 @@ class index extends Component {
     );
   }
   // render list product
-  renderItem(index_menu, dishes, item, index_product) {
+  renderItem(dishes, item, index) {
     return (
       <TouchableOpacity
         key={item._id}
         style={{flexDirection: 'row'}}
         onPress={() => {
-          this.showModal(item, index_menu, index_product, item.quantity);
+          this.showOptionModal(item);
         }}>
         <View
           style={{
@@ -628,7 +456,7 @@ class index extends Component {
             paddingVertical: 10,
             flex: 1,
             borderBottomColor: '#E6E6E6',
-            borderBottomWidth: dishes.length - 1 == index_product ? 0 : 0.5,
+            borderBottomWidth: dishes.length - 1 == index ? 0 : 0.5,
           }}>
           <Image
             source={{
@@ -665,50 +493,6 @@ class index extends Component {
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}>
-                  {item.quantity > 0 && (
-                    <TouchableOpacity
-                      style={{
-                        padding: 10,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                      onPress={() => {
-                        const checkOptionsInCart = this.props.cart.filter(
-                          product => {
-                            return (
-                              this.state.menu[index_menu].dishes[index_product]
-                                ._id === product._id
-                            );
-                          },
-                        );
-                        if (checkOptionsInCart.length > 1) {
-                          this.showCartModal();
-                        } else {
-                          this.removeProduct(
-                            index_menu,
-                            index_product,
-                            item.quantity,
-                            checkOptionsInCart[0].option,
-                          );
-                        }
-                      }}>
-                      <AntDesign
-                        name="minuscircleo"
-                        size={25}
-                        color={'#0D8BD1'}
-                      />
-                    </TouchableOpacity>
-                  )}
-                  {item.quantity > 0 && (
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        color: '#a4a4a4',
-                        marginHorizontal: 10,
-                      }}>
-                      {item.quantity}
-                    </Text>
-                  )}
                   <TouchableOpacity
                     style={{
                       padding: 10,
@@ -716,12 +500,7 @@ class index extends Component {
                       justifyContent: 'center',
                     }}
                     onPress={() => {
-                      this.showModal(
-                        item,
-                        index_menu,
-                        index_product,
-                        item.quantity,
-                      );
+                      this.showOptionModal(item);
                     }}>
                     <AntDesign name="pluscircleo" size={25} color={'#0D8BD1'} />
                   </TouchableOpacity>
@@ -733,22 +512,7 @@ class index extends Component {
       </TouchableOpacity>
     );
   }
-  calculatePriceCart() {
-    const {cart} = this.props;
-    let price = 0;
-    cart.forEach(element => {
-      price = price + element.price * element.quantity;
-    });
-    return price;
-  }
-  totalProduct() {
-    const {cart} = this.props;
-    let total = 0;
-    cart.forEach(element => {
-      total = total + element.quantity;
-    });
-    return total;
-  }
+
   addNote = (value, index) => {
     const {cart} = this.props;
     let newCart = update(cart, {
@@ -760,143 +524,124 @@ class index extends Component {
         },
       },
     });
-    this.props.actions.dataLocal.addToCart(newCart);
   };
   render() {
-    const {menu, optionInfo} = this.state;
+    const {menu} = this.state;
     const {order} = this.props;
+    console.log('order detail', order);
+    const dishes = order?.users?.[0]?.dishes ?? [];
     return (
-      <SafeAreaView style={{flex: 1}} forceInset={{bottom: 'always'}}>
-        <View
-          style={{
-            flex: 1,
-          }}>
-          <ScrollView style={{flex: 1}}>
-            {menu.map((item_menu, index_menu) => (
+      <View
+        style={{
+          flex: 1,
+        }}>
+        <ScrollView
+          style={{flex: 1}}
+          contentContainerStyle={{paddingBottom: Insets.BOTTOM}}>
+          {menu.map((item_menu, index_menu) => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'space-between',
+                backgroundColor: 'white',
+              }}>
               <View
                 style={{
-                  flex: 1,
-                  justifyContent: 'space-between',
-                  backgroundColor: 'white',
+                  backgroundColor: Colors.PRIMARY,
+                  paddingHorizontal: 15,
+                  paddingVertical: 5,
                 }}>
-                <View
+                <Text
                   style={{
-                    backgroundColor: '#0D8BD1',
-                    paddingHorizontal: 15,
-                    paddingVertical: 5,
+                    fontSize: 16,
+                    color: 'white',
+                    fontWeight: 'bold',
                   }}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: 'white',
-                      fontWeight: 'bold',
-                    }}>
-                    {item_menu.group}
-                  </Text>
-                </View>
-
-                <View style={{paddingHorizontal: 15}}>
-                  <FlatList
-                    keyExtractor={(item, index) => item._id.toString()}
-                    data={item_menu.dishes}
-                    extraData={this.state}
-                    renderItem={({item, index}) =>
-                      this.renderItem(index_menu, item_menu.dishes, item, index)
-                    }></FlatList>
-                </View>
-              </View>
-            ))}
-          </ScrollView>
-          {checkAllArrayIsNotEmpty(optionInfo) && this.renderModal()}
-          {this.props.cart.length > 0 && (
-            <TouchableOpacity
-              onPress={() => this.showCartModal()}
-              activeOpacity={0.8}
-              style={{
-                padding: 15,
-                flexDirection: 'row',
-                alignItems: 'center',
-                backgroundColor: '#0D8BD1',
-              }}>
-              <View>
-                <FontAwesome name="shopping-cart" size={28} color="white" />
-                {this.props.cart.length > 0 && (
-                  <View
-                    style={{
-                      position: 'absolute',
-                      right: -8,
-                      top: -4,
-                      backgroundColor: 'red',
-                      borderRadius: 9,
-                      width: 18,
-                      height: 18,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: 10,
-                        fontWeight: 'bold',
-                      }}>
-                      {this.totalProduct()}
-                    </Text>
-                  </View>
-                )}
-              </View>
-              <View style={{flex: 1, paddingLeft: 15, paddingRight: 10}}>
-                <Text style={{fontSize: 17, color: 'white', fontWeight: '600'}}>
-                  {`${formatMoney(this.calculatePriceCart())}đ`}
+                  {item_menu.group}
                 </Text>
               </View>
-              <View>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  style={{
-                    padding: 10,
-                    backgroundColor: 'white',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 5,
-                  }}>
-                  <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
-                </TouchableOpacity>
+
+              <View style={{paddingHorizontal: 15}}>
+                <FlatList
+                  keyExtractor={(item, index) => item._id.toString()}
+                  data={item_menu.dishes}
+                  extraData={this.state}
+                  renderItem={({item, index}) =>
+                    this.renderItem(item_menu.dishes, item, index)
+                  }></FlatList>
               </View>
-              <Cart
-                isVisible={this.state.showCartModal}
-                onClose={() => {
-                  this.hideCartModal();
-                }}
-                addNote={(value, index) => {
-                  this.addNote(value, index);
-                }}
-                addProduct={(
-                  _index_menu,
-                  _index_product,
-                  _quantity,
-                  _option,
-                ) => {
-                  this.addProduct(_index_menu, _index_product, 1, _option);
-                }}
-                data={order}
-                removeProduct={(
-                  _index_menu,
-                  _index_product,
-                  _quantity,
-                  _option,
-                ) => {
-                  this.removeProduct(
-                    _index_menu,
-                    _index_product,
-                    _quantity,
-                    _option,
-                  );
-                }}
-              />
-            </TouchableOpacity>
-          )}
-        </View>
-      </SafeAreaView>
+            </View>
+          ))}
+        </ScrollView>
+        {this.renderModal()}
+        {checkAllArrayIsNotEmpty(dishes) && (
+          <TouchableOpacity
+            onPress={() => this.showCartModal()}
+            activeOpacity={0.8}
+            style={{
+              padding: 15,
+              paddingBottom: Insets.BOTTOM,
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: Colors.PRIMARY,
+            }}>
+            <View>
+              <FontAwesome name="shopping-cart" size={28} color="white" />
+              <View
+                style={{
+                  position: 'absolute',
+                  right: -8,
+                  top: -4,
+                  backgroundColor: Colors.ALERT,
+                  borderRadius: 9,
+                  width: 18,
+                  height: 18,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 10,
+                    fontWeight: 'bold',
+                  }}>
+                  {this.calculateTotalProduct()}
+                </Text>
+              </View>
+            </View>
+            <View style={{flex: 1, paddingLeft: 15, paddingRight: 10}}>
+              <Text
+                style={{
+                  fontSize: 17,
+                  color: 'white',
+                  fontWeight: '600',
+                }}>
+                {`${formatMoney(this.calculatePriceCart())}đ`}
+              </Text>
+            </View>
+            <View>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                style={{
+                  padding: 10,
+                  backgroundColor: 'white',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                }}>
+                <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
+              </TouchableOpacity>
+            </View>
+            <Cart
+              isVisible={this.state.showCartModal}
+              onClose={() => {
+                this.hideCartModal();
+              }}
+              data={order}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
     );
   }
 }

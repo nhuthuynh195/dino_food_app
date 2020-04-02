@@ -67,15 +67,29 @@ export function getListOrder(page = 1) {
     method: 'GET',
     api: `${apiConfigs.BASE_API}/orders?page=${page}&limit=10`,
     token: true,
-    body,
+  };
+}
+export function getOrderDetail(id) {
+  return {
+    type: 'GET_ORDER_DETAIL',
+    method: 'GET',
+    api: `${apiConfigs.BASE_API}/orders/${id}`,
+    token: true,
   };
 }
 export function updateOrderDetail(body, id) {
   return {
     type: 'UPDATE_ORDER',
-    method: 'PUT',
-    api: `${apiConfigs.BASE_API}/orders/${id}`,
-    token: true,
-    body,
+    updateOrderDetail: {
+      method: 'PUT',
+      api: `${apiConfigs.BASE_API}/orders/${id}`,
+      token: true,
+      body,
+    },
+    getOrderDetail: {
+      method: 'GET',
+      api: `${apiConfigs.BASE_API}/orders/${id}`,
+      token: true,
+    },
   };
 }

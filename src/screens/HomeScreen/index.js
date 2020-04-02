@@ -50,8 +50,14 @@ class index extends Component {
   loadMoreStore() {
     const {metaDataListStore} = this.props;
     const {page, pages} = metaDataListStore;
+    const {keyword} = this.state;
+
     if (page < pages) {
-      this.props.actions.app.getStores(page + 1, (sortBy = '-createdAt'));
+      this.props.actions.app.getStores(
+        page + 1,
+        (sortBy = '-createdAt'),
+        keyword,
+      );
     }
   }
   renderItem({item, index}) {

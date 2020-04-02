@@ -31,7 +31,7 @@ class NotiProvider extends Component {
           ref={ref => {
             this.dropdown = ref;
           }}
-          closeInterval={3000}
+          closeInterval={1000}
         />
       </View>
     );
