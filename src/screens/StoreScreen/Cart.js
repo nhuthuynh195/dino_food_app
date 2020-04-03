@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     marginTop: height / 5,
     backgroundColor: Colors.WHITE,
     borderRadius: 5,
+    paddingBottom: Insets.BOTTOM,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -335,10 +336,10 @@ const styles = StyleSheet.create({
   itemDishNote: {flex: 1, marginLeft: 10, padding: 0, color: Colors.BLACK},
   buttomContainer: {
     padding: 15,
+    paddingBottom: 15 + Insets.BOTTOM,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.PRIMARY,
-    paddingBottom: Insets.BOTTOM,
   },
   badgeContainer: {
     position: 'absolute',

@@ -609,7 +609,7 @@ class index extends Component {
               activeOpacity={0.8}
               style={{
                 padding: 15,
-                paddingBottom: Insets.BOTTOM,
+                paddingBottom: 15 + Insets.BOTTOM,
                 flexDirection: 'row',
                 alignItems: 'center',
                 backgroundColor: Colors.PRIMARY,

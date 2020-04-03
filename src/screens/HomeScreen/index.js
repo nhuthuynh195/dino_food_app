@@ -135,7 +135,7 @@ class index extends Component {
                 placeholder="Tìm kiếm..."
                 style={{
                   color: Colors.BLACK,
-                  paddingVertical: 10,
+                  paddingVertical: 5,
                 }}
                 value={keyword}
                 onChangeText={value => this.onChaneKeyword(value)}

@@ -11,7 +11,7 @@ import {createAppContainer} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import IconWithBadge from './IconWithBadge';
 import Colors from '@assets/colors';
-import {TouchableOpacity, View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Platform} from 'react-native';
 import {Text} from '@components';
 const styles = StyleSheet.create({
   buttonBack: {
@@ -39,6 +39,7 @@ const HomeStack = createStackNavigator(
         headerStyle: {
           shadowColor: 'transparent',
         },
+        headerShown: Platform.OS === 'ios' ? true : false,
       },
     },
   },
@@ -51,7 +52,12 @@ const OrderListStack = createStackNavigator(
     OrderList: {
       screen: OrderListScreen,
       navigationOptions: {
-        headerTitle: <Text style={styles.titleScreen}>Đơn hàng</Text>,
+        headerTitleAlign: 'center',
+        headerTitle: (
+          <Text style={[styles.titleScreen, {textAlign: 'center'}]}>
+            Đơn hàng
+          </Text>
+        ),
       },
     },
   },
@@ -64,6 +70,7 @@ const HistoryPaymentStack = createStackNavigator(
     HistoryPayment: {
       screen: HistoryPaymentScreen,
       navigationOptions: {
+        headerTitleAlign: 'center',
         headerTitle: <Text style={styles.titleScreen}>Ví tiền</Text>,
       },
     },
@@ -77,6 +84,7 @@ const ProfileStack = createStackNavigator(
     Profile: {
       screen: ProfileScreen,
       navigationOptions: {
+        headerTitleAlign: 'center',
         headerTitle: <Text style={styles.titleScreen}>Tài khoản</Text>,
       },
     },
@@ -98,9 +106,14 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: ({focused, tintColor}) => {
           return (
-            <Text bold={focused ? true : false} focused style={styles.label}>
-              {'Trang chủ'}
-            </Text>
+            <View
+              style={{
+                alignItems: 'center',
+              }}>
+              <Text bold={focused ? true : false} focused style={styles.label}>
+                {'Trang chủ'}
+              </Text>
+            </View>
           );
         },
       },
@@ -110,9 +123,14 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: ({focused, tintColor}) => {
           return (
-            <Text bold={focused ? true : false} focused style={styles.label}>
-              {'Đơn hàng'}
-            </Text>
+            <View
+              style={{
+                alignItems: 'center',
+              }}>
+              <Text bold={focused ? true : false} focused style={styles.label}>
+                {'Đơn hàng'}
+              </Text>
+            </View>
           );
         },
       },
@@ -122,9 +140,14 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: ({focused, tintColor}) => {
           return (
-            <Text bold={focused ? true : false} focused style={styles.label}>
-              {'Thanh toán'}
-            </Text>
+            <View
+              style={{
+                alignItems: 'center',
+              }}>
+              <Text bold={focused ? true : false} focused style={styles.label}>
+                {'Thanh toán'}
+              </Text>
+            </View>
           );
         },
       },
@@ -134,9 +157,14 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: ({focused, tintColor}) => {
           return (
-            <Text bold={focused ? true : false} focused style={styles.label}>
-              {'Tài khoản'}
-            </Text>
+            <View
+              style={{
+                alignItems: 'center',
+              }}>
+              <Text bold={focused ? true : false} focused style={styles.label}>
+                {'Tài khoản'}
+              </Text>
+            </View>
           );
         },
       },
@@ -171,6 +199,8 @@ const TabNavigator = createBottomTabNavigator(
         borderTopColor: Colors.GRAY_LIGHT,
         backgroundColor: Colors.PRIMARY,
         paddingTop: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
       },
     },
   },

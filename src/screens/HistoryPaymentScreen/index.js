@@ -20,6 +20,7 @@ import {width, height} from '@configs/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Styles} from '@configs/styles';
 import {Text, TextInput} from '@components';
+import Insets from '@assets/insets';
 export class index extends Component {
   componentDidMount() {
     const {profile} = this.props;
@@ -64,7 +65,9 @@ export class index extends Component {
     const {listBalance, currentBalance} = this.props;
     return (
       <View style={{flex: 1, backgroundColor: Colors.GRAY_LIGHT}}>
-        <ScrollView>
+        <ScrollView
+          style={{flex: 1}}
+          contentContainerStyle={{paddingBottom: 15 + Insets.BOTTOM}}>
           <ImageBackground
             source={images.header_payment}
             resizeMode="stretch"
@@ -146,6 +149,7 @@ export class index extends Component {
                   </Text>
                 </TouchableOpacity>
               </View>
+
               <View style={{marginTop: 10}}>
                 <View
                   style={{
@@ -159,23 +163,24 @@ export class index extends Component {
                     backgroundColor: Colors.WHITE,
                     padding: 10,
                     paddingBottom: 0,
+                    borderRadius: 5,
                   }}>
                   {listBalance.map((item, index) =>
                     this.renderItem({item, index}),
                   )}
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    style={{
+                      paddingTop: 10,
+                      paddingBottom: 20,
+                      alignItems: 'center',
+                      backgroundColor: Colors.WHITE,
+                    }}>
+                    <Text bold style={{fontSize: 18, color: Colors.BUTTON}}>
+                      Xêm thêm
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  style={{
-                    paddingTop: 10,
-                    paddingBottom: 20,
-                    alignItems: 'center',
-                    backgroundColor: Colors.WHITE,
-                  }}>
-                  <Text bold style={{fontSize: 18, color: Colors.BUTTON}}>
-                    Xêm thêm
-                  </Text>
-                </TouchableOpacity>
               </View>
             </View>
           )}

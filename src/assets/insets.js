@@ -1,5 +1,7 @@
+import {Platform} from 'react-native';
+
 const Insets = {
-  TOP: 44,
-  BOTTOM: 34,
+  TOP: Platform.OS == 'ios' ? 44 : 0,
+  BOTTOM: Platform.OS == 'ios' ? 34 : 0,
 };
 export default Insets;

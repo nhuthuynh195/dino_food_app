@@ -5,7 +5,7 @@ import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
 import NavigatorServices from '@navigators/NavigatorServices';
-
+import Colors from '@assets/colors';
 function index(props) {
   const [token, setToken] = useState('');
   const [password, setPassword] = useState('');
@@ -133,7 +133,7 @@ function index(props) {
                 style={{
                   padding: 10,
                   marginTop: 20,
-                  backgroundColor: '#0273CC',
+                  backgroundColor: Colors.BUTTON,
                   borderRadius: 4,
                   alignItems: 'center',
                 }}

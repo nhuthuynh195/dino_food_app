@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: 'com.google.gms.google-services'
 
 import com.android.build.OutputFile
 
@@ -137,7 +138,6 @@ project.ext.vectoricons = [
         'Zocial.ttf'] // Name of the font files you want to copy
 ]
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
-
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -152,6 +152,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+
     }
     splits {
         abi {

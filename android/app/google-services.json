@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1064557322091",
+    "firebase_url": "https://dinofood.firebaseio.com",
+    "project_id": "dinofood",
+    "storage_bucket": "dinofood.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064557322091:android:fa4521a16d16b079bbf62e",
+        "android_client_info": {
+          "package_name": "com.dino_food"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064557322091-me8bmp5tuc7a0fgidbglds352i0hu9hd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiqlH_GzU2IziWtwBh3SazxlqVxD4dP6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064557322091-me8bmp5tuc7a0fgidbglds352i0hu9hd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1064557322091-i77fu53mnvnrrnhmmkpi90sd3dgclqvm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dinovative.dino-food"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -36,6 +36,7 @@ export default createStackNavigator(
     ForgetPassword: {
       screen: ForgetPasswordScreen,
       navigationOptions: {
+        headerTitleAlign: 'center',
         headerTitle: <Text style={styles.titleScreen}>Quên mật khẩu</Text>,
         headerLeft: () => (
           <TouchableOpacity
@@ -53,6 +54,7 @@ export default createStackNavigator(
     ChangePassword: {
       screen: ChangePasswordScreen,
       navigationOptions: {
+        headerTitleAlign: 'center',
         headerTitle: <Text style={styles.titleScreen}>Đổi mật khẩu</Text>,
         headerLeft: () => (
           <TouchableOpacity
@@ -70,6 +72,7 @@ export default createStackNavigator(
     Register: {
       screen: RegisterScreen,
       navigationOptions: {
+        headerTitleAlign: 'center',
         headerTitle: <Text style={styles.titleScreen}>Đăng ký</Text>,
         headerLeft: () => (
           <TouchableOpacity

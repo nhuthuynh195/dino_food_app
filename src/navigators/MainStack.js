@@ -31,6 +31,7 @@ export default Main = createStackNavigator(
     Payment: {
       screen: PaymentScreen,
       navigationOptions: {
+        headerTitleAlign: 'center',
         headerTitle: <Text style={styles.titleScreen}>Thanh toán</Text>,
         headerLeft: () => (
           <TouchableOpacity
@@ -48,6 +49,7 @@ export default Main = createStackNavigator(
       screen: StoreScreen,
       params: {idStore: '', idOrder: ''},
       navigationOptions: {
+        headerTitleAlign: 'center',
         headerTitle: <Text style={styles.titleScreen}>Cửa hàng</Text>,
         headerLeft: () => (
           <TouchableOpacity
