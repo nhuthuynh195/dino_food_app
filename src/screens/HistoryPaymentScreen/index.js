@@ -96,7 +96,7 @@ export class index extends Component {
                   {'VND '}
                 </Text>
                 <Text style={{fontSize: 25, color: 'white'}}>
-                  {formatMoney(currentBalance)}
+                  {currentBalance !== undefined && formatMoney(currentBalance)}
                 </Text>
               </View>
             </View>

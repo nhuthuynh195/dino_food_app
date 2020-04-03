@@ -14,6 +14,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import connectRedux from '@redux/connectRedux';
 import Insets from '@assets/insets';
 import Colors from '@assets/colors';
+import normalize from 'react-native-normalize';
+
 class index extends Component {
   constructor(props) {
     super(props);
@@ -135,7 +137,7 @@ class index extends Component {
                 placeholder="Tìm kiếm..."
                 style={{
                   color: Colors.BLACK,
-                  paddingVertical: 5,
+                  paddingVertical: normalize(10),
                 }}
                 value={keyword}
                 onChangeText={value => this.onChaneKeyword(value)}

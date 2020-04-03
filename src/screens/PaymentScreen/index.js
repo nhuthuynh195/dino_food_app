@@ -12,8 +12,10 @@ import {Form, Item, Input, Label, Picker} from 'native-base';
 import {TextInputMask} from 'react-native-masked-text';
 import Colors from '@assets/colors';
 import Insets from '@assets/insets';
-eventType = 'REQUEST_PAYMENT';
 import {Text, TextInput} from '@components';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+eventType = 'REQUEST_PAYMENT';
+
 class index extends Component {
   constructor(props) {
     super(props);
@@ -168,47 +170,96 @@ class index extends Component {
                 borderBottomWidth: 1,
                 borderBottomColor: '#D9D5DC',
                 paddingHorizontal: 15,
-              }}></View>
+              }}
+            />
           </View>
-          <Form>
-            <Item picker>
-              <Picker
-                mode="dropdown"
-                placeholder="Chọn loại giao dịch"
-                selectedValue={this.state.selectedTypePayment}
-                onValueChange={value => {
-                  this.setState({selectedTypePayment: value});
-                }}>
-                {this.state.paymentType.map(item => (
-                  <Picker.Item label={item.label} value={item.value} />
-                ))}
-              </Picker>
-            </Item>
-            <Item picker>
-              <Picker
-                mode="dropdown"
-                placeholder="Chọn hình thức thanh toán"
-                selectedValue={this.state.selectedTypePaymentMethod}
-                onValueChange={value => {
-                  this.setState({selectedTypePaymentMethod: value});
-                }}>
-                {this.state.paymentMethod.map(item => (
-                  <Picker.Item label={item.label} value={item.value} />
-                ))}
-              </Picker>
-            </Item>
-            <Item floatingLabel last>
-              <Label>Email</Label>
-              <Input disabled value={profile.user.email} />
-            </Item>
-            <Item floatingLabel last>
-              <Label>Ghi chú</Label>
-              <Input
-                value={this.state.description}
-                onChangeText={value => this.setState({description: value})}
-              />
-            </Item>
-          </Form>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: Colors.GRAY_MEDIUM,
+            }}>
+            <Picker
+              style={{
+                borderRadius: 0,
+              }}
+              iosHeader="Lựa chọn"
+              headerBackButtonText="Hủy"
+              mode="dropdown"
+              placeholder="Chọn loại giao dịch"
+              selectedValue={this.state.selectedTypePayment}
+              onValueChange={value => {
+                this.setState({selectedTypePayment: value});
+              }}>
+              {this.state.paymentType.map(item => (
+                <Picker.Item label={item.label} value={item.value} />
+              ))}
+            </Picker>
+          </View>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: Colors.GRAY_MEDIUM,
+            }}>
+            <Picker
+              style={{
+                borderRadius: 0,
+              }}
+              iosHeader="Lựa chọn"
+              headerBackButtonText="Hủy"
+              mode="dropdown"
+              placeholder="Chọn hình thức thanh toán"
+              selectedValue={this.state.selectedTypePaymentMethod}
+              onValueChange={value => {
+                this.setState({selectedTypePaymentMethod: value});
+              }}>
+              {this.state.paymentMethod.map(item => (
+                <Picker.Item label={item.label} value={item.value} />
+              ))}
+            </Picker>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              borderBottomWidth: 1,
+              borderColor: Colors.GRAY_MEDIUM,
+              alignItems: 'center',
+              paddingHorizontal: 10,
+            }}>
+            <View style={{paddingLeft: 10}}>
+              <MaterialCommunityIcons name="email" size={18} />
+            </View>
+            <TextInput
+              placeholder={'Email'}
+              value={profile.user.email}
+              style={{
+                flex: 1,
+                padding: 15,
+                fontSize: 15,
+              }}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              borderBottomWidth: 1,
+              borderColor: Colors.GRAY_MEDIUM,
+              alignItems: 'center',
+              paddingHorizontal: 10,
+            }}>
+            <View style={{paddingLeft: 10}}>
+              <MaterialCommunityIcons name="lead-pencil" size={18} />
+            </View>
+            <TextInput
+              placeholder={'Ghi chú'}
+              value={this.state.descriptionl}
+              onChangeText={value => this.setState({description: value})}
+              style={{
+                flex: 1,
+                padding: 15,
+                fontSize: 15,
+              }}
+            />
+          </View>
         </ScrollView>
         <View style={{padding: 10}}>
           <TouchableOpacity
@@ -228,11 +279,7 @@ class index extends Component {
 }
 
 const mapStateToProps = state => ({
-  loading: state.auth.loadingLogin,
   profile: state.dataLocal.profile,
-  loginSuccess: state.auth.loginSuccess,
-  listStores: state.app.listStores,
-  menu: Object.values(state.app.menu),
 });
 
 export default connectRedux(mapStateToProps, index);
