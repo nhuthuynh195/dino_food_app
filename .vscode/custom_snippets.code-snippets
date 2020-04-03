@@ -113,5 +113,10 @@
     "prefix": ["import-navigation"],
     "body": ["import NavigatorServices from '@navigators/NavigatorServices'"],
     "description": "Import Icon"
+  },
+  "import-styles": {
+    "prefix": ["import-styles"],
+    "body": ["import {Styles} from '@configs/styles'"],
+    "description": "Import Styles"
   }
 }

@@ -4,7 +4,6 @@ import {
   HomeScreen,
   ProfileScreen,
   HistoryPaymentScreen,
-  NotificationScreen,
   OrderListScreen,
 } from '../screens';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
@@ -65,7 +64,7 @@ const HistoryPaymentStack = createStackNavigator(
     HistoryPayment: {
       screen: HistoryPaymentScreen,
       navigationOptions: {
-        headerTitle: <Text style={styles.titleScreen}>Lịch sử thanh toán</Text>,
+        headerTitle: <Text style={styles.titleScreen}>Ví tiền</Text>,
       },
     },
   },

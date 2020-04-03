@@ -16,9 +16,10 @@ eventType = 'REQUEST_PAYMENT';
 class index extends Component {
   constructor(props) {
     super(props);
+    console.log(props.navigation.state.params.value);
     this.state = {
       showModal: false,
-      selectedTypePayment: '',
+      selectedTypePayment: props.navigation.state.params.value,
       paymentType: [
         {label: 'Thanh toán', value: 'income'},
         {label: 'Rút tiền', value: 'outcome'},

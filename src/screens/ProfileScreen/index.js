@@ -86,25 +86,6 @@ class index extends Component {
             style={{
               flex: 1,
               borderWidth: 0.5,
-              borderLeftWidth: 0,
-              borderColor: '#E6E6E6',
-            }}>
-            <TouchableOpacity
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 15,
-              }}>
-              <Text>{formatMoney(currentBalance)} VND</Text>
-              <Text>Số dư</Text>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              borderWidth: 0.5,
-              borderRightWidth: 0,
-              borderLeftWidth: 0,
               borderColor: '#E6E6E6',
             }}>
             <TouchableOpacity
@@ -118,18 +99,7 @@ class index extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{flex: 1}}>
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 15,
-            }}
-            onPress={() => this.gotoPayment()}>
-            <Ionicons name="ios-wallet" color="green" size={20} />
-            <Text style={{marginLeft: 15, fontSize: 18}}>Thanh toán</Text>
-          </TouchableOpacity>
-        </View>
+
         <View style={{flex: 1, justifyContent: 'flex-end'}}>
           <TouchableOpacity
             style={{

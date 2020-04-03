@@ -248,8 +248,8 @@ const styles = StyleSheet.create({
   headerLeftContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     paddingVertical: 10,
+    paddingLeft: 10,
   },
   headerTitle: {
     flex: 8,
