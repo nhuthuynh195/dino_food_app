@@ -127,7 +127,7 @@ export class index extends Component {
                   }}>
                   <Ionicons name="ios-share" size={30} color={Colors.BUTTON} />
                   <Text style={{fontSize: 15, color: Colors.BLACK}}>
-                    {'Thanh toán'}
+                    {'Chuyển tiền'}
                   </Text>
                 </TouchableOpacity>
                 {/*  */}

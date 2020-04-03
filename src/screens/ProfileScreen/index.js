@@ -67,7 +67,7 @@ class index extends Component {
               justifyContent: 'space-evenly',
               paddingLeft: 15,
             }}>
-            <Text style={{fontSize: 18, fontWeight: '500'}}>
+            <Text bold style={{fontSize: 18}}>
               {profile.fullname}
             </Text>
             <Text style={{fontSize: 14}}>{profile.email}</Text>

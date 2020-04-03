@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import {
   TouchableOpacity,
-  StyleSheet,
-  Dimensions,
   View,
   DeviceEventEmitter,
+  Platform,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Form, Item, Input, Label, Picker} from 'native-base';
+import {Picker} from 'native-base';
 import {TextInputMask} from 'react-native-masked-text';
 import Colors from '@assets/colors';
 import Insets from '@assets/insets';
@@ -24,7 +23,7 @@ class index extends Component {
       showModal: false,
       selectedTypePayment: props.navigation.state.params.value,
       paymentType: [
-        {label: 'Thanh toán', value: 'income'},
+        {label: 'Chuyển tiền', value: 'income'},
         {label: 'Rút tiền', value: 'outcome'},
       ],
       paymentMethod: [
@@ -75,7 +74,11 @@ class index extends Component {
       };
       this.props.actions.app.requestPayment(body);
     } else {
-      this.props.alertWithType('warn', 'Warning', 'Do not allow empty value!');
+      this.props.alertWithType(
+        'warn',
+        'Thông báo',
+        'Vui lòng nhập đầy đủ thông tin',
+      );
     }
   }
   render() {
@@ -96,7 +99,7 @@ class index extends Component {
               borderRadius: 5,
             }}>
             <View style={{alignItems: 'center'}}>
-              <Text style={{fontSize: 20, color: 'white', fontWeight: '500'}}>
+              <Text bold style={{fontSize: 20, color: 'white'}}>
                 Thông tin thanh toán
               </Text>
             </View>
@@ -223,7 +226,7 @@ class index extends Component {
               borderBottomWidth: 1,
               borderColor: Colors.GRAY_MEDIUM,
               alignItems: 'center',
-              paddingHorizontal: 10,
+              paddingHorizontal: Platform.OS == 'ios' ? 10 : 0,
             }}>
             <View style={{paddingLeft: 10}}>
               <MaterialCommunityIcons name="email" size={18} />
@@ -244,7 +247,7 @@ class index extends Component {
               borderBottomWidth: 1,
               borderColor: Colors.GRAY_MEDIUM,
               alignItems: 'center',
-              paddingHorizontal: 10,
+              paddingHorizontal: Platform.OS == 'ios' ? 10 : 0,
             }}>
             <View style={{paddingLeft: 10}}>
               <MaterialCommunityIcons name="lead-pencil" size={18} />

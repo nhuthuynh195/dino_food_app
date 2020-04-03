@@ -38,15 +38,15 @@ const ItemDish = ({data}) => {
     <View style={styles.itemDish}>
       <View style={styles.itemDishSub}>
         <View style={styles.itemDishInfo}>
-          <Text style={styles.itemDishName} numberOfLines={1}>
+          <Text bold style={styles.itemDishName} numberOfLines={1}>
             {dish.name}
           </Text>
           {dish.description !== '' && (
-            <Text style={styles.itemDishOpts} numberOfLines={1}>
+            <Text bold style={styles.itemDishOpts} numberOfLines={1}>
               {dish.description}
             </Text>
           )}
-          <Text style={styles.itemDishPrice}>
+          <Text bold style={styles.itemDishPrice}>
             {`${formatMoney(dish.price)}đ`}
           </Text>
         </View>
@@ -61,6 +61,7 @@ const ItemDish = ({data}) => {
           <View style={styles.itemDishNoteCont}>
             <SimpleLineIcons name="note" size={13} />
             <Text
+              bold
               style={[styles.itemDishOpts, {paddingLeft: 5}]}
               numberOfLines={1}>
               {data.note}
@@ -86,8 +87,11 @@ const Item = ({data, author}) => {
         <View style={styles.itemUserSub}>
           <Image source={{uri: user.avatar}} style={styles.itemUserAvatar} />
           <View>
-            <Text style={styles.itemUserName}>{user.fullname}</Text>
+            <Text bold style={styles.itemUserName}>
+              {user.fullname}
+            </Text>
             <Text
+              bold
               style={[
                 styles.itemUserStatus,
                 {color: author === user._id ? Colors.PRIMARY : Colors.BUTTON},
@@ -98,7 +102,7 @@ const Item = ({data, author}) => {
         </View>
         <View style={styles.itemUserPriceCont}>
           <View style={styles.itemUserPriceContSub}>
-            <Text style={styles.itemUserPrice}>
+            <Text bold style={styles.itemUserPrice}>
               {`${formatMoney(totalPrice)}đ`}
             </Text>
             <Text style={styles.itemUserQty}>{`${totalQty} phần`}</Text>
@@ -208,12 +212,12 @@ const Cart = props => {
           <View>
             <FontAwesome name="shopping-cart" size={28} color={Colors.WHITE} />
             <View style={styles.badgeContainer}>
-              <Text style={styles.badge}>
+              <Text bold style={styles.badge}>
                 {CalculateTotal(data.users).totalCartQty}
               </Text>
             </View>
           </View>
-          <Text style={styles.totalPrice}>
+          <Text bold style={styles.totalPrice}>
             {`${formatMoney(CalculateTotal(data.users).totalCartPrice)}đ`}
           </Text>
           <View>
@@ -233,7 +237,6 @@ const styles = StyleSheet.create({
     marginTop: height / 5,
     backgroundColor: Colors.WHITE,
     borderRadius: 5,
-    paddingBottom: Insets.BOTTOM,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -272,20 +275,17 @@ const styles = StyleSheet.create({
   itemUserName: {
     marginLeft: 5,
     fontSize: 13,
-    fontWeight: '500',
     color: Colors.BLACK,
   },
   itemUserStatus: {
     marginLeft: 5,
     fontSize: 13,
-    fontWeight: 'bold',
   },
   itemUserPriceCont: {flexDirection: 'row', alignItems: 'center'},
   itemUserPriceContSub: {marginRight: 5},
-  itemUserPrice: {fontSize: 13, fontWeight: '500', color: Colors.BLACK},
+  itemUserPrice: {fontSize: 13, color: Colors.BLACK},
   itemUserQty: {
     fontSize: 11,
-    fontWeight: '100',
     textAlign: 'right',
     color: Colors.BLACK,
   },
@@ -299,20 +299,16 @@ const styles = StyleSheet.create({
   itemDishInfo: {flex: 1},
   itemDishName: {
     fontSize: 13,
-    fontWeight: '500',
     lineHeight: 20,
     color: Colors.BLACK,
   },
   itemDishOpts: {
     fontSize: 13,
-    fontWeight: '500',
-
     lineHeight: 20,
     color: Colors.GRAY_DARK,
   },
   itemDishPrice: {
     fontSize: 13,
-    fontWeight: '500',
     lineHeight: 20,
     color: Colors.BLACK,
   },
@@ -323,7 +319,6 @@ const styles = StyleSheet.create({
   },
   itemQuantity: {
     fontSize: 13,
-    fontWeight: '100',
     color: Colors.BLACK,
   },
   itemDishNoteCont: {
@@ -352,11 +347,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  badge: {color: Colors.WHITE, fontSize: 10, fontWeight: 'bold'},
+  badge: {color: Colors.WHITE, fontSize: 10},
   totalPrice: {
     fontSize: 17,
     color: Colors.WHITE,
-    fontWeight: '600',
     flex: 1,
     paddingLeft: 15,
     paddingRight: 10,

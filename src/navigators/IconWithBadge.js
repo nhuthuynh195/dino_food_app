@@ -21,7 +21,7 @@ export default class IconWithBadge extends Component {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={{color: 'white', fontSize: 10, fontWeight: 'bold'}}>
+            <Text bold style={{color: 'white', fontSize: 10}}>
               {badgeCount}
             </Text>
           </View>

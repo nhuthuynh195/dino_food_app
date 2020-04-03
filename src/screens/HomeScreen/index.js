@@ -6,13 +6,10 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  TextInput,
-  Text,
 } from 'react-native';
-// import {Text, TextInput} from '@components';
+import {Text, TextInput} from '@components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import connectRedux from '@redux/connectRedux';
-import Insets from '@assets/insets';
 import Colors from '@assets/colors';
 import normalize from 'react-native-normalize';
 
@@ -77,7 +74,9 @@ class index extends Component {
           />
           <View style={styles.itemThreeContent}>
             <View>
-              <Text style={styles.itemThreeTitle}>{item.name}</Text>
+              <Text bold style={styles.itemThreeTitle}>
+                {item.name}
+              </Text>
               <Text style={styles.itemThreeSubtitle}>{item.address}</Text>
             </View>
             {/* <View style={styles.itemThreeMetaContainer}>
@@ -125,7 +124,7 @@ class index extends Component {
                 alignItems: 'center',
                 paddingHorizontal: 10,
               }}>
-              <Ionicons name="ios-search" size={24} />
+              <Ionicons name="ios-search" size={24} color={Colors.PRIMARY} />
             </View>
             <View
               style={{
@@ -277,7 +276,6 @@ const styles = StyleSheet.create({
   itemThreeTitle: {
     fontSize: 16,
     color: '#5F5F5F',
-    fontWeight: 'bold',
   },
   itemThreeSubtitle: {
     fontSize: 14,

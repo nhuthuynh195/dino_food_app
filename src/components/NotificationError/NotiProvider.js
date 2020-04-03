@@ -31,6 +31,20 @@ class NotiProvider extends Component {
           ref={ref => {
             this.dropdown = ref;
           }}
+          titleStyle={{
+            fontFamily: 'Quicksand-Bold',
+            fontSize: 16,
+            textAlign: 'left',
+            color: 'white',
+            backgroundColor: 'transparent',
+          }}
+          messageStyle={{
+            fontFamily: 'Quicksand-Bold',
+            fontSize: 14,
+            textAlign: 'left',
+            color: 'white',
+            backgroundColor: 'transparent',
+          }}
           closeInterval={1000}
         />
       </View>

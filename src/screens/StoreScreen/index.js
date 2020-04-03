@@ -331,10 +331,10 @@ class index extends Component {
                     }}>
                     <View style={{paddingBottom: 5}}>
                       <Text
+                        bold
                         style={{
                           fontSize: 16,
                           color: '#5F5F5F',
-                          fontWeight: 'bold',
                         }}>
                         {product.name}
                       </Text>
@@ -396,10 +396,10 @@ class index extends Component {
                         paddingVertical: 5,
                       }}>
                       <Text
+                        bold
                         style={{
                           fontSize: 16,
                           color: 'white',
-                          fontWeight: 'bold',
                         }}>
                         {`${item_options.name} ${
                           item_options.isRequired ? '(Bắt buộc)' : ''
@@ -432,7 +432,7 @@ class index extends Component {
                     justifyContent: 'center',
                     paddingRight: 5,
                   }}>
-                  <Text style={{fontSize: 17, fontWeight: 'bold'}}>
+                  <Text bold style={{fontSize: 17}}>
                     {`${formatMoney(
                       this.calculatePriceOption(
                         product.price,
@@ -499,7 +499,9 @@ class index extends Component {
               paddingLeft: 10,
             }}>
             <View style={{flex: 1}}>
-              <Text style={styles.itemThreeTitle}>{item.name}</Text>
+              <Text bold style={styles.itemThreeTitle}>
+                {item.name}
+              </Text>
               <Text numberOfLines={2} style={styles.itemThreeSubtitle}>
                 {item.description}
               </Text>
@@ -580,10 +582,10 @@ class index extends Component {
                   paddingVertical: 5,
                 }}>
                 <Text
+                  bold
                   style={{
                     fontSize: 16,
                     color: 'white',
-                    fontWeight: 'bold',
                   }}>
                   {item_menu.group}
                 </Text>
@@ -629,10 +631,10 @@ class index extends Component {
                     alignItems: 'center',
                   }}>
                   <Text
+                    bold
                     style={{
                       color: 'white',
                       fontSize: 10,
-                      fontWeight: 'bold',
                     }}>
                     {this.calculateTotalProduct()}
                   </Text>
@@ -640,10 +642,10 @@ class index extends Component {
               </View>
               <View style={{flex: 1, paddingLeft: 15, paddingRight: 10}}>
                 <Text
+                  bold
                   style={{
                     fontSize: 17,
                     color: 'white',
-                    fontWeight: '600',
                   }}>
                   {`${formatMoney(this.calculatePriceCart())}đ`}
                 </Text>
@@ -685,7 +687,6 @@ const styles = StyleSheet.create({
   itemThreeTitle: {
     fontSize: 16,
     color: '#5F5F5F',
-    fontWeight: 'bold',
   },
   itemThreeSubtitle: {
     fontSize: 14,

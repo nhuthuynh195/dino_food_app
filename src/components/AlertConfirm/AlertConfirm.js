@@ -7,10 +7,10 @@ import {
   Dimensions,
   TouchableOpacity,
   StyleSheet,
-  Text,
 } from 'react-native';
 const {width} = Dimensions.get('window');
 import Colors from '@assets/colors';
+import Text from '../Text';
 class AlertConfirm extends Component {
   static get childContextTypes() {
     return {
@@ -72,12 +72,12 @@ export class Alert extends Component {
           marginBottom: 15,
         }}>
         <Text
+          bold
           numberOfLines={2}
           style={{
             textAlign: 'center',
             fontSize: 20,
             color: '#444444',
-            fontWeight: '400',
           }}>
           {'Thông báo'}
         </Text>
@@ -88,12 +88,12 @@ export class Alert extends Component {
     return (
       <View style={{alignItems: 'center', justifyContent: 'center'}}>
         <Text
+          bold
           numberOfLines={2}
           style={{
             textAlign: 'center',
             fontSize: 16,
             color: '#555555',
-            fontWeight: '300',
           }}>
           {this.state.content}
         </Text>
@@ -171,7 +171,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: Colors.BUTTON,
     backgroundColor: Colors.BUTTON,
-
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
