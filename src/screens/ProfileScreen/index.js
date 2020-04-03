@@ -1,19 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  DeviceEventEmitter,
-  Image,
-} from 'react-native';
+import {View, TouchableOpacity, DeviceEventEmitter, Image} from 'react-native';
 const eventTypeLogout = 'LOGOUT';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
-
+import Colors from '@assets/colors';
+import {Text, TextInput} from '@components';
 class index extends Component {
   componentDidMount() {
     this.actionTypeAlert();
@@ -111,7 +106,9 @@ class index extends Component {
               padding: 15,
             }}
             onPress={() => this.logout()}>
-            <Text style={{color: 'red', marginLeft: 15, fontSize: 15}}>
+            <Text
+              bold
+              style={{color: Colors.ALERT, marginLeft: 15, fontSize: 15}}>
               ĐĂNG XUẤT
             </Text>
           </TouchableOpacity>

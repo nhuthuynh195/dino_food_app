@@ -8,7 +8,12 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import connectRedux from '@redux/connectRedux';
-import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
+import {
+  checkAllArrayIsNotEmpty,
+  formatDate,
+  formatDay,
+  formatMoney,
+} from '@utils/func';
 import Colors from '@assets/colors';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
@@ -31,9 +36,10 @@ export class index extends Component {
           paddingVertical: 20,
           borderBottomColor: '#F7F7F7',
           alignItems: 'center',
+          backgroundColor: Colors.WHITE,
         }}>
-        <View style={{paddingRight: 15}}>
-          <Text>{formatDate(item.createdAt)}</Text>
+        <View style={{flex: 1}}>
+          <Text>{formatDay(item.createdAt)}</Text>
         </View>
         <View style={{flex: 1}}>
           <Text>
@@ -57,7 +63,7 @@ export class index extends Component {
   render() {
     const {listBalance, currentBalance} = this.props;
     return (
-      <View style={{flex: 1, backgroundColor: Colors.WHITE}}>
+      <View style={{flex: 1, backgroundColor: Colors.GRAY_LIGHT}}>
         <ScrollView>
           <ImageBackground
             source={images.header_payment}
@@ -140,7 +146,37 @@ export class index extends Component {
                   </Text>
                 </TouchableOpacity>
               </View>
-              {listBalance.map((item, index) => this.renderItem({item, index}))}
+              <View style={{marginTop: 10}}>
+                <View
+                  style={{
+                    backgroundColor: Colors.GRAY_LIGHT,
+                    paddingVertical: 10,
+                  }}>
+                  <Text>Hoạt động gần đây</Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: Colors.WHITE,
+                    padding: 10,
+                    paddingBottom: 0,
+                  }}>
+                  {listBalance.map((item, index) =>
+                    this.renderItem({item, index}),
+                  )}
+                </View>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  style={{
+                    paddingTop: 10,
+                    paddingBottom: 20,
+                    alignItems: 'center',
+                    backgroundColor: Colors.WHITE,
+                  }}>
+                  <Text bold style={{fontSize: 18, color: Colors.BUTTON}}>
+                    Xêm thêm
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         </ScrollView>

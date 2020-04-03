@@ -8,11 +8,12 @@ import {
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Form, Text, Item, Input, Label, Picker} from 'native-base';
+import {Form, Item, Input, Label, Picker} from 'native-base';
 import {TextInputMask} from 'react-native-masked-text';
 import Colors from '@assets/colors';
 import Insets from '@assets/insets';
 eventType = 'REQUEST_PAYMENT';
+import {Text, TextInput} from '@components';
 class index extends Component {
   constructor(props) {
     super(props);
@@ -58,22 +59,22 @@ class index extends Component {
       description,
     } = this.state;
     let amountValue = amount.replace(/\./g, '');
-    // if (
-    //   selectedTypePayment !== '' &&
-    //   selectedTypePaymentMethod !== '' &&
-    //   amountValue > 0
-    // ) {
-    let body = {
-      email: profile.user.email,
-      type: selectedTypePayment,
-      amount: amountValue,
-      paymentMethod: selectedTypePaymentMethod,
-      description: description,
-    };
-    this.props.actions.app.requestPayment(body);
-    // } else {
-    //   this.props.alertWithType('warn', 'Warning', 'Do not allow empty value!');
-    // }
+    if (
+      selectedTypePayment !== '' &&
+      selectedTypePaymentMethod !== '' &&
+      amountValue > 0
+    ) {
+      let body = {
+        email: profile.user.email,
+        type: selectedTypePayment,
+        amount: amountValue,
+        paymentMethod: selectedTypePaymentMethod,
+        description: description,
+      };
+      this.props.actions.app.requestPayment(body);
+    } else {
+      this.props.alertWithType('warn', 'Warning', 'Do not allow empty value!');
+    }
   }
   render() {
     const {profile} = this.props;
@@ -123,7 +124,7 @@ class index extends Component {
                 marginHorizontal: 5,
                 justifyContent: 'center',
               }}>
-              <Text style={{fontSize: 20, color: 'white'}}>Số tiền</Text>
+              <Text style={{fontSize: 18, color: 'white'}}>Số tiền</Text>
             </View>
             <View
               style={{
@@ -147,7 +148,12 @@ class index extends Component {
                 value={this.state.amount}
                 placeholderTextColor={'white'}
                 selectionColor="white"
-                style={{paddingVertical: 10, fontSize: 20, color: 'white'}}
+                style={{
+                  paddingVertical: 10,
+                  fontSize: 18,
+                  color: Colors.WHITE,
+                  fontFamily: 'Quicksand-Regular',
+                }}
                 onChangeText={text => {
                   this.setState({
                     amount: text,
@@ -207,13 +213,13 @@ class index extends Component {
         <View style={{padding: 10}}>
           <TouchableOpacity
             style={{
-              backgroundColor: Colors.BUTTON,
+              backgroundColor: Colors.PRIMARY,
               alignItems: 'center',
               padding: 12,
               borderRadius: 5,
             }}
             onPress={() => this.requestPayment()}>
-            <Text style={{color: 'white', fontSize: 18}}>Xác nhận</Text>
+            <Text style={{color: Colors.WHITE, fontSize: 18}}>Xác nhận</Text>
           </TouchableOpacity>
         </View>
       </View>
