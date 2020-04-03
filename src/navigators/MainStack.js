@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '@assets/colors';
 import NavigatorServices from '@navigators/NavigatorServices';
 import {createStackNavigator} from 'react-navigation-stack';
-import {PaymentScreen, StoreScreen} from '../screens';
+import {PaymentScreen, StoreScreen, OrderSuccessScreen} from '../screens';
 import TabNavigator from './TabNavigator';
 const styles = StyleSheet.create({
   buttonBack: {
@@ -43,6 +43,23 @@ export default Main = createStackNavigator(
             </View>
           </TouchableOpacity>
         ),
+      },
+    },
+    OrderSuccess: {
+      screen: OrderSuccessScreen,
+      navigationOptions: {
+        headerTitleAlign: 'center',
+        headerTitle: <Text style={styles.titleScreen}>Đơn hàng</Text>,
+        // headerLeft: () => (
+        //   <TouchableOpacity
+        //     onPress={() => NavigatorServices.back()}
+        //     style={styles.buttonBack}>
+        //     <Ionicons name="ios-arrow-back" size={25} color={Colors.BLACK} />
+        //     <View style={{paddingLeft: 10}}>
+        //       <Text style={styles.labelBack}>Quay lại</Text>
+        //     </View>
+        //   </TouchableOpacity>
+        // ),
       },
     },
     Store: {

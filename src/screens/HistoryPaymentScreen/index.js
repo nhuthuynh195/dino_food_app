@@ -96,7 +96,7 @@ export class index extends Component {
                   {'VND '}
                 </Text>
                 <Text style={{fontSize: 25, color: 'white'}}>
-                  {currentBalance !== undefined && formatMoney(currentBalance)}
+                  {currentBalance !== '' && formatMoney(currentBalance)}
                 </Text>
               </View>
             </View>
@@ -149,39 +149,40 @@ export class index extends Component {
                   </Text>
                 </TouchableOpacity>
               </View>
-
-              <View style={{marginTop: 10}}>
-                <View
-                  style={{
-                    backgroundColor: Colors.GRAY_LIGHT,
-                    paddingVertical: 10,
-                  }}>
-                  <Text>Hoạt động gần đây</Text>
-                </View>
-                <View
-                  style={{
-                    backgroundColor: Colors.WHITE,
-                    padding: 10,
-                    paddingBottom: 0,
-                    borderRadius: 5,
-                  }}>
-                  {listBalance.map((item, index) =>
-                    this.renderItem({item, index}),
-                  )}
-                  <TouchableOpacity
-                    activeOpacity={0.5}
+              {checkAllArrayIsNotEmpty(listBalance) && (
+                <View style={{marginTop: 10}}>
+                  <View
                     style={{
-                      paddingTop: 10,
-                      paddingBottom: 20,
-                      alignItems: 'center',
-                      backgroundColor: Colors.WHITE,
+                      backgroundColor: Colors.GRAY_LIGHT,
+                      paddingVertical: 10,
                     }}>
-                    <Text bold style={{fontSize: 18, color: Colors.BUTTON}}>
-                      Xêm thêm
-                    </Text>
-                  </TouchableOpacity>
+                    <Text>Hoạt động gần đây</Text>
+                  </View>
+                  <View
+                    style={{
+                      backgroundColor: Colors.WHITE,
+                      padding: 10,
+                      paddingBottom: 0,
+                      borderRadius: 5,
+                    }}>
+                    {listBalance.map((item, index) =>
+                      this.renderItem({item, index}),
+                    )}
+                    <TouchableOpacity
+                      activeOpacity={0.5}
+                      style={{
+                        paddingTop: 10,
+                        paddingBottom: 20,
+                        alignItems: 'center',
+                        backgroundColor: Colors.WHITE,
+                      }}>
+                      <Text bold style={{fontSize: 18, color: Colors.BUTTON}}>
+                        Xêm thêm
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
+              )}
             </View>
           )}
         </ScrollView>

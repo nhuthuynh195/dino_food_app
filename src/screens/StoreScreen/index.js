@@ -24,6 +24,7 @@ import Colors from '@assets/colors';
 import Insets from '@assets/insets';
 import firestore from '@react-native-firebase/firestore';
 import * as Animatable from 'react-native-animatable';
+import NavigatorServices from '@navigators/NavigatorServices';
 class index extends Component {
   constructor(props) {
     super(props);
@@ -46,12 +47,12 @@ class index extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps.confirmOrderCode);
     if (checkAllArrayIsNotEmpty(nextProps.order)) {
       const ref = firestore()
         .collection('orders')
         .doc(nextProps.order._id);
       ref.onSnapshot(order => {
-        console.log('order', order.data());
         this.setState({order: order.data()});
       });
     }
@@ -59,6 +60,20 @@ class index extends Component {
       this.setState({
         menu: Object.values(nextProps.menu),
       });
+    }
+    if (nextProps.confirmOrderCode == 200) {
+      let mess = `${nextProps.confirmOrderMessage}`;
+      this.props.alertWithType('success', 'Thông báo', mess);
+      NavigatorServices.reset('OrderSuccess', {
+        idOrder: nextProps.order._id,
+      });
+    } else if (
+      nextProps.confirmOrderCode !== '' &&
+      nextProps.confirmOrderCode !== 200
+    ) {
+      let mess = `${nextProps.confirmOrderMessage}`;
+      this.props.alertWithType('error', 'Thông báo', mess);
+      this.props.actions.app.resetStateConfirmOrder();
     }
   }
   // update order
@@ -79,6 +94,13 @@ class index extends Component {
       this.props.actions.app.createOrder(idStore, param);
     }
   }
+  // confirm order
+  confirmOrder() {
+    this.hideCartModal();
+    const {order} = this.props;
+    let idOrder = order?._id;
+    this.props.actions.app.confirmOrder(idOrder);
+  }
   // modal option
   showOptionModal(item) {
     let _product = {
@@ -86,8 +108,10 @@ class index extends Component {
       name: item.name,
       photos: item.photos,
       price: item.price,
+      discountPrice: item.discountPrice,
       description: item.description,
       quantity: 1,
+
       note: '',
     };
     this.setState({
@@ -346,15 +370,18 @@ class index extends Component {
                       style={{
                         flexDirection: 'row',
                       }}>
-                      <View
+                      <Text style={{fontSize: 17, color: Colors.PRIMARY}}>
+                        {`${formatMoney(product.price)}đ`}
+                      </Text>
+                      <Text
                         style={{
-                          paddingRight: 10,
-                          justifyContent: 'center',
+                          paddingLeft: 5,
+                          fontSize: 15,
+                          color: '#a4a4a4',
+                          textDecorationLine: 'line-through',
                         }}>
-                        <Text style={{fontSize: 15, color: '#a4a4a4'}}>
-                          {`${formatMoney(product.price)}đ`}
-                        </Text>
-                      </View>
+                        {`${formatMoney(product.price)}đ`}
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -515,7 +542,7 @@ class index extends Component {
                     flexDirection: 'row',
                   }}>
                   <Text style={{fontSize: 17, color: Colors.PRIMARY}}>
-                    {`${formatMoney(item.discountPrice)}đ`}
+                    {`${formatMoney(item.price)}đ`}
                   </Text>
                   <Text
                     style={{
@@ -652,6 +679,7 @@ class index extends Component {
               </View>
               <View>
                 <TouchableOpacity
+                  onPress={() => this.confirmOrder()}
                   activeOpacity={0.5}
                   style={{
                     padding: 10,
@@ -667,6 +695,9 @@ class index extends Component {
                 isVisible={this.state.showCartModal}
                 onClose={() => {
                   this.hideCartModal();
+                }}
+                confirmOrder={() => {
+                  this.confirmOrder();
                 }}
                 data={order}
               />
@@ -697,6 +728,8 @@ const mapStateToProps = state => ({
   menu: state.app.menu,
   cart: state.dataLocal.cart,
   order: state.app.order,
+  confirmOrderCode: state.app.confirmOrderCode,
+  confirmOrderMessage: state.app.confirmOrderMessage,
 });
 
 export default connectRedux(mapStateToProps, index);

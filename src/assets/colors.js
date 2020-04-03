@@ -5,6 +5,7 @@ const Colors = {
   WHITE: '#FFFFFF',
   BLACK: '#000000',
   SUCCESS: '#3adb76',
+  GREEN_LIGHT: '#3adbc7',
   WARNING: '#ffae00',
   ALERT: '#cc4b37',
   GRAY_LIGHT: '#e6e6e6',

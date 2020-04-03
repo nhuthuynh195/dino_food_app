@@ -104,9 +104,24 @@ export function getOrderDetail(id) {
     token: true,
   };
 }
+
+export function confirmOrder(id) {
+  return {
+    type: 'CONFIRM_ORDER',
+    method: 'POST',
+    api: `${apiConfigs.BASE_API}/orders/${id}`,
+    token: true,
+  };
+}
 export function resetStateOrder() {
   return {
     type: 'RESET_STATE_ORDER',
+    payload: false,
+  };
+}
+export function resetStateConfirmOrder() {
+  return {
+    type: 'RESET_STATE_CONFIRM_ORDER',
     payload: false,
   };
 }

@@ -226,7 +226,7 @@ class index extends Component {
               borderBottomWidth: 1,
               borderColor: Colors.GRAY_MEDIUM,
               alignItems: 'center',
-              paddingHorizontal: Platform.OS == 'ios' ? 10 : 0,
+              paddingHorizontal: Platform.OS == 'ios' ? 5 : 0,
             }}>
             <View style={{paddingLeft: 10}}>
               <MaterialCommunityIcons name="email" size={18} />
@@ -247,7 +247,7 @@ class index extends Component {
               borderBottomWidth: 1,
               borderColor: Colors.GRAY_MEDIUM,
               alignItems: 'center',
-              paddingHorizontal: Platform.OS == 'ios' ? 10 : 0,
+              paddingHorizontal: Platform.OS == 'ios' ? 5 : 0,
             }}>
             <View style={{paddingLeft: 10}}>
               <MaterialCommunityIcons name="lead-pencil" size={18} />

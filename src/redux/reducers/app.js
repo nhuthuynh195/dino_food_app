@@ -15,9 +15,12 @@ const initialState = {
     page: 0,
     pages: 0,
   },
+  confirmOrderMessage: '',
+  confirmOrderCode: '',
 };
 
 function appReducer(state = initialState, action) {
+  console.log('action.payload', action.payload);
   const metaData =
     action.payload &&
     action.payload.page !== undefined &&
@@ -95,6 +98,18 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         order: action.payload,
+      };
+    case 'CONFIRM_ORDER_SUCCESS':
+      return {
+        ...state,
+        confirmOrderMessage: action.payload.message,
+        confirmOrderCode: action.payload.statusCode,
+      };
+    case 'RESET_STATE_CONFIRM_ORDER':
+      return {
+        ...state,
+        confirmOrderMessage: '',
+        confirmOrderCode: '',
       };
     case 'GET_ORDER_DETAIL_SUCCESS':
       return {

@@ -221,7 +221,10 @@ const Cart = props => {
             {`${formatMoney(CalculateTotal(data.users).totalCartPrice)}đ`}
           </Text>
           <View>
-            <TouchableOpacity activeOpacity={0.5} style={styles.confirmButton}>
+            <TouchableOpacity
+              onPress={props.confirmOrder}
+              activeOpacity={0.5}
+              style={styles.confirmButton}>
               <Text style={styles.confirm}>Đặt hàng</Text>
             </TouchableOpacity>
           </View>

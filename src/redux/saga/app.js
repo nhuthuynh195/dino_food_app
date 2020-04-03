@@ -129,9 +129,30 @@ function* getOrderDetail(action) {
       type: 'SHOW_LOADING',
     });
     const response = yield requestAPI(action);
+    console.log('response', response);
     yield put({
       ...action,
       type: 'GET_ORDER_DETAIL_SUCCESS',
+      payload: response,
+    });
+  } catch (error) {
+    console.log('error saga app: ', error);
+  } finally {
+    yield put({
+      type: 'HIDE_LOADING',
+    });
+  }
+}
+function* confirmOrder(action) {
+  try {
+    yield put({
+      type: 'SHOW_LOADING',
+    });
+    const response = yield requestAPI(action);
+    console.log('confirmOrder', response);
+    yield put({
+      ...action,
+      type: 'CONFIRM_ORDER_SUCCESS',
       payload: response,
     });
   } catch (error) {
@@ -169,5 +190,6 @@ export default function* saga() {
     takeLatest('UPDATE_ORDER', updateOrderDetail),
     takeLatest('GET_LIST_ORDER', getListOrder),
     takeLatest('GET_ORDER_DETAIL', getOrderDetail),
+    takeLatest('CONFIRM_ORDER', confirmOrder),
   ]);
 }

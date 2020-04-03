@@ -15,7 +15,7 @@ function reset(routeName: string, params?: NavigationParams) {
   _container.dispatch(
     StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({routeName: routeName})],
+      actions: [NavigationActions.navigate({routeName: routeName, params})],
     }),
   );
 }

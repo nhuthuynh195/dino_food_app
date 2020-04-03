@@ -1,19 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
 import connectRedux from '@redux/connectRedux';
-import {formatDay, formatDate} from '@utils/func';
 import {Text} from '@components';
 import Colors from '@assets/colors';
-import {checkAllArrayIsNotEmpty, upperFirstLetter} from '@utils/func';
+import {
+  checkAllArrayIsNotEmpty,
+  upperFirstLetter,
+  formatDay,
+  formatDate,
+} from '@utils/func';
 import firestore from '@react-native-firebase/firestore';
 function index(props) {
   const [listOrder, setListOrder] = useState([]);
   useEffect(() => {
     props.actions.app.showLoading();
-
     const ref = firestore()
       .collection('orders')
-      .orderBy('createdAt', 'desc');
+      .where('status', '==', 'pre-request');
     ref.onSnapshot(list => {
       setListOrder(list.docs);
       props.actions.app.hideLoading();
