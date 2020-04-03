@@ -11,6 +11,11 @@ const moderateScale = (size, factor = 0.5) =>
 
 export {scale, verticalScale, moderateScale};
 
+export const upperFirstLetter = string =>
+  String(string)
+    .charAt(0)
+    .toUpperCase() + String(string).slice(1);
+
 export const formatDate = date => {
   const temptDate = new Date(date);
   return `${temptDate.getHours()}:${temptDate.getMinutes()} - ${temptDate.getDate()}/${temptDate.getMonth() +

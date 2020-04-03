@@ -4,7 +4,7 @@ import connectRedux from '@redux/connectRedux';
 import {formatDay, formatDate} from '@utils/func';
 import {Text} from '@components';
 import Colors from '@assets/colors';
-import {checkAllArrayIsNotEmpty, formatMoney} from '@utils/func';
+import {checkAllArrayIsNotEmpty, upperFirstLetter} from '@utils/func';
 import firestore from '@react-native-firebase/firestore';
 function index(props) {
   const [listOrder, setListOrder] = useState([]);
@@ -31,7 +31,6 @@ function index(props) {
   }
   function renderItem({item}) {
     let data = item.data();
-    console.log('item', data);
     return (
       <View>
         {checkAllArrayIsNotEmpty(data) && (
@@ -44,10 +43,13 @@ function index(props) {
               borderBottomColor: '#F7F7F7',
               alignItems: 'center',
             }}>
-            <View style={{flex: 2}}>
-              <Text numberOfLines={1}>{data.store.name}</Text>
+            <View style={{paddingRight: 10}}>
+              <Text>{upperFirstLetter(data.status)}</Text>
             </View>
-            <View style={{paddingLeft: 15}}>
+            <View style={{flex: 2}}>
+              <Text numberOfLines={2}>{data.store.name}</Text>
+            </View>
+            <View style={{paddingLeft: 10}}>
               <Text>{formatDate(data.createdAt)}</Text>
             </View>
           </TouchableOpacity>
