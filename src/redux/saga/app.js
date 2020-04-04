@@ -45,15 +45,18 @@ function* requestPayment(action) {
       type: 'SHOW_LOADING',
     });
     const response = yield requestAPI(action);
+    console.log('requestPayment', response);
     if (response.statusCode == 200) {
       yield put({
         ...action,
         type: 'REQUEST_PAYMENT_SUCCESS',
+        payload: response,
       });
     } else {
       yield put({
         ...action,
         type: 'REQUEST_PAYMENT_FAIL',
+        payload: response,
       });
     }
   } catch (error) {

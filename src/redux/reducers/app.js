@@ -3,7 +3,9 @@ const initialState = {
   listBalance: [],
   currentBalance: '',
   menu: {},
-  requestPaymentSucces: false,
+  requestPaymentCode: '',
+  requestPaymentMesage: '',
+
   order: {},
   listStores: [],
   metaDataListStore: {
@@ -86,12 +88,20 @@ function appReducer(state = initialState, action) {
     case 'REQUEST_PAYMENT_SUCCESS':
       return {
         ...state,
-        requestPaymentSucces: true,
+        requestPaymentCode: action.payload.statusCode,
+        requestPaymentMesage: action.payload.message,
       };
     case 'REQUEST_PAYMENT_FAIL':
       return {
         ...state,
-        requestPaymentSucces: false,
+        requestPaymentCode: action.payload.statusCode,
+        requestPaymentMesage: action.payload.message,
+      };
+    case 'RESET_STATE_PAYMENT':
+      return {
+        ...state,
+        requestPaymentCode: '',
+        requestPaymentMesage: '',
       };
     case 'CREATE_ORDER_SUCCESS':
       return {

@@ -33,7 +33,6 @@ target 'dino_food' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-  # pod 'Firebase/Core', '~> 6.13.0'
   
   target 'dino_foodTests' do
     inherit! :search_paths

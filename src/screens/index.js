@@ -1,4 +1,3 @@
-import AuthLoadingScreen from './AuthLoadingScreen';
 import ChangePasswordScreen from './ChangePasswordScreen';
 import ForgetPasswordScreen from './ForgetPasswordScreen';
 import HistoryPaymentScreen from './HistoryPaymentScreen';
@@ -10,10 +9,10 @@ import OrderSuccessScreen from './OrderSuccessScreen';
 import PaymentScreen from './PaymentScreen';
 import ProfileScreen from './ProfileScreen';
 import RegisterScreen from './RegisterScreen';
+import SplashScreen from './SplashScreen';
 import StoreScreen from './StoreScreen';
 
 module.exports = { 
-	AuthLoadingScreen,
 	ChangePasswordScreen,
 	ForgetPasswordScreen,
 	HistoryPaymentScreen,
@@ -25,5 +24,6 @@ module.exports = {
 	PaymentScreen,
 	ProfileScreen,
 	RegisterScreen,
+	SplashScreen,
 	StoreScreen 
 }

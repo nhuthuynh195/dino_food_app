@@ -1,6 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {View, TouchableOpacity, DeviceEventEmitter, Image} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  DeviceEventEmitter,
+  Image,
+  MaskedViewBase,
+} from 'react-native';
 const eventTypeLogout = 'LOGOUT';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
@@ -24,7 +30,7 @@ class index extends Component {
     this.props.openAlert(`Bạn có muốn đăng xuất?`, eventTypeLogout);
   };
   actionTypeAlert = () => {
-    DeviceEventEmitter.addListener(eventTypeLogout, e => {
+    this.listener = DeviceEventEmitter.addListener(eventTypeLogout, (e) => {
       this.props.actions.auth.logout();
       this.props.navigation.navigate('Login');
     });
@@ -32,6 +38,9 @@ class index extends Component {
   gotoPayment = () => {
     this.props.navigation.navigate('Payment');
   };
+  componentWillUnmount() {
+    this.listener.remove();
+  }
   render() {
     const {profile, currentBalance} = this.props;
     return (
@@ -118,7 +127,7 @@ class index extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.auth.profile,
   listBalance: state.app.listBalance,
   currentBalance: state.app.currentBalance,

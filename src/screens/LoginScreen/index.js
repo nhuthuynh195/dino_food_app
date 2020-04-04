@@ -22,7 +22,7 @@ function index(props) {
   let remember_password = checkAllArrayIsNotEmpty(props.user.password)
     ? props.user.password
     : '';
-  let remember_me = props.user.remember;
+  let remember_me = props?.user?.remember ?? false;
   const [email, setEmail] = useState(remember_email);
   const [password, setPassword] = useState(remember_password);
   const [remember, setRemember] = useState(remember_me);

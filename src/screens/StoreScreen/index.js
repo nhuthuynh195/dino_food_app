@@ -49,10 +49,8 @@ class index extends Component {
   componentWillReceiveProps(nextProps) {
     console.log(nextProps.confirmOrderCode);
     if (checkAllArrayIsNotEmpty(nextProps.order)) {
-      const ref = firestore()
-        .collection('orders')
-        .doc(nextProps.order._id);
-      ref.onSnapshot(order => {
+      const ref = firestore().collection('orders').doc(nextProps.order._id);
+      ref.onSnapshot((order) => {
         this.setState({order: order.data()});
       });
     }
@@ -161,7 +159,7 @@ class index extends Component {
           items: {
             [index_option]: {
               isDefault: {
-                $apply: function(x) {
+                $apply: function (x) {
                   return !x;
                 },
               },
@@ -172,11 +170,11 @@ class index extends Component {
       this.setState({options: newCollection});
     }
   }
-  addNote = value => {
+  addNote = (value) => {
     const {product} = this.state;
     let newCollection = update(product, {
       note: {
-        $apply: function(note) {
+        $apply: function (note) {
           return value;
         },
       },
@@ -187,8 +185,8 @@ class index extends Component {
   calculatePriceCart() {
     const {order} = this.state;
     let price = 0;
-    order.users.forEach(user => {
-      user.dishes.forEach(dish => {
+    order.users.forEach((user) => {
+      user.dishes.forEach((dish) => {
         price = price + dish.price;
       });
     });
@@ -197,8 +195,8 @@ class index extends Component {
   calculateTotalProduct() {
     const {order} = this.state;
     let total = 0;
-    order.users.forEach(user => {
-      user.dishes.forEach(dish => {
+    order.users.forEach((user) => {
+      user.dishes.forEach((dish) => {
         total = total + dish.qty;
       });
     });
@@ -209,8 +207,8 @@ class index extends Component {
     const {options} = this.state;
     if (checkAllArrayIsNotEmpty(options)) {
       let total_price_option = [];
-      options.forEach(element => {
-        element.items.forEach(item => {
+      options.forEach((element) => {
+        element.items.forEach((item) => {
           if (item.isDefault) {
             total_price_option = [...total_price_option, item.price];
           }
@@ -226,8 +224,8 @@ class index extends Component {
     const {options} = this.state;
     if (checkAllArrayIsNotEmpty(options)) {
       let total_name_option = [];
-      options.forEach(element => {
-        element.items.forEach(item => {
+      options.forEach((element) => {
+        element.items.forEach((item) => {
           if (item.isDefault) {
             total_name_option = [...total_name_option, item.name];
           }
@@ -402,7 +400,7 @@ class index extends Component {
                 <TextInput
                   placeholder={'Ghi chú'}
                   value={product.note}
-                  onChangeText={value => this.addNote(value)}
+                  onChangeText={(value) => this.addNote(value)}
                   style={{
                     flex: 1,
                     padding: 10,
@@ -595,7 +593,7 @@ class index extends Component {
         <ScrollView
           style={{flex: 1}}
           contentContainerStyle={{paddingBottom: Insets.BOTTOM}}>
-          {menu.map(item_menu => (
+          {menu.map((item_menu) => (
             <View
               style={{
                 flex: 1,
@@ -620,7 +618,7 @@ class index extends Component {
 
               <View style={{paddingHorizontal: 15}}>
                 <FlatList
-                  keyExtractor={item => item._id.toString()}
+                  keyExtractor={(item) => item._id.toString()}
                   data={item_menu.dishes}
                   extraData={this.state}
                   renderItem={({item, index}) =>
@@ -724,7 +722,7 @@ const styles = StyleSheet.create({
     color: '#a4a4a4',
   },
 });
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   menu: state.app.menu,
   cart: state.dataLocal.cart,
   order: state.app.order,

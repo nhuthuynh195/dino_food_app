@@ -45,13 +45,18 @@ export function requestPayment(body) {
   return {
     type: 'REQUEST_PAYMENT',
     method: 'POST',
-    api: `${apiConfigs.BASE_API}/payment-request`,
+    api: `${apiConfigs.BASE_API}/payment-requests`,
     token: true,
     body,
   };
 }
+export function resetStatePayment() {
+  return {
+    type: 'RESET_STATE_PAYMENT',
+    payload: false,
+  };
+}
 export function createOrder(idStore, body) {
-  console.log('store', idStore, body);
   return {
     type: 'CREATE_ORDER',
     createOrder: {

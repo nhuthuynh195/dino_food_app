@@ -47,10 +47,13 @@ class index extends Component {
     this.props.openAlert(`Bạn có muốn thực hiện giao dịch?`, eventType);
   };
   actionTypeAlert = () => {
-    DeviceEventEmitter.addListener(eventType, () => {
+    this.listener = DeviceEventEmitter.addListener(eventType, () => {
       this.submitPayment();
     });
   };
+  componentWillUnmount() {
+    this.listener.remove();
+  }
   submitPayment() {
     const {profile} = this.props;
     const {
@@ -73,6 +76,7 @@ class index extends Component {
         description: description,
       };
       this.props.actions.app.requestPayment(body);
+      console.log('body', body);
     } else {
       this.props.alertWithType(
         'warn',
@@ -81,6 +85,22 @@ class index extends Component {
       );
     }
   }
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.requestPaymentCode == 200 &&
+      nextProps.requestPaymentCode !== ''
+    ) {
+      let mess = `Giao dịch thành công.`;
+      this.props.alertWithType('success', 'Thông báo', mess);
+      this.props.actions.app.resetStatePayment();
+      this.props.navigation.navigate('HistoryPayment');
+    } else if (nextProps.requestPaymentCode !== '') {
+      let mess = `Giao dịch thất bại.`;
+      this.props.alertWithType('error', 'Thông báo', mess);
+      this.props.actions.app.resetStatePayment();
+    }
+  }
+
   render() {
     const {profile} = this.props;
     return (
@@ -88,6 +108,7 @@ class index extends Component {
         style={{
           flex: 1,
           paddingBottom: Insets.BOTTOM,
+          backgroundColor: Colors.WHITE,
         }}>
         <ScrollView>
           <View
@@ -133,12 +154,14 @@ class index extends Component {
             </View>
             <View
               style={{
-                backgroundColor: Colors.PRIMARY,
+                // backgroundColor: Colors.PRIMARY,
                 padding: 5,
                 borderRadius: 5,
                 marginRight: 5,
                 justifyContent: 'center',
                 flex: 1,
+                borderWidth: 1,
+                borderColor: Colors.PRIMARY,
               }}>
               <TextInputMask
                 type={'money'}
@@ -151,15 +174,15 @@ class index extends Component {
                 }}
                 placeholder="Vui lòng nhập số tiền"
                 value={this.state.amount}
-                placeholderTextColor={'white'}
-                selectionColor="white"
+                placeholderTextColor={Colors.PRIMARY}
+                selectionColor={Colors.PRIMARY}
                 style={{
                   paddingVertical: 10,
                   fontSize: 18,
-                  color: Colors.WHITE,
+                  color: Colors.PRIMARY,
                   fontFamily: 'Quicksand-Regular',
                 }}
-                onChangeText={text => {
+                onChangeText={(text) => {
                   this.setState({
                     amount: text,
                   });
@@ -185,15 +208,19 @@ class index extends Component {
               style={{
                 borderRadius: 0,
               }}
+              headerBackButtonTextStyle={{fontFamily: 'Quicksand-Regular'}}
+              headerTitleStyle={{fontFamily: 'Quicksand-Regular'}}
+              textStyle={{fontFamily: 'Quicksand-Regular'}}
+              itemTextStyle={{fontFamily: 'Quicksand-Regular'}}
               iosHeader="Lựa chọn"
               headerBackButtonText="Hủy"
               mode="dropdown"
               placeholder="Chọn loại giao dịch"
               selectedValue={this.state.selectedTypePayment}
-              onValueChange={value => {
+              onValueChange={(value) => {
                 this.setState({selectedTypePayment: value});
               }}>
-              {this.state.paymentType.map(item => (
+              {this.state.paymentType.map((item) => (
                 <Picker.Item label={item.label} value={item.value} />
               ))}
             </Picker>
@@ -207,15 +234,19 @@ class index extends Component {
               style={{
                 borderRadius: 0,
               }}
+              headerBackButtonTextStyle={{fontFamily: 'Quicksand-Regular'}}
+              headerTitleStyle={{fontFamily: 'Quicksand-Regular'}}
+              textStyle={{fontFamily: 'Quicksand-Regular'}}
+              itemTextStyle={{fontFamily: 'Quicksand-Regular'}}
               iosHeader="Lựa chọn"
               headerBackButtonText="Hủy"
               mode="dropdown"
               placeholder="Chọn hình thức thanh toán"
               selectedValue={this.state.selectedTypePaymentMethod}
-              onValueChange={value => {
+              onValueChange={(value) => {
                 this.setState({selectedTypePaymentMethod: value});
               }}>
-              {this.state.paymentMethod.map(item => (
+              {this.state.paymentMethod.map((item) => (
                 <Picker.Item label={item.label} value={item.value} />
               ))}
             </Picker>
@@ -255,7 +286,7 @@ class index extends Component {
             <TextInput
               placeholder={'Ghi chú'}
               value={this.state.descriptionl}
-              onChangeText={value => this.setState({description: value})}
+              onChangeText={(value) => this.setState({description: value})}
               style={{
                 flex: 1,
                 padding: 15,
@@ -281,8 +312,10 @@ class index extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.dataLocal.profile,
+  requestPaymentCode: state.app.requestPaymentCode,
+  requestPaymentMesage: state.app.requestPaymentMesage,
 });
 
 export default connectRedux(mapStateToProps, index);
