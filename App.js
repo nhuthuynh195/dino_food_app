@@ -15,9 +15,9 @@ function App() {
     <Provider store={store}>
       <AlertConfirm>
         <NotiProvider>
-          <PersistGate loading={<View />} persistor={persistor}>
+          <PersistGate loading={null} persistor={persistor}>
             <AppNavigator
-              ref={navigatorRef => {
+              ref={(navigatorRef) => {
                 NavigatorServices.setContainer(navigatorRef);
               }}
             />

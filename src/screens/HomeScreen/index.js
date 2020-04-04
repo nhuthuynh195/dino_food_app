@@ -26,6 +26,8 @@ class index extends Component {
     this.props.actions.app.getStores();
     this.props.actions.auth.getProfile();
   }
+  componentWillUnmount() {}
+
   gotoStore = (_id) => {
     this.props.navigation.navigate('Store', {idStore: _id});
   };

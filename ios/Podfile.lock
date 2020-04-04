@@ -450,6 +450,9 @@ PODS:
     - React
   - react-native-safe-area-context (0.7.3):
     - React
+  - react-native-shimmer (0.6.0):
+    - React (>= 0.45.1)
+    - Shimmer (~> 1)
   - react-native-splash-screen (3.2.0):
     - React
   - react-native-webview (7.6.0):
@@ -511,6 +514,7 @@ PODS:
     - React
   - RNVectorIcons (6.6.0):
     - React
+  - Shimmer (1.0.2)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -533,6 +537,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-shimmer (from `../node_modules/react-native-shimmer`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -578,6 +583,7 @@ SPEC REPOS:
     - gRPC-Core
     - leveldb-library
     - nanopb
+    - Shimmer
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -614,6 +620,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-photo-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-shimmer:
+    :path: "../node_modules/react-native-shimmer"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-webview:
@@ -696,6 +704,7 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
+  react-native-shimmer: 2fdba9953215a29106febc9d147caa31a0080a8a
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: db4682f1698ab4b17a5e88f951031d203ff8aea8
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
@@ -717,6 +726,7 @@ SPEC CHECKSUMS:
   RNScreens: 812b79d384e2bea7eebc4ec981469160d4948fd5
   RNStaticSafeAreaInsets: e4450176adbf197061543e4a4aa82036b3d7abe0
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
+  Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
 PODFILE CHECKSUM: 4eabd491e2f79ae4dba74435626719ff1b0b937c

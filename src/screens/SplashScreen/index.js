@@ -5,15 +5,22 @@ import {
   View,
   Linking,
   ImageBackground,
+  Image,
+  Text,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
-import SplashScreen from 'react-native-splash-screen';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
+import Shimmer from 'react-native-shimmer';
+import Colors from '@assets/colors';
 class index extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   componentDidMount() {
-    // SplashScreen.hide();
     this.checkRouter();
     // if (Platform.OS === 'android') {
     //   Linking.getInitialURL().then((url) => {
@@ -23,10 +30,6 @@ class index extends Component {
     //   Linking.addEventListener('url', this.handleOpenURL);
     // }
   }
-
-  // componentWillUnmount() {
-  //   Linking.removeEventListener('url', this.handleOpenURL);
-  // }
   // handleOpenURL = (event) => {
   //   this.navigate(event.url);
   // };
@@ -40,14 +43,20 @@ class index extends Component {
   //     navigate('Store', {id: ''});
   //   }
   // };
-  // Fetch the token from storage then navigate to our appropriate place
+  // componentWillUnmount() {
+  //   Linking.removeEventListener('url', this.handleOpenURL);
+  // }
+  //
   checkRouter = async () => {
-    if (checkAllArrayIsNotEmpty(this.props.profile)) {
-      SplashScreen.hide();
-      this.props.navigation.navigate('TabNavigator');
+    const {profile} = this.props;
+    if (checkAllArrayIsNotEmpty(profile)) {
+      setTimeout(() => {
+        this.props.navigation.navigate('TabNavigator');
+      }, 250);
     } else {
-      SplashScreen.hide();
-      this.props.navigation.navigate('Login');
+      setTimeout(() => {
+        this.props.navigation.navigate('Login');
+      }, 250);
     }
   };
 
@@ -56,14 +65,15 @@ class index extends Component {
       <View
         style={{
           flex: 1,
+          alignItems: 'center',
           justifyContent: 'center',
+          backgroundColor: Colors.PRIMARY,
         }}>
-        <StatusBar barStyle="light-content" />
-        <ImageBackground
-          source={images.splash_screen}
-          resizeMode="cover"
-          style={{width: width, height: height}}
-        />
+        <Shimmer>
+          <View>
+            <Image source={images.logo} />
+          </View>
+        </Shimmer>
       </View>
     );
   }
