@@ -20,7 +20,6 @@ const initialState = {
 };
 
 function appReducer(state = initialState, action) {
-  console.log('action.payload', action.payload);
   const metaData =
     action.payload &&
     action.payload.page !== undefined &&

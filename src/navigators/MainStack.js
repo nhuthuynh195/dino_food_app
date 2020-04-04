@@ -28,11 +28,12 @@ export default Main = createStackNavigator(
         headerShown: false,
       },
     },
-    Payment: {
-      screen: PaymentScreen,
+    Store: {
+      screen: StoreScreen,
+      params: {idStore: '', idOrder: ''},
       navigationOptions: {
         headerTitleAlign: 'center',
-        headerTitle: <Text style={styles.titleScreen}>Thanh toán</Text>,
+        headerTitle: <Text style={styles.titleScreen}>Cửa hàng</Text>,
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => NavigatorServices.back()}
@@ -50,24 +51,13 @@ export default Main = createStackNavigator(
       navigationOptions: {
         headerTitleAlign: 'center',
         headerTitle: <Text style={styles.titleScreen}>Đơn hàng</Text>,
-        // headerLeft: () => (
-        //   <TouchableOpacity
-        //     onPress={() => NavigatorServices.back()}
-        //     style={styles.buttonBack}>
-        //     <Ionicons name="ios-arrow-back" size={25} color={Colors.BLACK} />
-        //     <View style={{paddingLeft: 10}}>
-        //       <Text style={styles.labelBack}>Quay lại</Text>
-        //     </View>
-        //   </TouchableOpacity>
-        // ),
       },
     },
-    Store: {
-      screen: StoreScreen,
-      params: {idStore: '', idOrder: ''},
+    Payment: {
+      screen: PaymentScreen,
       navigationOptions: {
         headerTitleAlign: 'center',
-        headerTitle: <Text style={styles.titleScreen}>Cửa hàng</Text>,
+        headerTitle: <Text style={styles.titleScreen}>Thanh toán</Text>,
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => NavigatorServices.back()}

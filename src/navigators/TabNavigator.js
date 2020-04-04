@@ -35,11 +35,7 @@ const HomeStack = createStackNavigator(
     Home: {
       screen: HomeScreen,
       navigationOptions: {
-        safeAreaInsets: {top: 0},
-        headerStyle: {
-          shadowColor: 'transparent',
-        },
-        headerShown: Platform.OS === 'ios' ? true : false,
+        headerShown: false,
       },
     },
   },
@@ -94,7 +90,7 @@ const ProfileStack = createStackNavigator(
   },
 );
 
-const HomeIconWithBadge = props => {
+const HomeIconWithBadge = (props) => {
   return <IconWithBadge {...props} badgeCount={0} />;
 };
 
@@ -171,8 +167,7 @@ const TabNavigator = createBottomTabNavigator(
     },
   },
   {
-    navigationOptions: {},
-
+    initialRouteName: 'Home',
     defaultNavigationOptions: ({navigation}) => ({
       tabBarIcon: ({focused, horizontal, tintColor}) => {
         const {routeName} = navigation.state;

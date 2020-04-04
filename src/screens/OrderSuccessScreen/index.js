@@ -32,8 +32,8 @@ class index extends Component {
   calculatePrice() {
     const {order} = this.props;
     let price = 0;
-    order.users.forEach(user => {
-      user.dishes.forEach(dish => {
+    order.users.forEach((user) => {
+      user.dishes.forEach((dish) => {
         price = price + dish.price;
       });
     });
@@ -140,7 +140,7 @@ class index extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   order: state.app.order,
 });
 

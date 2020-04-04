@@ -12,6 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import connectRedux from '@redux/connectRedux';
 import Colors from '@assets/colors';
 import normalize from 'react-native-normalize';
+import Insets from '@assets/insets';
 
 class index extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class index extends Component {
     this.props.actions.app.getStores();
     this.props.actions.auth.getProfile();
   }
-  gotoStore = _id => {
+  gotoStore = (_id) => {
     this.props.navigation.navigate('Store', {idStore: _id});
   };
   onChaneKeyword(value) {
@@ -122,6 +123,7 @@ class index extends Component {
         style={{
           flex: 1,
           backgroundColor: Colors.WHITE,
+          paddingTop: Insets.TOP,
         }}>
         <View style={{paddingHorizontal: 15, paddingVertical: 10}}>
           <View
@@ -152,7 +154,7 @@ class index extends Component {
                   paddingVertical: normalize(10),
                 }}
                 value={keyword}
-                onChangeText={value => this.onChaneKeyword(value)}
+                onChangeText={(value) => this.onChaneKeyword(value)}
               />
             </View>
             {keyword !== '' && (
@@ -173,7 +175,7 @@ class index extends Component {
           </View>
         </View>
         <FlatList
-          keyExtractor={item => item._id}
+          keyExtractor={(item) => item._id}
           data={listStores}
           style={{paddingHorizontal: 15, backgroundColor: 'white'}}
           renderItem={(item, index) => this.renderItem(item, index)}
@@ -183,7 +185,7 @@ class index extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   dataLocal: state.dataLocal,
   metaDataListStore: state.app.metaDataListStore,
   loading: state.auth.loadingLogin,

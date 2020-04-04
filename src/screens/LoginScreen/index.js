@@ -113,24 +113,29 @@ function index(props) {
           <View style={styles.remember_me}>
             <View style={{flex: 1, alignItems: 'flex-start'}}>
               <TouchableOpacity
-                onPress={remember => rememberMe(remember)}
-                style={{flexDirection: 'row', alignItems: 'center'}}>
-                {remember ? (
-                  <Feather
-                    name="check-square"
-                    size={25}
-                    style={styles.check_box}
-                    color={Colors.BUTTON}
-                  />
-                ) : (
-                  <Feather
-                    name="square"
-                    size={25}
-                    style={styles.check_box}
-                    color={Colors.WHITE}
-                  />
-                )}
-
+                onPress={(remember) => rememberMe(remember)}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  padding: 5,
+                }}>
+                <Text>
+                  {remember ? (
+                    <Feather
+                      name="check-square"
+                      size={20}
+                      style={styles.check_box}
+                      color={Colors.BUTTON}
+                    />
+                  ) : (
+                    <Feather
+                      name="square"
+                      size={20}
+                      style={styles.check_box}
+                      color={Colors.WHITE}
+                    />
+                  )}
+                </Text>
                 <View style={{paddingLeft: 5}}>
                   <Text style={styles.text_button}>Remember me</Text>
                 </View>
@@ -138,7 +143,10 @@ function index(props) {
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               <TouchableOpacity
-                style={{alignItems: 'center'}}
+                style={{
+                  alignItems: 'center',
+                  padding: 5,
+                }}
                 onPress={forgetPassword}>
                 <Text style={styles.text_button}>Quên mật khẩu?</Text>
               </TouchableOpacity>
@@ -197,13 +205,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   remember_me: {
-    marginVertical: 10,
+    marginVertical: 5,
     marginHorizontal: 20,
     alignItems: 'center',
     flexDirection: 'row',
   },
   check_box: {
-    height: 25,
+    height: 20,
   },
   text_button: {
     fontSize: 15,
@@ -211,14 +219,14 @@ const styles = StyleSheet.create({
   },
   login_button: {
     padding: 10,
-    marginTop: 15,
+    marginTop: 10,
     backgroundColor: Colors.BUTTON,
     borderRadius: 4,
     alignItems: 'center',
     marginHorizontal: 20,
   },
 });
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.dataLocal.user,
   profile: state.dataLocal.profile,
   loginSuccess: state.auth.loginSuccess,
