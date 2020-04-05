@@ -83,7 +83,7 @@ function index(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.dataLocal.user,
   forgetPasswordMessage: state.auth.forgetPassword.message,
   forgetPasswordCode: state.auth.forgetPassword.code,

@@ -152,7 +152,7 @@ function index(props) {
     </View>
   );
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   registerMessage: state.auth.register.message,
   registerCode: state.auth.register.code,
 });

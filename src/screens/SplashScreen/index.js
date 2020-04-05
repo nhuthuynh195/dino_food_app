@@ -14,13 +14,15 @@ import images from '@resources/images';
 import {width, height} from '@configs/styles';
 import Shimmer from 'react-native-shimmer';
 import Colors from '@assets/colors';
+import SplashScreen from 'react-native-splash-screen';
+
 class index extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-
   componentDidMount() {
+    SplashScreen.hide();
     this.checkRouter();
     // if (Platform.OS === 'android') {
     //   Linking.getInitialURL().then((url) => {
@@ -50,13 +52,9 @@ class index extends Component {
   checkRouter = async () => {
     const {profile} = this.props;
     if (checkAllArrayIsNotEmpty(profile)) {
-      setTimeout(() => {
-        this.props.navigation.navigate('TabNavigator');
-      }, 250);
+      this.props.navigation.navigate('TabNavigator');
     } else {
-      setTimeout(() => {
-        this.props.navigation.navigate('Login');
-      }, 250);
+      this.props.navigation.navigate('Login');
     }
   };
 

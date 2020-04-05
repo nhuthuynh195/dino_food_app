@@ -14,6 +14,7 @@ import Insets from '@assets/insets';
 import {Text, TextInput} from '@components';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 eventType = 'REQUEST_PAYMENT';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 class index extends Component {
   constructor(props) {
@@ -110,7 +111,8 @@ class index extends Component {
           paddingBottom: Insets.BOTTOM,
           backgroundColor: Colors.WHITE,
         }}>
-        <ScrollView>
+        {/* <ScrollView> */}
+        <KeyboardAwareScrollView>
           <View
             style={{
               paddingVertical: 5,
@@ -140,7 +142,6 @@ class index extends Component {
               </Text>
             </View>
           </View>
-
           <View style={{flexDirection: 'row'}}>
             <View
               style={{
@@ -199,6 +200,7 @@ class index extends Component {
               }}
             />
           </View>
+
           <View
             style={{
               borderBottomWidth: 1,
@@ -251,6 +253,7 @@ class index extends Component {
               ))}
             </Picker>
           </View>
+
           <View
             style={{
               flexDirection: 'row',
@@ -294,7 +297,9 @@ class index extends Component {
               }}
             />
           </View>
-        </ScrollView>
+        </KeyboardAwareScrollView>
+        {/* </ScrollView> */}
+
         <View style={{padding: 10}}>
           <TouchableOpacity
             style={{

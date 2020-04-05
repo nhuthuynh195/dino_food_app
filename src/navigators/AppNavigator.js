@@ -16,7 +16,7 @@ const AppNavigator = createAnimatedSwitchNavigator(
     transition: (
       <Transition.Together>
         <Transition.Out type="fade" durationMs={400} interpolation="easeIn" />
-        <Transition.In type="fade" durationMs={500} />
+        {/* <Transition.In type="fade" durationMs={500} /> */}
       </Transition.Together>
     ),
   },

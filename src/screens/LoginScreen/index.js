@@ -14,7 +14,7 @@ import Colors from '@assets/colors';
 import Feather from 'react-native-vector-icons/Feather';
 import {width, height} from '@configs/styles';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 function index(props) {
   let remember_email = checkAllArrayIsNotEmpty(props.user.email)
     ? props.user.email
@@ -95,85 +95,89 @@ function index(props) {
         <View style={styles.content}>
           <Image source={images.logo} style={styles.image} />
         </View>
-        <View style={{flex: 1.5}}>
-          <TextInput
-            style={styles.text_input}
-            autoCapitalize="none"
-            placeholder="Email"
-            value={email}
-            onChangeText={handleEmailChange}
-          />
-          <TextInput
-            style={styles.text_input}
-            secureTextEntry
-            placeholder="Mật khẩu"
-            value={password}
-            onChangeText={handlePasswordChange}
-          />
-          <View style={styles.remember_me}>
-            <View style={{flex: 1, alignItems: 'flex-start'}}>
-              <TouchableOpacity
-                onPress={(remember) => rememberMe(remember)}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  padding: 5,
-                }}>
-                <Text>
-                  {remember ? (
-                    <Feather
-                      name="check-square"
-                      size={20}
-                      style={styles.check_box}
-                      color={Colors.BUTTON}
-                    />
-                  ) : (
-                    <Feather
-                      name="square"
-                      size={20}
-                      style={styles.check_box}
-                      color={Colors.WHITE}
-                    />
-                  )}
-                </Text>
-                <View style={{paddingLeft: 5}}>
-                  <Text style={styles.text_button}>Remember me</Text>
+        <KeyboardAwareScrollView bounces={false}>
+          <View>
+            <View style={{flex: 1.5}}>
+              <TextInput
+                style={styles.text_input}
+                autoCapitalize="none"
+                placeholder="Email"
+                value={email}
+                onChangeText={handleEmailChange}
+              />
+              <TextInput
+                style={styles.text_input}
+                secureTextEntry
+                placeholder="Mật khẩu"
+                value={password}
+                onChangeText={handlePasswordChange}
+              />
+              <View style={styles.remember_me}>
+                <View style={{flex: 1, alignItems: 'flex-start'}}>
+                  <TouchableOpacity
+                    onPress={(remember) => rememberMe(remember)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      padding: 5,
+                    }}>
+                    <Text>
+                      {remember ? (
+                        <Feather
+                          name="check-square"
+                          size={20}
+                          style={styles.check_box}
+                          color={Colors.BUTTON}
+                        />
+                      ) : (
+                        <Feather
+                          name="square"
+                          size={20}
+                          style={styles.check_box}
+                          color={Colors.WHITE}
+                        />
+                      )}
+                    </Text>
+                    <View style={{paddingLeft: 5}}>
+                      <Text style={styles.text_button}>Remember me</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
+                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                  <TouchableOpacity
+                    style={{
+                      alignItems: 'center',
+                      padding: 5,
+                    }}
+                    onPress={forgetPassword}>
+                    <Text style={styles.text_button}>Quên mật khẩu?</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <TouchableOpacity style={styles.login_button} onPress={login}>
+                <Text bold style={styles.text_button}>
+                  Đăng nhập
+                </Text>
               </TouchableOpacity>
-            </View>
-            <View style={{flex: 1, alignItems: 'flex-end'}}>
-              <TouchableOpacity
+              <View
                 style={{
                   alignItems: 'center',
-                  padding: 5,
-                }}
-                onPress={forgetPassword}>
-                <Text style={styles.text_button}>Quên mật khẩu?</Text>
-              </TouchableOpacity>
+                  marginTop: 10,
+                }}>
+                <TouchableOpacity
+                  style={{
+                    alignItems: 'center',
+                    paddingVertical: 10,
+                  }}
+                  onPress={registerUser}>
+                  <Text style={styles.text_button}>
+                    Bạn chưa có tài khoản? Đăng ký ngay
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-          <TouchableOpacity style={styles.login_button} onPress={login}>
-            <Text bold style={styles.text_button}>
-              Đăng nhập
-            </Text>
-          </TouchableOpacity>
-          <View
-            style={{
-              alignItems: 'center',
-              marginTop: 10,
-            }}>
-            <TouchableOpacity
-              style={{
-                alignItems: 'center',
-                paddingVertical: 10,
-              }}
-              onPress={registerUser}>
-              <Text style={styles.text_button}>
-                Bạn chưa có tài khoản? Đăng ký ngay
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        </KeyboardAwareScrollView>
       </ImageBackground>
     </View>
   );
