@@ -47,7 +47,6 @@ class index extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.confirmOrderCode);
     if (checkAllArrayIsNotEmpty(nextProps.order)) {
       const ref = firestore().collection('orders').doc(nextProps.order._id);
       ref.onSnapshot((order) => {

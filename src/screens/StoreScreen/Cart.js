@@ -21,11 +21,11 @@ import {Text, TextInput} from '@components';
 import {width, height} from '@configs/styles';
 import Colors from '@assets/colors';
 import Insets from '@assets/insets';
-const TotalDish = data => {
+const TotalDish = (data) => {
   let totalQty = 0;
   let totalPrice = 0;
   if (data.length > 0) {
-    data.forEach(dish => {
+    data.forEach((dish) => {
       totalQty = totalQty + dish.qty;
       totalPrice = totalPrice + dish.price;
     });
@@ -114,11 +114,11 @@ const Item = ({data, author}) => {
           />
         </View>
       </TouchableOpacity>
-      {isShow && dishes.map(dish => <ItemDish data={dish} />)}
+      {isShow && dishes.map((dish) => <ItemDish data={dish} />)}
     </View>
   );
 };
-const Cart = props => {
+const Cart = (props) => {
   const [bottom, setBottom] = useState(0);
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -140,19 +140,23 @@ const Cart = props => {
   }, [props.isVisible]);
 
   const shareLink = async () => {
-    const url = 'dinofood://store';
+    const {data} = props;
+    let _idOrder = data._id;
+    let _idStore = data.store._id;
+    const url = `dinofood://store?id_store=${_idStore}&id_order=${_idOrder}`;
     const options = {
       url: url,
       message: '',
     };
+    console.log('url', url);
     const result = await Share.share(options);
     console.log('result', result);
   };
-  const CalculateTotal = data => {
+  const CalculateTotal = (data) => {
     let totalCartQty = 0;
     let totalCartPrice = 0;
     if (data.length > 0) {
-      data.forEach(user => {
+      data.forEach((user) => {
         const {totalQty, totalPrice} = TotalDish(user.dishes);
         totalCartQty = totalCartQty + totalQty;
         totalCartPrice = totalCartPrice + totalPrice;

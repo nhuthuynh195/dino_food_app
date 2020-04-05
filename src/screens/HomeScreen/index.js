@@ -6,6 +6,8 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  Platform,
+  Linking,
 } from 'react-native';
 import {Text, TextInput} from '@components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -22,12 +24,53 @@ class index extends Component {
     };
   }
   componentDidMount() {
+    if (Platform.OS === 'android') {
+      Linking.getInitialURL().then((url) => {
+        this.navigate(url);
+      });
+    } else {
+      Linking.addEventListener('url', this.handleOpenURL);
+    }
     this.props.actions.app.showLoading();
     this.props.actions.app.getStores();
     this.props.actions.auth.getProfile();
   }
-  componentWillUnmount() {}
+  getUrlParameters(parameter, staticURL, decode) {
+    var currLocation = staticURL.length ? staticURL : window.location.search,
+      parArr = currLocation.split('?')[1].split('&'),
+      returnBool = true;
+    for (var i = 0; i < parArr.length; i++) {
+      parr = parArr[i].split('=');
+      if (parr[0] == parameter) {
+        return decode ? decodeURIComponent(parr[1]) : parr[1];
+      } else {
+        returnBool = false;
+      }
+    }
+    if (!returnBool) return false;
+  }
 
+  handleOpenURL = (event) => {
+    this.navigate(event.url);
+  };
+  navigate = (url) => {
+    const {navigate} = this.props.navigation;
+    const route = url.replace(/.*?:\/\//g, '');
+    const routeName = route.split('?')[0];
+    if (routeName === 'store') {
+      let _idStore = this.getUrlParameters('id_store', url, true);
+      let _idOrder = this.getUrlParameters('id_order', url, true);
+      navigate('Store', {
+        idStore: _idStore,
+        idOrder: _idOrder,
+      });
+    } else {
+      navigate('TabNavigator');
+    }
+  };
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURL);
+  }
   gotoStore = (_id) => {
     this.props.navigation.navigate('Store', {idStore: _id});
   };

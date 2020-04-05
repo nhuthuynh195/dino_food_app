@@ -6,7 +6,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import PropTypes from 'prop-types';
 import connectRedux from '@redux/connectRedux';
 import {
   checkAllArrayIsNotEmpty,
@@ -78,27 +77,29 @@ export class index extends Component {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <View
-                style={{
-                  marginTop: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: 10,
-                  borderRadius: 5,
-                  marginBottom: 35,
-                }}>
-                <Text
+              {currentBalance !== '' && (
+                <View
                   style={{
-                    fontSize: 15,
-                    color: 'white',
+                    marginTop: 10,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: 10,
+                    borderRadius: 5,
+                    marginBottom: 35,
                   }}>
-                  {'VND '}
-                </Text>
-                <Text style={{fontSize: 25, color: 'white'}}>
-                  {currentBalance !== '' && formatMoney(currentBalance)}
-                </Text>
-              </View>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: 'white',
+                    }}>
+                    {'VND '}
+                  </Text>
+                  <Text style={{fontSize: 25, color: 'white'}}>
+                    {formatMoney(currentBalance)}
+                  </Text>
+                </View>
+              )}
             </View>
           </ImageBackground>
           {checkAllArrayIsNotEmpty(listBalance) && (
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.auth.profile,
   listBalance: state.app.listBalance,
   currentBalance: state.app.currentBalance,
