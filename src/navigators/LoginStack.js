@@ -18,6 +18,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'center',
     flexDirection: 'row',
+    paddingLeft: 20,
+    paddingRight: 30,
   },
   labelBack: {
     color: 'white',
@@ -43,12 +45,12 @@ export default createStackNavigator(
             onPress={() => NavigatorServices.back()}
             style={styles.buttonBack}>
             <Ionicons name="ios-arrow-back" size={25} color={Colors.WHITE} />
-            <View style={{paddingLeft: 10}}>
-              <Text style={styles.labelBack}>Quay lại</Text>
-            </View>
           </TouchableOpacity>
         ),
-        headerTransparent: true,
+        headerStyle: {
+          backgroundColor: Colors.PRIMARY,
+          shadowColor: 'transparent',
+        },
       },
     },
     ChangePassword: {
@@ -61,12 +63,15 @@ export default createStackNavigator(
             onPress={() => NavigatorServices.back()}
             style={styles.buttonBack}>
             <Ionicons name="ios-arrow-back" size={25} color={Colors.WHITE} />
-            <View style={{paddingLeft: 10}}>
+            {/* <View style={{paddingLeft: 10}}>
               <Text style={styles.labelBack}>Quay lại</Text>
-            </View>
+            </View> */}
           </TouchableOpacity>
         ),
-        headerTransparent: true,
+        headerStyle: {
+          backgroundColor: Colors.PRIMARY,
+          shadowColor: 'transparent',
+        },
       },
     },
     Register: {
@@ -79,12 +84,15 @@ export default createStackNavigator(
             onPress={() => NavigatorServices.back()}
             style={styles.buttonBack}>
             <Ionicons name="ios-arrow-back" size={25} color={Colors.WHITE} />
-            <View style={{paddingLeft: 10}}>
+            {/* <View style={{paddingLeft: 10}}>
               <Text style={styles.labelBack}>Quay lại</Text>
-            </View>
+            </View> */}
           </TouchableOpacity>
         ),
-        headerTransparent: true,
+        headerStyle: {
+          backgroundColor: Colors.PRIMARY,
+          shadowColor: 'transparent',
+        },
       },
     },
   },

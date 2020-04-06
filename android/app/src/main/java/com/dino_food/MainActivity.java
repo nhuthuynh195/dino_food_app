@@ -1,7 +1,8 @@
 package com.dino_food;
 
 import com.facebook.react.ReactActivity;
-
+import android.os.Bundle;
+import org.devio.rn.splashscreen.SplashScreen;
 public class MainActivity extends ReactActivity {
 
   /**
@@ -12,4 +13,10 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "dino_food";
   }
+   @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // SplashScreen.show(this);  // here
+        SplashScreen.show(this, R.style.SplashScreenTheme);
+        super.onCreate(savedInstanceState);
+    }
 }

@@ -6,6 +6,10 @@ import {
   StyleSheet,
   Image,
   StatusBar,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Platform,
+  Keyboard,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
@@ -86,106 +90,115 @@ function index(props) {
     }
   }, [props.loginSuccess, props.errorLogin]);
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <ImageBackground
-        source={images.background}
-        resizeMode="cover"
-        style={styles.image_background}>
-        <View style={styles.content}>
-          <Image source={images.logo} style={styles.image} />
-        </View>
-        <KeyboardAwareScrollView bounces={false}>
-          <View>
-            <View style={{flex: 1.5}}>
-              <TextInput
-                style={styles.text_input}
-                autoCapitalize="none"
-                placeholder="Email"
-                value={email}
-                onChangeText={handleEmailChange}
-              />
-              <TextInput
-                style={styles.text_input}
-                secureTextEntry
-                placeholder="Mật khẩu"
-                value={password}
-                onChangeText={handlePasswordChange}
-              />
-              <View style={styles.remember_me}>
-                <View style={{flex: 1, alignItems: 'flex-start'}}>
-                  <TouchableOpacity
-                    onPress={(remember) => rememberMe(remember)}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      padding: 5,
-                    }}>
-                    <Text>
-                      {remember ? (
-                        <Feather
-                          name="check-square"
-                          size={20}
-                          style={styles.check_box}
-                          color={Colors.BUTTON}
-                        />
-                      ) : (
-                        <Feather
-                          name="square"
-                          size={20}
-                          style={styles.check_box}
-                          color={Colors.WHITE}
-                        />
-                      )}
-                    </Text>
-                    <View style={{paddingLeft: 5}}>
-                      <Text style={styles.text_button}>Remember me</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-                <View style={{flex: 1, alignItems: 'flex-end'}}>
-                  <TouchableOpacity
-                    style={{
-                      alignItems: 'center',
-                      padding: 5,
-                    }}
-                    onPress={forgetPassword}>
-                    <Text style={styles.text_button}>Quên mật khẩu?</Text>
-                  </TouchableOpacity>
-                </View>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: Colors.PRIMARY,
+      }}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.PRIMARY} />
+      <KeyboardAwareScrollView
+        style={{flex: 1}}
+        contentContainerStyle={{flexGrow: 1}}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingVertical: 20,
+            }}>
+            <Image source={images.logo} style={styles.image} />
+          </View>
+          <View style={{flex: 2}}>
+            <TextInput
+              style={styles.text_input}
+              autoCapitalize="none"
+              placeholder="Email"
+              value={email}
+              onChangeText={handleEmailChange}
+            />
+            <TextInput
+              style={styles.text_input}
+              secureTextEntry
+              placeholder="Mật khẩu"
+              value={password}
+              onChangeText={handlePasswordChange}
+            />
+            <View style={styles.remember_me}>
+              <View style={{flex: 1, alignItems: 'flex-start'}}>
+                <TouchableOpacity
+                  onPress={(remember) => rememberMe(remember)}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    padding: 5,
+                  }}>
+                  <Text>
+                    {remember ? (
+                      <Feather
+                        name="check-square"
+                        size={20}
+                        style={styles.check_box}
+                        color={Colors.BUTTON}
+                      />
+                    ) : (
+                      <Feather
+                        name="square"
+                        size={20}
+                        style={styles.check_box}
+                        color={Colors.WHITE}
+                      />
+                    )}
+                  </Text>
+                  <View style={{paddingLeft: 5}}>
+                    <Text style={styles.text_button}>Remember me</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity style={styles.login_button} onPress={login}>
-                <Text bold style={styles.text_button}>
-                  Đăng nhập
-                </Text>
-              </TouchableOpacity>
-              <View
-                style={{
-                  alignItems: 'center',
-                  marginTop: 10,
-                }}>
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
                 <TouchableOpacity
                   style={{
                     alignItems: 'center',
-                    paddingVertical: 10,
+                    padding: 5,
                   }}
-                  onPress={registerUser}>
-                  <Text style={styles.text_button}>
-                    Bạn chưa có tài khoản? Đăng ký ngay
-                  </Text>
+                  onPress={forgetPassword}>
+                  <Text style={styles.text_button}>Quên mật khẩu?</Text>
                 </TouchableOpacity>
               </View>
             </View>
+            <TouchableOpacity style={styles.login_button} onPress={login}>
+              <Text bold style={styles.text_button}>
+                Đăng nhập
+              </Text>
+            </TouchableOpacity>
+            <View
+              style={{
+                alignItems: 'center',
+                marginTop: 10,
+              }}>
+              <TouchableOpacity
+                style={{
+                  alignItems: 'center',
+                  paddingVertical: 10,
+                }}
+                onPress={registerUser}>
+                <Text style={styles.text_button}>
+                  Bạn chưa có tài khoản? Đăng ký ngay
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </KeyboardAwareScrollView>
-      </ImageBackground>
+        </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    // alignItems: 'center',
+    backgroundColor: Colors.PRIMARY,
   },
   image_background: {
     height: height,

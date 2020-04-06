@@ -8,6 +8,7 @@ import {
   Image,
   Platform,
   Linking,
+  StatusBar,
 } from 'react-native';
 import {Text, TextInput} from '@components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -170,6 +171,8 @@ class index extends Component {
           backgroundColor: Colors.WHITE,
           paddingTop: Insets.TOP,
         }}>
+        <StatusBar barStyle="dark-content" backgroundColor={Colors.WHITE} />
+
         <View style={{paddingHorizontal: 15, paddingVertical: 10}}>
           <View
             style={{

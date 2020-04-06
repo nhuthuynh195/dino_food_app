@@ -25,6 +25,8 @@ import Insets from '@assets/insets';
 import firestore from '@react-native-firebase/firestore';
 import * as Animatable from 'react-native-animatable';
 import NavigatorServices from '@navigators/NavigatorServices';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 class index extends Component {
   constructor(props) {
     super(props);
@@ -289,7 +291,7 @@ class index extends Component {
           isVisible={this.state.showModal}
           animationIn={'slideInUp'}
           animationOut={'slideOutDown'}
-          onRequestClose={() => this.hideOptionModal()}
+          onRequestClose={() => tshis.hideOptionModal()}
           style={{justifyContent: 'flex-end', margin: 0}}>
           <View
             style={[
@@ -301,8 +303,10 @@ class index extends Component {
               style={{
                 flex: 1,
                 borderRadius: 5,
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
                 backgroundColor: '#FFF',
-                marginTop: height / 5,
+                marginTop: height / 8,
                 paddingBottom: Insets.BOTTOM,
               }}>
               <View
@@ -336,76 +340,77 @@ class index extends Component {
                 </View>
                 <View style={{flex: 0.5}}></View>
               </View>
-              <View style={{padding: 10}}>
-                <View style={{flexDirection: 'row', paddingVertical: 10}}>
-                  <Image
-                    source={{
-                      uri: product.photos[product.photos.length - 1].value,
-                    }}
-                    style={{height: 100, width: 100, borderRadius: 10}}
-                  />
-                  <View
-                    style={{
-                      flex: 1,
-                      paddingLeft: 15,
-                      justifyContent: 'space-between',
-                    }}>
-                    <View style={{paddingBottom: 5}}>
-                      <Text
-                        bold
-                        style={{
-                          fontSize: 16,
-                          color: '#5F5F5F',
-                        }}>
-                        {product.name}
-                      </Text>
-                      <Text style={styles.itemThreeSubtitle}>
-                        {product.description}
-                      </Text>
-                    </View>
+              <KeyboardAwareScrollView>
+                <View style={{padding: 10}}>
+                  <View style={{flexDirection: 'row', paddingVertical: 10}}>
+                    <Image
+                      source={{
+                        uri: product.photos[product.photos.length - 1].value,
+                      }}
+                      style={{height: 100, width: 100, borderRadius: 10}}
+                    />
                     <View
                       style={{
-                        flexDirection: 'row',
+                        flex: 1,
+                        paddingLeft: 15,
+                        justifyContent: 'space-between',
                       }}>
-                      <Text style={{fontSize: 17, color: Colors.PRIMARY}}>
-                        {`${formatMoney(product.price)}đ`}
-                      </Text>
-                      <Text
+                      <View style={{paddingBottom: 5}}>
+                        <Text
+                          bold
+                          style={{
+                            fontSize: 16,
+                            color: '#5F5F5F',
+                          }}>
+                          {product.name}
+                        </Text>
+                        <Text style={styles.itemThreeSubtitle}>
+                          {product.description}
+                        </Text>
+                      </View>
+                      <View
                         style={{
-                          paddingLeft: 5,
-                          fontSize: 15,
-                          color: '#a4a4a4',
-                          textDecorationLine: 'line-through',
+                          flexDirection: 'row',
                         }}>
-                        {`${formatMoney(product.price)}đ`}
-                      </Text>
+                        <Text style={{fontSize: 17, color: Colors.PRIMARY}}>
+                          {`${formatMoney(product.price)}đ`}
+                        </Text>
+                        <Text
+                          style={{
+                            paddingLeft: 5,
+                            fontSize: 15,
+                            color: '#a4a4a4',
+                            textDecorationLine: 'line-through',
+                          }}>
+                          {`${formatMoney(product.price)}đ`}
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
-              <View
-                style={{
-                  margin: 10,
-                  marginTop: 0,
-                  flexDirection: 'row',
-                  borderWidth: 1,
-                  borderColor: Colors.GRAY_MEDIUM,
-                  alignItems: 'center',
-                  borderRadius: 5,
-                }}>
-                <View style={{paddingLeft: 10}}>
-                  <SimpleLineIcons name="note" size={13} />
-                </View>
-                <TextInput
-                  placeholder={'Ghi chú'}
-                  value={product.note}
-                  onChangeText={(value) => this.addNote(value)}
+                <View
                   style={{
-                    flex: 1,
-                    padding: 10,
-                  }}></TextInput>
-              </View>
-              <ScrollView>
+                    margin: 10,
+                    marginTop: 0,
+                    flexDirection: 'row',
+                    borderWidth: 1,
+                    borderColor: Colors.GRAY_MEDIUM,
+                    alignItems: 'center',
+                    borderRadius: 5,
+                  }}>
+                  <View style={{paddingLeft: 10}}>
+                    <SimpleLineIcons name="note" size={13} />
+                  </View>
+                  <TextInput
+                    placeholder={'Ghi chú'}
+                    value={product.note}
+                    onChangeText={(value) => this.addNote(value)}
+                    style={{
+                      flex: 1,
+                      padding: 10,
+                    }}></TextInput>
+                </View>
+                {/* <ScrollView> */}
                 {options.map((item_options, index_options) => (
                   <View
                     style={{
@@ -443,7 +448,9 @@ class index extends Component {
                     </View>
                   </View>
                 ))}
-              </ScrollView>
+                {/* </ScrollView> */}
+              </KeyboardAwareScrollView>
+
               <View
                 style={{
                   padding: 10,

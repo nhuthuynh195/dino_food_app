@@ -111,7 +111,6 @@ class index extends Component {
           paddingBottom: Insets.BOTTOM,
           backgroundColor: Colors.WHITE,
         }}>
-        {/* <ScrollView> */}
         <KeyboardAwareScrollView>
           <View
             style={{
@@ -145,20 +144,11 @@ class index extends Component {
           <View style={{flexDirection: 'row'}}>
             <View
               style={{
-                backgroundColor: Colors.PRIMARY,
-                padding: 5,
-                borderRadius: 5,
-                marginHorizontal: 5,
-                justifyContent: 'center',
-              }}>
-              <Text style={{fontSize: 18, color: 'white'}}>Số tiền</Text>
-            </View>
-            <View
-              style={{
                 // backgroundColor: Colors.PRIMARY,
                 padding: 5,
+                paddingHorizontal: 10,
                 borderRadius: 5,
-                marginRight: 5,
+                marginLeft: 5,
                 justifyContent: 'center',
                 flex: 1,
                 borderWidth: 1,
@@ -189,6 +179,16 @@ class index extends Component {
                   });
                 }}
               />
+            </View>
+            <View
+              style={{
+                backgroundColor: Colors.PRIMARY,
+                padding: 5,
+                borderRadius: 5,
+                marginHorizontal: 5,
+                justifyContent: 'center',
+              }}>
+              <Text style={{fontSize: 18, color: 'white'}}>VND</Text>
             </View>
           </View>
           <View style={{paddingTop: 15}}>

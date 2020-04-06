@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.app.loading,
 });
 
