@@ -338,7 +338,7 @@ class index extends Component {
                     Tuỳ chọn món
                   </Text>
                 </View>
-                <View style={{flex: 0.5}}></View>
+                <View style={{flex: 0.5}} />
               </View>
               <KeyboardAwareScrollView>
                 <View style={{padding: 10}}>
@@ -408,7 +408,8 @@ class index extends Component {
                     style={{
                       flex: 1,
                       padding: 10,
-                    }}></TextInput>
+                    }}
+                  />
                 </View>
                 {/* <ScrollView> */}
                 {options.map((item_options, index_options) => (
@@ -629,7 +630,8 @@ class index extends Component {
                   extraData={this.state}
                   renderItem={({item, index}) =>
                     this.renderItem(item_menu.dishes, item, index)
-                  }></FlatList>
+                  }
+                />
               </View>
             </View>
           ))}

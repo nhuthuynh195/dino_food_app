@@ -7,9 +7,8 @@ import {
   Keyboard,
   Platform,
   Image,
-  Share,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import Share from 'react-native-share';
 import Modal from 'react-native-modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -143,14 +142,20 @@ const Cart = (props) => {
     const {data} = props;
     let _idOrder = data._id;
     let _idStore = data.store._id;
-    const url = `dinofood://store?id_store=${_idStore}&id_order=${_idOrder}`;
-    const options = {
-      url: url,
-      message: '',
-    };
-    console.log('url', url);
-    const result = await Share.share(options);
-    console.log('result', result);
+    let url = `dinofood://store?id_store=${_idStore}?id_order=${_idOrder}`;
+    Share.open(
+      {
+        title: 'Đặt nhóm',
+        message: 'Tham gia đặt nhóm',
+        url: url,
+      },
+      {
+        // Android only:
+        dialogTitle: 'Đặt nhóm',
+        // iOS only:
+        excludedActivityTypes: [],
+      },
+    );
   };
   const CalculateTotal = (data) => {
     let totalCartQty = 0;

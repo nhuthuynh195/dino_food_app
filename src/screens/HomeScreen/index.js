@@ -36,10 +36,8 @@ class index extends Component {
     this.props.actions.app.getStores();
     this.props.actions.auth.getProfile();
   }
-  getUrlParameters(parameter, staticURL, decode) {
-    var currLocation = staticURL.length ? staticURL : window.location.search,
-      parArr = currLocation.split('?')[1].split('&'),
-      returnBool = true;
+  getUrlParameters(parameter, parArr, decode) {
+    returnBool = true;
     for (var i = 0; i < parArr.length; i++) {
       parr = parArr[i].split('=');
       if (parr[0] == parameter) {
@@ -55,12 +53,14 @@ class index extends Component {
     this.navigate(event.url);
   };
   navigate = (url) => {
+    console.log('url', url);
     const {navigate} = this.props.navigation;
     const route = url.replace(/.*?:\/\//g, '');
+    let arrRouter = route.split('?');
     const routeName = route.split('?')[0];
     if (routeName === 'store') {
-      let _idStore = this.getUrlParameters('id_store', url, true);
-      let _idOrder = this.getUrlParameters('id_order', url, true);
+      let _idStore = this.getUrlParameters('id_store', arrRouter, true);
+      let _idOrder = this.getUrlParameters('id_order', arrRouter, true);
       navigate('Store', {
         idStore: _idStore,
         idOrder: _idOrder,
@@ -94,6 +94,7 @@ class index extends Component {
     this.props.actions.app.getStores(1, (sortBy = '-createdAt'), keyword);
   }
   loadMoreStore() {
+    const {keyword} = this.state;
     const {metaDataListStore} = this.props;
     const {page, pages} = metaDataListStore;
     const {keyword} = this.state;
