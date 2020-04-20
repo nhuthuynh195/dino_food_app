@@ -22,7 +22,6 @@ class index extends Component {
     this.state = {};
   }
   componentDidMount() {
-    SplashScreen.hide();
     this.checkRouter();
   }
   checkRouter = async () => {
@@ -33,6 +32,10 @@ class index extends Component {
       this.props.navigation.navigate('Login');
     }
   };
+  componentWillUnmount() {
+    SplashScreen.hide();
+  }
+
   render() {
     return (
       <View
@@ -51,7 +54,7 @@ class index extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   profile: state.dataLocal.profile,
 });
 

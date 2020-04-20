@@ -26,7 +26,7 @@ class index extends Component {
   }
   componentDidMount() {
     if (Platform.OS === 'android') {
-      Linking.getInitialURL().then((url) => {
+      Linking.getInitialURL().then(url => {
         this.navigate(url);
       });
     } else {
@@ -49,10 +49,10 @@ class index extends Component {
     if (!returnBool) return false;
   }
 
-  handleOpenURL = (event) => {
+  handleOpenURL = event => {
     this.navigate(event.url);
   };
-  navigate = (url) => {
+  navigate = url => {
     console.log('url', url);
     const {navigate} = this.props.navigation;
     const route = url.replace(/.*?:\/\//g, '');
@@ -72,7 +72,7 @@ class index extends Component {
   componentWillUnmount() {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
-  gotoStore = (_id) => {
+  gotoStore = _id => {
     this.props.navigation.navigate('Store', {idStore: _id});
   };
   onChaneKeyword(value) {
@@ -97,7 +97,6 @@ class index extends Component {
     const {keyword} = this.state;
     const {metaDataListStore} = this.props;
     const {page, pages} = metaDataListStore;
-    const {keyword} = this.state;
 
     if (page < pages) {
       this.props.actions.app.getStores(
@@ -203,7 +202,7 @@ class index extends Component {
                   paddingVertical: normalize(10),
                 }}
                 value={keyword}
-                onChangeText={(value) => this.onChaneKeyword(value)}
+                onChangeText={value => this.onChaneKeyword(value)}
               />
             </View>
             {keyword !== '' && (
@@ -224,7 +223,7 @@ class index extends Component {
           </View>
         </View>
         <FlatList
-          keyExtractor={(item) => item._id}
+          keyExtractor={item => item._id}
           data={listStores}
           style={{paddingHorizontal: 15, backgroundColor: 'white'}}
           renderItem={(item, index) => this.renderItem(item, index)}
@@ -234,7 +233,7 @@ class index extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   dataLocal: state.dataLocal,
   metaDataListStore: state.app.metaDataListStore,
   loading: state.auth.loadingLogin,
