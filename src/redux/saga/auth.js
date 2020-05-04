@@ -7,6 +7,8 @@ function* login(action) {
       type: 'SHOW_LOADING',
     });
     const response = yield requestAPI(action);
+    console.log('response', response);
+
     if (response.success) {
       yield put({
         type: 'SAVE_PROFILE_LOCAL',

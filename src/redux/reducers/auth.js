@@ -37,7 +37,7 @@ function authReducer(state = initialState, action) {
       return {
         ...state,
         loginSuccess: false,
-        errorLogin: action.payload.error,
+        errorLogin: action.payload.message,
       };
     case 'REGISTER_SUCCESS':
       return {
