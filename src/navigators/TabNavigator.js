@@ -90,7 +90,7 @@ const ProfileStack = createStackNavigator(
   },
 );
 
-const HomeIconWithBadge = (props) => {
+const HomeIconWithBadge = props => {
   return <IconWithBadge {...props} badgeCount={0} />;
 };
 

@@ -39,6 +39,7 @@ class index extends Component {
       selectedTypePaymentMethod: '',
       amount: '',
       description: '',
+      email: props.profile.user.email,
     };
   }
   componentDidMount() {
@@ -56,12 +57,12 @@ class index extends Component {
     this.listener.remove();
   }
   submitPayment() {
-    const {profile} = this.props;
     const {
       selectedTypePayment,
       amount,
       selectedTypePaymentMethod,
       description,
+      email,
     } = this.state;
     let amountValue = amount.replace(/\./g, '');
     if (
@@ -70,7 +71,7 @@ class index extends Component {
       amountValue > 0
     ) {
       let body = {
-        email: profile.user.email,
+        email: email,
         type: selectedTypePayment,
         amount: amountValue,
         paymentMethod: selectedTypePaymentMethod,
@@ -101,7 +102,6 @@ class index extends Component {
       this.props.actions.app.resetStatePayment();
     }
   }
-
   render() {
     const {profile} = this.props;
     return (
@@ -144,7 +144,6 @@ class index extends Component {
           <View style={{flexDirection: 'row'}}>
             <View
               style={{
-                // backgroundColor: Colors.PRIMARY,
                 padding: 5,
                 paddingHorizontal: 10,
                 borderRadius: 5,
@@ -173,7 +172,7 @@ class index extends Component {
                   color: Colors.PRIMARY,
                   fontFamily: 'Quicksand-Regular',
                 }}
-                onChangeText={(text) => {
+                onChangeText={text => {
                   this.setState({
                     amount: text,
                   });
@@ -219,10 +218,10 @@ class index extends Component {
               mode="dropdown"
               placeholder="Chọn loại giao dịch"
               selectedValue={this.state.selectedTypePayment}
-              onValueChange={(value) => {
+              onValueChange={value => {
                 this.setState({selectedTypePayment: value});
               }}>
-              {this.state.paymentType.map((item) => (
+              {this.state.paymentType.map(item => (
                 <Picker.Item label={item.label} value={item.value} />
               ))}
             </Picker>
@@ -245,10 +244,10 @@ class index extends Component {
               mode="dropdown"
               placeholder="Chọn hình thức thanh toán"
               selectedValue={this.state.selectedTypePaymentMethod}
-              onValueChange={(value) => {
+              onValueChange={value => {
                 this.setState({selectedTypePaymentMethod: value});
               }}>
-              {this.state.paymentMethod.map((item) => (
+              {this.state.paymentMethod.map(item => (
                 <Picker.Item label={item.label} value={item.value} />
               ))}
             </Picker>
@@ -267,7 +266,8 @@ class index extends Component {
             </View>
             <TextInput
               placeholder={'Email'}
-              value={profile.user.email}
+              value={this.state.email}
+              onChangeText={value => this.setState({email: value})}
               style={{
                 flex: 1,
                 padding: 15,
@@ -289,7 +289,7 @@ class index extends Component {
             <TextInput
               placeholder={'Ghi chú'}
               value={this.state.descriptionl}
-              onChangeText={(value) => this.setState({description: value})}
+              onChangeText={value => this.setState({description: value})}
               style={{
                 flex: 1,
                 padding: 15,
@@ -317,7 +317,7 @@ class index extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   profile: state.dataLocal.profile,
   requestPaymentCode: state.app.requestPaymentCode,
   requestPaymentMesage: state.app.requestPaymentMesage,

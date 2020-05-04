@@ -33,7 +33,9 @@ export const timeOut = async ms => {
     setTimeout(() => reject(new Error('TIMED_OUT')), ms);
   });
 };
-
+export const formatNumber = num => {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+};
 export const formatTime = date => {
   const temptDate = new Date(date);
   return `${temptDate.getHours()}:${temptDate.getMinutes()}${

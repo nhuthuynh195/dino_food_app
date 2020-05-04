@@ -11,7 +11,7 @@ import {
   checkAllArrayIsNotEmpty,
   formatDate,
   formatDay,
-  formatMoney,
+  formatNumber,
 } from '@utils/func';
 import Colors from '@assets/colors';
 import images from '@resources/images';
@@ -28,6 +28,7 @@ export class index extends Component {
     this.props.actions.app.checkBalance(page, email);
   }
   renderItem({item, index}) {
+    console.log('item', item);
     return (
       <View
         style={{
@@ -44,8 +45,8 @@ export class index extends Component {
         <View style={{flex: 1}}>
           <Text>
             {item.type == 'income'
-              ? '+' + formatMoney(item.amount)
-              : '-' + formatMoney(item.amount)}
+              ? '+' + formatNumber(item.amount)
+              : '-' + formatNumber(item.amount)}
           </Text>
         </View>
         <View style={{flex: 2}}>
@@ -60,6 +61,7 @@ export class index extends Component {
   request() {
     this.props.navigation.navigate('Payment', {value: 'outcome'});
   }
+
   render() {
     const {listBalance, currentBalance} = this.props;
     return (
@@ -96,7 +98,7 @@ export class index extends Component {
                     {'VND '}
                   </Text>
                   <Text style={{fontSize: 25, color: 'white'}}>
-                    {formatMoney(currentBalance)}
+                    {formatNumber(currentBalance)}
                   </Text>
                 </View>
               )}
@@ -172,8 +174,7 @@ export class index extends Component {
                     <TouchableOpacity
                       activeOpacity={0.5}
                       style={{
-                        paddingTop: 10,
-                        paddingBottom: 20,
+                        paddingVertical: 20,
                         alignItems: 'center',
                         backgroundColor: Colors.WHITE,
                       }}>
@@ -202,7 +203,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   profile: state.auth.profile,
   listBalance: state.app.listBalance,
   currentBalance: state.app.currentBalance,

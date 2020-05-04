@@ -54,6 +54,8 @@ class index extends Component {
         .collection('orders')
         .doc(nextProps.order._id);
       ref.onSnapshot(order => {
+        console.log('order', order);
+        console.log('order', order.data());
         this.setState({order: order.data()});
       });
     }
