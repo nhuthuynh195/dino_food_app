@@ -662,7 +662,7 @@ class index extends Component {
           ))}
         </ScrollView>
         {this.renderOptionModal()}
-        <Animatable.View useNativeDriver animation="fadeInUp" delay={500}>
+        <Animatable.View useNativeDriver animation="fadeInUp" delay={100}>
           {checkAllArrayIsNotEmpty(dishes) && (
             <TouchableOpacity
               onPress={() => this.showCartModal()}
