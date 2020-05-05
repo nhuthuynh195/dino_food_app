@@ -68,7 +68,7 @@ export class index extends Component {
       <View style={{flex: 1, backgroundColor: Colors.GRAY_LIGHT}}>
         <ScrollView
           style={{flex: 1}}
-          contentContainerStyle={{paddingBottom: 15 + Insets.BOTTOM}}>
+          contentContainerStyle={{paddingBottom: 30 + Insets.BOTTOM}}>
           <ImageBackground
             source={images.header_payment}
             resizeMode="stretch"

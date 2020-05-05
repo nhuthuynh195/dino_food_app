@@ -304,7 +304,6 @@ class index extends Component {
   }
   renderOptionModal() {
     const {product, options} = this.state;
-    console.log('product', product);
     if (checkAllArrayIsNotEmpty(product) == false) return null;
     else
       return (
@@ -314,21 +313,15 @@ class index extends Component {
           animationOut={'slideOutDown'}
           onRequestClose={() => tshis.hideOptionModal()}
           style={{justifyContent: 'flex-end', margin: 0}}>
-          <View
-            style={[
-              {
-                flex: 1,
-              },
-            ]}>
+          <View style={{flex: 1}}>
             <View
               style={{
                 flex: 1,
-                borderRadius: 5,
-                borderBottomLeftRadius: 0,
-                borderBottomRightRadius: 0,
                 backgroundColor: '#FFF',
                 marginTop: Insets.TOP,
                 paddingBottom: Insets.BOTTOM,
+                borderTopLeftRadius: Platform.OS == 'ios' ? 5 : 0,
+                borderTopRightRadius: Platform.OS == 'ios' ? 5 : 0,
               }}>
               <View
                 style={{
@@ -633,9 +626,7 @@ class index extends Component {
         }}>
         <ScrollView style={{flex: 1}}>
           {menu.map(item_menu => (
-            <Animatable.View
-              animation="fadeInUp"
-              delay={500}
+            <View
               style={{
                 flex: 1,
                 justifyContent: 'space-between',
@@ -667,7 +658,7 @@ class index extends Component {
                   }
                 />
               </View>
-            </Animatable.View>
+            </View>
           ))}
         </ScrollView>
         {this.renderOptionModal()}
@@ -677,8 +668,8 @@ class index extends Component {
               onPress={() => this.showCartModal()}
               activeOpacity={0.8}
               style={{
-                padding: 15,
-                paddingBottom: 15 + Insets.BOTTOM,
+                padding: 10,
+                paddingBottom: 10 + Insets.BOTTOM,
                 flexDirection: 'row',
                 alignItems: 'center',
                 backgroundColor: Colors.PRIMARY,
@@ -717,22 +708,20 @@ class index extends Component {
                   {`${formatMoney(this.calculatePriceCart())}đ`}
                 </Text>
               </View>
-              <View>
-                {order.author._id == profile.user._id && (
-                  <TouchableOpacity
-                    onPress={() => this.confirmOrder()}
-                    activeOpacity={0.5}
-                    style={{
-                      padding: 10,
-                      backgroundColor: 'white',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 5,
-                    }}>
-                    <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
-                  </TouchableOpacity>
-                )}
-              </View>
+              {order.author._id == profile.user._id && (
+                <TouchableOpacity
+                  onPress={() => this.confirmOrder()}
+                  activeOpacity={0.5}
+                  style={{
+                    padding: 10,
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                  }}>
+                  <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
+                </TouchableOpacity>
+              )}
               <Cart
                 isVisible={this.state.showCartModal}
                 onClose={() => {

@@ -10,7 +10,6 @@ import TabNavigator from './TabNavigator';
 const styles = StyleSheet.create({
   buttonBack: {
     padding: 10,
-    borderRadius: 4,
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -20,7 +19,7 @@ const styles = StyleSheet.create({
   },
   titleScreen: {color: Colors.BLACK, fontSize: 18},
 });
-export default Main = createStackNavigator(
+export default (Main = createStackNavigator(
   {
     TabNavigator: {
       screen: TabNavigator,
@@ -74,4 +73,4 @@ export default Main = createStackNavigator(
   {
     initialRouteName: 'TabNavigator',
   },
-);
+));
