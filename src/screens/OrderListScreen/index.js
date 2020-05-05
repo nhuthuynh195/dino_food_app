@@ -16,8 +16,8 @@ function index(props) {
     props.actions.app.showLoading();
     const ref = firestore()
       .collection('orders')
-      .where('status', '==', 'pre-request');
-    ref.onSnapshot((list) => {
+      .orderBy('createdAt', 'desc');
+    ref.onSnapshot(list => {
       setListOrder(list.docs);
       props.actions.app.hideLoading();
     });
@@ -68,7 +68,7 @@ function index(props) {
         backgroundColor: Colors.WHITE,
       }}>
       <FlatList
-        keyExtractor={(item) => item.data()._id}
+        keyExtractor={item => item.data()._id}
         data={listOrder}
         renderItem={renderItem}
         style={{paddingHorizontal: 10}}
@@ -78,7 +78,7 @@ function index(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   listOrder: state.app.listOrder,
   metaDataListOrder: state.app.metaDataListOrder,
 });

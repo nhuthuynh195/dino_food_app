@@ -30,7 +30,7 @@ class index extends Component {
     this.props.openAlert(`Bạn có muốn đăng xuất?`, eventTypeLogout);
   };
   actionTypeAlert = () => {
-    this.listener = DeviceEventEmitter.addListener(eventTypeLogout, (e) => {
+    this.listener = DeviceEventEmitter.addListener(eventTypeLogout, e => {
       this.props.actions.auth.logout();
       this.props.navigation.navigate('Login');
     });
@@ -82,7 +82,7 @@ class index extends Component {
             <Text style={{fontSize: 14}}>{profile.email}</Text>
           </View>
         </View>
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
           }}>
@@ -102,7 +102,7 @@ class index extends Component {
               <Text>Đơn hàng</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
 
         <View style={{flex: 1, justifyContent: 'flex-end'}}>
           <TouchableOpacity
@@ -127,7 +127,7 @@ class index extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   profile: state.auth.profile,
   listBalance: state.app.listBalance,
   currentBalance: state.app.currentBalance,

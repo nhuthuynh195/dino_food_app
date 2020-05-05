@@ -111,9 +111,6 @@ function* createrOrder(action) {
 }
 function* updateOrderDetail(action) {
   try {
-    // yield put({
-    //   type: 'SHOW_LOADING',
-    // });
     const response = yield requestAPI(action.updateOrderDetail);
     if (response.statusCode == 200) {
       yield call(getOrderDetail, action.getOrderDetail);
@@ -121,9 +118,6 @@ function* updateOrderDetail(action) {
   } catch (error) {
     console.log('error saga app: ', error);
   } finally {
-    // yield put({
-    //   type: 'HIDE_LOADING',
-    // });
   }
 }
 function* getOrderDetail(action) {

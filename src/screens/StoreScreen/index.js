@@ -7,6 +7,7 @@ import {
   Dimensions,
   Image,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import connectRedux from '@redux/connectRedux';
 import Modal from 'react-native-modal';
@@ -39,14 +40,18 @@ class index extends Component {
       order: {},
     };
   }
+
   componentDidMount() {
-    const {idStore, idOrder} = this.props.navigation.state.params;
-    this.props.actions.app.getStoreById(idStore);
-    if (idOrder !== '') {
-      this.props.actions.app.getOrderDetail(idOrder);
-    } else {
-      this.props.actions.app.resetStateOrder();
-    }
+    const {navigation} = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      const {idStore, idOrder} = this.props.navigation.state.params;
+      this.props.actions.app.getStoreById(idStore);
+      if (idOrder !== '') {
+        this.props.actions.app.getOrderDetail(idOrder);
+      } else {
+        this.props.actions.app.resetStateOrder();
+      }
+    });
   }
   componentWillReceiveProps(nextProps) {
     if (checkAllArrayIsNotEmpty(nextProps.order)) {
@@ -55,7 +60,7 @@ class index extends Component {
         .doc(nextProps.order._id);
       ref.onSnapshot(order => {
         console.log('order', order);
-        console.log('order', order.data());
+
         this.setState({order: order.data()});
       });
     }
@@ -79,8 +84,7 @@ class index extends Component {
       this.props.actions.app.resetStateConfirmOrder();
     }
   }
-  // update order
-  updateOrder(product) {
+  updateOrder = _.debounce(product => {
     this.hideOptionModal();
     let param = {
       action: 'add',
@@ -96,6 +100,16 @@ class index extends Component {
     } else {
       this.props.actions.app.createOrder(idStore, param);
     }
+  }, 500);
+
+  removeDish(id) {
+    let param = {
+      action: 'remove',
+      _id: id,
+    };
+    const {order} = this.props;
+    let idOrder = order?._id;
+    this.props.actions.app.updateOrderDetail(param, idOrder);
   }
   // confirm order
   confirmOrder() {
@@ -192,7 +206,9 @@ class index extends Component {
     let price = 0;
     order.users.forEach(user => {
       user.dishes.forEach(dish => {
-        price = price + dish.price;
+        let productPrice =
+          dish.discountPrice > 0 ? dish.discountPrice : dish.price;
+        price = price + productPrice;
       });
     });
     return price;
@@ -288,6 +304,7 @@ class index extends Component {
   }
   renderOptionModal() {
     const {product, options} = this.state;
+    console.log('product', product);
     if (checkAllArrayIsNotEmpty(product) == false) return null;
     else
       return (
@@ -310,7 +327,7 @@ class index extends Component {
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
                 backgroundColor: '#FFF',
-                marginTop: height / 8,
+                marginTop: Insets.TOP,
                 paddingBottom: Insets.BOTTOM,
               }}>
               <View
@@ -324,7 +341,7 @@ class index extends Component {
                   <TouchableOpacity
                     onPress={() => this.hideOptionModal()}
                     style={{padding: 10}}>
-                    <Ionicons name="md-close" size={30} color="#5F5F5F" />
+                    <Ionicons name="md-close" size={30} />
                   </TouchableOpacity>
                 </View>
 
@@ -337,7 +354,6 @@ class index extends Component {
                     bold
                     style={{
                       fontSize: 18,
-                      color: '#5F5F5F',
                     }}>
                     Tuỳ chọn món
                   </Text>
@@ -377,14 +393,21 @@ class index extends Component {
                           flexDirection: 'row',
                         }}>
                         <Text style={{fontSize: 17, color: Colors.PRIMARY}}>
-                          {`${formatMoney(product.price)}đ`}
+                          {product.discountPrice !== 0 &&
+                            `${formatMoney(product.discountPrice)}đ`}
                         </Text>
                         <Text
                           style={{
                             paddingLeft: 5,
                             fontSize: 15,
-                            color: '#a4a4a4',
-                            textDecorationLine: 'line-through',
+                            color:
+                              product.discountPrice !== 0
+                                ? '#a4a4a4'
+                                : Colors.PRIMARY,
+                            textDecorationLine:
+                              product.discountPrice !== 0
+                                ? 'line-through'
+                                : 'none',
                           }}>
                           {`${formatMoney(product.price)}đ`}
                         </Text>
@@ -471,7 +494,9 @@ class index extends Component {
                   <Text bold style={{fontSize: 17}}>
                     {`${formatMoney(
                       this.calculatePriceOption(
-                        product.price,
+                        product.discountPrice !== 0
+                          ? product.discountPrice
+                          : product.price,
                         product.quantity,
                       ),
                     )}đ`}
@@ -495,7 +520,7 @@ class index extends Component {
                       alignItems: 'center',
                       borderRadius: 5,
                     }}>
-                    <Text style={{color: 'white', fontSize: 15}}>
+                    <Text bold style={{color: 'white', fontSize: 15}}>
                       Thêm vào giỏ hàng
                     </Text>
                   </TouchableOpacity>
@@ -551,14 +576,17 @@ class index extends Component {
                     flexDirection: 'row',
                   }}>
                   <Text style={{fontSize: 17, color: Colors.PRIMARY}}>
-                    {`${formatMoney(item.price)}đ`}
+                    {item.discountPrice !== 0 &&
+                      `${formatMoney(item.discountPrice)}đ`}
                   </Text>
                   <Text
                     style={{
                       paddingLeft: 5,
                       fontSize: 15,
-                      color: '#a4a4a4',
-                      textDecorationLine: 'line-through',
+                      color:
+                        item.discountPrice !== 0 ? '#a4a4a4' : Colors.PRIMARY,
+                      textDecorationLine:
+                        item.discountPrice !== 0 ? 'line-through' : 'none',
                     }}>
                     {`${formatMoney(item.price)}đ`}
                   </Text>
@@ -592,8 +620,10 @@ class index extends Component {
       </TouchableOpacity>
     );
   }
+
   render() {
     const {menu, order} = this.state;
+    const {profile} = this.props;
     const dishes = order?.users?.[0]?.dishes ?? [];
     return (
       <View
@@ -601,11 +631,11 @@ class index extends Component {
           flex: 1,
           backgroundColor: Colors.WHITE,
         }}>
-        <ScrollView
-          style={{flex: 1}}
-          contentContainerStyle={{paddingBottom: Insets.BOTTOM}}>
+        <ScrollView style={{flex: 1}}>
           {menu.map(item_menu => (
-            <View
+            <Animatable.View
+              animation="fadeInUp"
+              delay={500}
               style={{
                 flex: 1,
                 justifyContent: 'space-between',
@@ -637,11 +667,11 @@ class index extends Component {
                   }
                 />
               </View>
-            </View>
+            </Animatable.View>
           ))}
         </ScrollView>
         {this.renderOptionModal()}
-        <Animatable.View animation="fadeInUp">
+        <Animatable.View useNativeDriver animation="fadeInUp" delay={500}>
           {checkAllArrayIsNotEmpty(dishes) && (
             <TouchableOpacity
               onPress={() => this.showCartModal()}
@@ -688,18 +718,20 @@ class index extends Component {
                 </Text>
               </View>
               <View>
-                <TouchableOpacity
-                  onPress={() => this.confirmOrder()}
-                  activeOpacity={0.5}
-                  style={{
-                    padding: 10,
-                    backgroundColor: 'white',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 5,
-                  }}>
-                  <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
-                </TouchableOpacity>
+                {order.author._id == profile.user._id && (
+                  <TouchableOpacity
+                    onPress={() => this.confirmOrder()}
+                    activeOpacity={0.5}
+                    style={{
+                      padding: 10,
+                      backgroundColor: 'white',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 5,
+                    }}>
+                    <Text style={{color: 'black', fontSize: 18}}>Đặt hàng</Text>
+                  </TouchableOpacity>
+                )}
               </View>
               <Cart
                 isVisible={this.state.showCartModal}
@@ -708,6 +740,9 @@ class index extends Component {
                 }}
                 confirmOrder={() => {
                   this.confirmOrder();
+                }}
+                removeItemDish={id => {
+                  this.removeDish(id);
                 }}
                 data={order}
               />
@@ -740,6 +775,8 @@ const mapStateToProps = state => ({
   order: state.app.order,
   confirmOrderCode: state.app.confirmOrderCode,
   confirmOrderMessage: state.app.confirmOrderMessage,
+  loading: state.app.loading,
+  profile: state.dataLocal.profile,
 });
 
 export default connectRedux(mapStateToProps, index);

@@ -20,18 +20,22 @@ import {Text, TextInput} from '@components';
 import {width, height} from '@configs/styles';
 import Colors from '@assets/colors';
 import Insets from '@assets/insets';
-const TotalDish = (data) => {
+import connectRedux from '@redux/connectRedux';
+
+const TotalDish = data => {
   let totalQty = 0;
   let totalPrice = 0;
   if (data.length > 0) {
-    data.forEach((dish) => {
+    data.forEach(dish => {
+      let priceProduct =
+        dish.discountPrice > 0 ? dish.discountPrice : dish.price;
       totalQty = totalQty + dish.qty;
-      totalPrice = totalPrice + dish.price;
+      totalPrice = totalPrice + priceProduct;
     });
   }
   return {totalQty, totalPrice};
 };
-const ItemDish = ({data}) => {
+const ItemDish = ({data, props}) => {
   const {dish} = data;
   return (
     <View style={styles.itemDish}>
@@ -46,14 +50,20 @@ const ItemDish = ({data}) => {
             </Text>
           )}
           <Text bold style={styles.itemDishPrice}>
-            {`${formatMoney(dish.price)}đ`}
+            {data.discountPrice > 0
+              ? `${formatMoney(data.discountPrice)}đ`
+              : `${formatMoney(dish.price)}đ`}
           </Text>
         </View>
-        <View style={styles.itemDishQtyCont}>
-          <TouchableOpacity style={{padding: 5}}>
-            <AntDesign name="closecircle" size={20} color={Colors.ALERT} />
-          </TouchableOpacity>
-        </View>
+        {props.data.author._id == props.profile.user._id && (
+          <View style={styles.itemDishQtyCont}>
+            <TouchableOpacity
+              style={{padding: 5}}
+              onPress={() => props.removeItemDish(data._id)}>
+              <AntDesign name="closecircle" size={20} color={Colors.ALERT} />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
       {data.note !== '' && (
         <View style={styles.itemDishSub}>
@@ -72,7 +82,7 @@ const ItemDish = ({data}) => {
     </View>
   );
 };
-const Item = ({data, author}) => {
+const Item = ({data, author, props}) => {
   const {user, dishes} = data;
   const {totalQty, totalPrice} = TotalDish(dishes);
   const [isShow, setIsShow] = useState(true);
@@ -95,7 +105,7 @@ const Item = ({data, author}) => {
                 styles.itemUserStatus,
                 {color: author === user._id ? Colors.PRIMARY : Colors.BUTTON},
               ]}>
-              {author === user._id ? 'Người tạo' : 'Đang đặt'}
+              {author._id === user._id ? 'Người tạo' : 'Đang đặt'}
             </Text>
           </View>
         </View>
@@ -113,11 +123,11 @@ const Item = ({data, author}) => {
           />
         </View>
       </TouchableOpacity>
-      {isShow && dishes.map((dish) => <ItemDish data={dish} />)}
+      {isShow && dishes.map(dish => <ItemDish data={dish} props={props} />)}
     </View>
   );
 };
-const Cart = (props) => {
+const Cart = props => {
   const [bottom, setBottom] = useState(0);
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -157,11 +167,11 @@ const Cart = (props) => {
       },
     );
   };
-  const CalculateTotal = (data) => {
+  const CalculateTotal = data => {
     let totalCartQty = 0;
     let totalCartPrice = 0;
     if (data.length > 0) {
-      data.forEach((user) => {
+      data.forEach(user => {
         const {totalQty, totalPrice} = TotalDish(user.dishes);
         totalCartQty = totalCartQty + totalQty;
         totalCartPrice = totalCartPrice + totalPrice;
@@ -170,7 +180,7 @@ const Cart = (props) => {
     return {totalCartQty, totalCartPrice};
   };
 
-  const {data} = props;
+  const {data, profile} = props;
   return (
     <Modal
       isVisible={props.isVisible}
@@ -183,7 +193,7 @@ const Cart = (props) => {
           <TouchableOpacity
             style={styles.headerLeftContainer}
             onPress={props.onClose}>
-            <Ionicons name="md-close" size={30} color={Colors.GRAY_MEDIUM} />
+            <Ionicons name="md-close" size={30} />
           </TouchableOpacity>
           <Text bold style={styles.headerTitle}>
             Giỏ hàng
@@ -195,7 +205,7 @@ const Cart = (props) => {
           data={data.users}
           showsVerticalScrollIndicator={false}
           renderItem={({item, index}) => (
-            <Item data={item} author={data.author} />
+            <Item data={item} author={data.author} props={props} />
           )}
           ListFooterComponent={() => (
             <View
@@ -230,12 +240,14 @@ const Cart = (props) => {
             {`${formatMoney(CalculateTotal(data.users).totalCartPrice)}đ`}
           </Text>
           <View>
-            <TouchableOpacity
-              onPress={props.confirmOrder}
-              activeOpacity={0.5}
-              style={styles.confirmButton}>
-              <Text style={styles.confirm}>Đặt hàng</Text>
-            </TouchableOpacity>
+            {data.author._id == profile.user._id && (
+              <TouchableOpacity
+                onPress={props.confirmOrder}
+                activeOpacity={0.5}
+                style={styles.confirmButton}>
+                <Text style={styles.confirm}>Đặt hàng</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </View>
@@ -246,7 +258,7 @@ const styles = StyleSheet.create({
   modal: {justifyContent: 'flex-end', margin: 0},
   container: {
     flex: 1,
-    marginTop: height / 5,
+    marginTop: Insets.TOP,
     backgroundColor: Colors.WHITE,
     borderRadius: 5,
   },
@@ -255,6 +267,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomColor: Colors.GRAY_MEDIUM,
     borderBottomWidth: 0.2,
+    // paddingTop:Insets.TOP
   },
   headerRightContainer: {
     flex: 1,
@@ -270,7 +283,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     flex: 8,
     fontSize: 18,
-    color: Colors.GRAY_DARK,
     textAlign: 'center',
   },
   cartList: {},
@@ -376,4 +388,8 @@ const styles = StyleSheet.create({
   },
   confirm: {color: Colors.BLACK, fontSize: 18},
 });
-export default Cart;
+const mapStateToProps = state => ({
+  profile: state.dataLocal.profile,
+});
+
+export default connectRedux(mapStateToProps, Cart);

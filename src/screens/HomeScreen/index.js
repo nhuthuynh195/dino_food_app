@@ -119,7 +119,7 @@ class index extends Component {
             paddingVertical: 10,
           }}>
           <Image
-            source={{uri: item.photos[0].value}}
+            source={{uri: item.photos[item.photos.length - 1].value}}
             style={{
               height: 100,
               width: 100,

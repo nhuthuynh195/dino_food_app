@@ -16,6 +16,8 @@ import images from '@resources/images';
 import {Text, TextInput} from '@components';
 import Colors from '@assets/colors';
 import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import {width, height} from '@configs/styles';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -29,6 +31,8 @@ function index(props) {
   let remember_me = props?.user?.remember ?? false;
   const [email, setEmail] = useState(remember_email);
   const [password, setPassword] = useState(remember_password);
+  const [hidePassword, setHidePassword] = useState(true);
+
   const [remember, setRemember] = useState(remember_me);
 
   function handleEmailChange(value) {
@@ -118,17 +122,41 @@ function index(props) {
               value={email}
               onChangeText={handleEmailChange}
             />
-            <TextInput
-              style={styles.text_input}
-              secureTextEntry
-              placeholder="Mật khẩu"
-              value={password}
-              onChangeText={handlePasswordChange}
-            />
+            <View
+              style={{
+                backgroundColor: Colors.WHITE,
+
+                flexDirection: 'row',
+                alignContent: 'center',
+                marginHorizontal: 20,
+                borderRadius: 4,
+              }}>
+              <TextInput
+                style={{
+                  flex: 1,
+                  height: 40,
+                  paddingHorizontal: 10,
+                }}
+                secureTextEntry={hidePassword}
+                placeholder="Mật khẩu"
+                value={password}
+                onChangeText={handlePasswordChange}
+              />
+              <TouchableOpacity
+                onPressIn={() => setHidePassword(false)}
+                onPressOut={() => setHidePassword(true)}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingHorizontal: 10,
+                }}>
+                <AntDesign name="eyeo" size={20} />
+              </TouchableOpacity>
+            </View>
             <View style={styles.remember_me}>
               <View style={{flex: 1, alignItems: 'flex-start'}}>
                 <TouchableOpacity
-                  onPress={(remember) => rememberMe(remember)}
+                  onPress={remember => rememberMe(remember)}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -222,7 +250,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   remember_me: {
-    marginVertical: 5,
+    marginVertical: 15,
     marginHorizontal: 20,
     alignItems: 'center',
     flexDirection: 'row',
@@ -236,14 +264,13 @@ const styles = StyleSheet.create({
   },
   login_button: {
     padding: 10,
-    marginTop: 10,
     backgroundColor: Colors.BUTTON,
     borderRadius: 4,
     alignItems: 'center',
     marginHorizontal: 20,
   },
 });
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.dataLocal.user,
   profile: state.dataLocal.profile,
   loginSuccess: state.auth.loginSuccess,
