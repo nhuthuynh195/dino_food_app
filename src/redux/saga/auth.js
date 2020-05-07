@@ -63,7 +63,7 @@ function* getProfile(action) {
 }
 function* logout(action) {
   try {
-    const response = yield requestAPI(action);
+    yield requestAPI(action);
     yield put({
       type: 'APP_LOGOUT',
       payload: {},

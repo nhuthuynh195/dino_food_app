@@ -179,7 +179,7 @@ export class index extends Component {
                         backgroundColor: Colors.WHITE,
                       }}>
                       <Text bold style={{fontSize: 18, color: Colors.BUTTON}}>
-                        Xêm thêm
+                        Xem thêm
                       </Text>
                     </TouchableOpacity>
                   </View>
