@@ -1,16 +1,29 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
-import {HistoryPaymentScreen, ProfileScreen, PaymentScreen} from '../screens';
 import Colors from '@assets/colors';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Text} from '@components';
 import {createStackNavigator} from '@react-navigation/stack';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import React from 'react';
 import {AnimatedTabBarNavigator} from 'react-native-animated-nav-tab-bar';
-import IconWithBadge from './IconWithBadge';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {HistoryPaymentScreen, HomeScreen, ProfileScreen} from '../screens';
 const MainStack = createStackNavigator();
 
 const Tab = AnimatedTabBarNavigator();
+function HomeStack() {
+  return (
+    <MainStack.Navigator>
+      <MainStack.Screen
+        name={'Home'}
+        component={HomeScreen}
+        options={{
+          headerTitleAlign: 'center',
+          headerTitle: (
+            <Text style={{fontSize: 18, color: Colors.BLACK}}>Trang chủ</Text>
+          ),
+        }}
+      />
+    </MainStack.Navigator>
+  );
+}
 function ProfileStack() {
   return (
     <MainStack.Navigator>
@@ -43,13 +56,13 @@ function HistoryPaymentStack() {
     </MainStack.Navigator>
   );
 }
-
 export default function TabNavigator() {
   return (
     <Tab.Navigator
       appearence={{
         floating: true,
         shadow: true,
+        dotSize: 'small',
       }}
       tabBarOptions={{
         activeTintColor: Colors.PRIMARY,
@@ -66,6 +79,15 @@ export default function TabNavigator() {
       <Tab.Screen
         options={{
           tabBarIcon: ({focused, color, size}) => (
+            <Ionicons name={'home'} size={24} color={color} />
+          ),
+        }}
+        name="Trang chủ"
+        component={HomeStack}
+      />
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({focused, color, size}) => (
             <Ionicons name={'ios-wallet'} size={24} color={color} />
           ),
         }}
@@ -75,7 +97,7 @@ export default function TabNavigator() {
       <Tab.Screen
         options={{
           tabBarIcon: ({focused, color, size}) => (
-            <Ionicons name={'ios-contact'} size={24} color={color} />
+            <Ionicons name={'person'} size={24} color={color} />
           ),
         }}
         name="Tài khoản"

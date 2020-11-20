@@ -81,7 +81,7 @@ export class index extends Component {
               backgroundColor: Colors.PRIMARY,
             }}>
             <Text bold style={{fontSize: 25, color: 'white'}}>
-              Trả tiền đi bạn êi ( ͡° ͜ʖ ͡°)
+              Trả tiền đi bạn êi (՞•ﻌ•՞)۶
             </Text>
             {currentBalance !== '' && (
               <View
@@ -94,7 +94,7 @@ export class index extends Component {
                   borderRadius: 5,
                   marginBottom: 35,
                 }}>
-                <Text bold style={{fontSize: 70, color: 'white'}}>
+                <Text bold style={{fontSize: 50, color: 'white'}}>
                   {formatNumber(currentBalance)}
                 </Text>
                 <Text
@@ -209,6 +209,17 @@ export class index extends Component {
                     {listBalance.map((item, index) =>
                       this.renderItem({item, index}),
                     )}
+                    <TouchableOpacity
+                      activeOpacity={0.5}
+                      style={{
+                        paddingVertical: 20,
+                        alignItems: 'center',
+                        backgroundColor: Colors.WHITE,
+                      }}>
+                      <Text bold style={{fontSize: 18, color: Colors.BUTTON}}>
+                        Xem thêm
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               )}

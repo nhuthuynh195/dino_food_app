@@ -29,25 +29,10 @@ target 'dino_food' do
   pod 'ReactCommon/jscallinvoker', :path => "../node_modules/react-native/ReactCommon"
   pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
   pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
-
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-  
-  target 'dino_foodTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
 
   use_native_modules!
 end
 
-target 'dino_food-tvOS' do
-  # Pods for dino_food-tvOS
-
-  target 'dino_food-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-end

@@ -19,7 +19,6 @@ class index extends Component {
   componentDidMount() {
     this.actionTypeAlert();
     this.props.actions.auth.getProfile();
-    this.checkBalance();
   }
   checkBalance() {
     let page = 1;
