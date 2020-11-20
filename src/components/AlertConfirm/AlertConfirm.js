@@ -130,7 +130,7 @@ export class Alert extends Component {
               <TouchableOpacity
                 style={styles.buttonCancel}
                 onPress={this.closeAlert}>
-                <Text bold style={{color: Colors.BLACK}}>
+                <Text bold style={{color: Colors.WHITE}}>
                   Hủy
                 </Text>
               </TouchableOpacity>

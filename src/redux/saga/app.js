@@ -168,6 +168,8 @@ function* getListOrder(action) {
       type: 'GET_LIST_ORDER_SUCCESS',
       payload: response,
     });
+    []
+    
   } catch (error) {
     console.log('error saga app: ', error);
   } finally {

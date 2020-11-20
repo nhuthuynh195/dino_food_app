@@ -32,7 +32,6 @@ class index extends Component {
   actionTypeAlert = () => {
     this.listener = DeviceEventEmitter.addListener(eventTypeLogout, e => {
       this.props.actions.auth.logout();
-      this.props.navigation.navigate('Login');
     });
   };
   gotoPayment = () => {
@@ -82,42 +81,16 @@ class index extends Component {
             <Text style={{fontSize: 14}}>{profile.email}</Text>
           </View>
         </View>
-        {/* <View
-          style={{
-            flexDirection: 'row',
-          }}>
-          <View
-            style={{
-              flex: 1,
-              borderWidth: 0.5,
-              borderColor: '#E6E6E6',
-            }}>
-            <TouchableOpacity
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 15,
-              }}>
-              <Text>0</Text>
-              <Text>Đơn hàng</Text>
-            </TouchableOpacity>
-          </View>
-        </View> */}
 
-        <View style={{flex: 1, justifyContent: 'flex-end'}}>
+        <View style={{flex: 1, alignItems: 'center'}}>
           <TouchableOpacity
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-              borderTopWidth: 0.5,
-              borderColor: '#CCCCCC',
-              padding: 15,
             }}
             onPress={() => this.logout()}>
-            <Text
-              bold
-              style={{color: Colors.ALERT, marginLeft: 15, fontSize: 15}}>
+            <Text style={{color: Colors.ALERT, marginLeft: 15, fontSize: 15}}>
               ĐĂNG XUẤT
             </Text>
           </TouchableOpacity>

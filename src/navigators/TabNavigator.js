@@ -1,204 +1,86 @@
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import {createStackNavigator} from 'react-navigation-stack';
-import {
-  HomeScreen,
-  ProfileScreen,
-  HistoryPaymentScreen,
-  OrderListScreen,
-} from '../screens';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {createAppContainer} from 'react-navigation';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import IconWithBadge from './IconWithBadge';
+import {HistoryPaymentScreen, ProfileScreen, PaymentScreen} from '../screens';
 import Colors from '@assets/colors';
-import {View, StyleSheet, Platform} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Text} from '@components';
-const styles = StyleSheet.create({
-  buttonBack: {
-    padding: 10,
-    borderRadius: 4,
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  labelBack: {
-    color: Colors.BLACK,
-    fontSize: 18,
-  },
-  titleScreen: {color: Colors.BLACK, fontSize: 18},
-  label: {
-    fontSize: 12,
-    color: Colors.WHITE,
-  },
-});
-const HomeStack = createStackNavigator(
-  {
-    Home: {
-      screen: HomeScreen,
-      navigationOptions: {
-        headerShown: false,
-      },
-    },
-  },
-  {
-    initialRouteName: 'Home',
-  },
-);
-const OrderListStack = createStackNavigator(
-  {
-    OrderList: {
-      screen: OrderListScreen,
-      navigationOptions: {
-        headerTitleAlign: 'center',
-        headerTitle: (
-          <Text style={[styles.titleScreen, {textAlign: 'center'}]}>
-            Đơn hàng
-          </Text>
-        ),
-      },
-    },
-  },
-  {
-    initialRouteName: 'OrderList',
-  },
-);
-const HistoryPaymentStack = createStackNavigator(
-  {
-    HistoryPayment: {
-      screen: HistoryPaymentScreen,
-      navigationOptions: {
-        headerTitleAlign: 'center',
-        headerTitle: <Text style={styles.titleScreen}>Ví tiền</Text>,
-      },
-    },
-  },
-  {
-    initialRouteName: 'HistoryPayment',
-  },
-);
-const ProfileStack = createStackNavigator(
-  {
-    Profile: {
-      screen: ProfileScreen,
-      navigationOptions: {
-        headerTitleAlign: 'center',
-        headerTitle: <Text style={styles.titleScreen}>Tài khoản</Text>,
-      },
-    },
-  },
-  {
-    initialRouteName: 'Profile',
-  },
-);
+import {createStackNavigator} from '@react-navigation/stack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {AnimatedTabBarNavigator} from 'react-native-animated-nav-tab-bar';
+import IconWithBadge from './IconWithBadge';
+const MainStack = createStackNavigator();
 
-const HomeIconWithBadge = props => {
-  return <IconWithBadge {...props} badgeCount={0} />;
-};
+const Tab = AnimatedTabBarNavigator();
+function ProfileStack() {
+  return (
+    <MainStack.Navigator>
+      <MainStack.Screen
+        name={'Profile'}
+        component={ProfileScreen}
+        options={{
+          headerTitleAlign: 'center',
+          headerTitle: (
+            <Text style={{fontSize: 18, color: Colors.BLACK}}>Tài khoản</Text>
+          ),
+        }}
+      />
+    </MainStack.Navigator>
+  );
+}
+function HistoryPaymentStack() {
+  return (
+    <MainStack.Navigator>
+      <MainStack.Screen
+        name={'HistoryPayment'}
+        component={HistoryPaymentScreen}
+        options={{
+          headerTitleAlign: 'center',
+          headerTitle: (
+            <Text style={{fontSize: 18, color: Colors.BLACK}}>Thanh toán</Text>
+          ),
+        }}
+      />
+    </MainStack.Navigator>
+  );
+}
 
-//bottom tab config
-const TabNavigator = createBottomTabNavigator(
-  {
-    Home: {
-      screen: HomeStack,
-      navigationOptions: {
-        tabBarLabel: ({focused, tintColor}) => {
-          return (
-            <View
-              style={{
-                alignItems: 'center',
-              }}>
-              <Text bold={focused ? true : false} focused style={styles.label}>
-                {'Trang chủ'}
-              </Text>
-            </View>
-          );
+export default function TabNavigator() {
+  return (
+    <Tab.Navigator
+      appearence={{
+        floating: true,
+        shadow: true,
+      }}
+      tabBarOptions={{
+        activeTintColor: Colors.PRIMARY,
+        inactiveTintColor: Colors.WHITE,
+        activeBackgroundColor: Colors.WHITE,
+        labelStyle: {
+          color: Colors.PRIMARY,
+          fontFamily: 'Quicksand-Bold',
         },
-      },
-    },
-    OrderList: {
-      screen: OrderListStack,
-      navigationOptions: {
-        tabBarLabel: ({focused, tintColor}) => {
-          return (
-            <View
-              style={{
-                alignItems: 'center',
-              }}>
-              <Text bold={focused ? true : false} focused style={styles.label}>
-                {'Đơn hàng'}
-              </Text>
-            </View>
-          );
+        tabStyle: {
+          backgroundColor: Colors.BOTTOM_TAB,
         },
-      },
-    },
-    HistoryPayment: {
-      screen: HistoryPaymentStack,
-      navigationOptions: {
-        tabBarLabel: ({focused, tintColor}) => {
-          return (
-            <View
-              style={{
-                alignItems: 'center',
-              }}>
-              <Text bold={focused ? true : false} focused style={styles.label}>
-                {'Thanh toán'}
-              </Text>
-            </View>
-          );
-        },
-      },
-    },
-    Profile: {
-      screen: ProfileStack,
-      navigationOptions: {
-        tabBarLabel: ({focused, tintColor}) => {
-          return (
-            <View
-              style={{
-                alignItems: 'center',
-              }}>
-              <Text bold={focused ? true : false} focused style={styles.label}>
-                {'Tài khoản'}
-              </Text>
-            </View>
-          );
-        },
-      },
-    },
-  },
-  {
-    initialRouteName: 'Home',
-    defaultNavigationOptions: ({navigation}) => ({
-      tabBarIcon: ({focused, horizontal, tintColor}) => {
-        const {routeName} = navigation.state;
-        let IconComponent = Ionicons;
-        let iconName;
-        if (routeName === 'Home') {
-          iconName = 'md-home';
-        } else if (routeName === 'OrderList') {
-          iconName = 'ios-list';
-        } else if (routeName === 'HistoryPayment') {
-          iconName = 'ios-wallet';
-          // IconComponent = HomeIconWithBadge;
-        } else if (routeName === 'Profile') {
-          iconName = 'ios-contact';
-        }
-        return <IconComponent name={iconName} size={24} color={tintColor} />;
-      },
-    }),
-    tabBarOptions: {
-      activeTintColor: Colors.BUTTON,
-      inactiveTintColor: Colors.WHITE,
-      allowFontScaling: false,
-      style: {
-        borderTopColor: Colors.GRAY_LIGHT,
-        backgroundColor: Colors.PRIMARY,
-        paddingTop: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-    },
-  },
-);
-
-export default createAppContainer(TabNavigator);
+      }}>
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({focused, color, size}) => (
+            <Ionicons name={'ios-wallet'} size={24} color={color} />
+          ),
+        }}
+        name="Thanh toán"
+        component={HistoryPaymentStack}
+      />
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({focused, color, size}) => (
+            <Ionicons name={'ios-contact'} size={24} color={color} />
+          ),
+        }}
+        name="Tài khoản"
+        component={ProfileStack}
+      />
+    </Tab.Navigator>
+  );
+}

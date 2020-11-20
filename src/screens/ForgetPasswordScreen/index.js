@@ -1,20 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
-import {Text, TextInput} from '@components';
 import Colors from '@assets/colors';
+import {Text, TextInput} from '@components';
 import connectRedux from '@redux/connectRedux';
-import images from '@resources/images';
-import {width, height} from '@configs/styles';
+import React, {useEffect, useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 function index(props) {
   const [email, setEmail] = useState(props.user.email);
-
   function handleEmailChange(value) {
     setEmail(value);
   }
@@ -89,7 +81,7 @@ function index(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.dataLocal.user,
   forgetPasswordMessage: state.auth.forgetPassword.message,
   forgetPasswordCode: state.auth.forgetPassword.code,

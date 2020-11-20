@@ -1,25 +1,20 @@
-import React, {useEffect} from 'react';
-import {View} from 'react-native';
-import {Provider} from 'react-redux';
-import {PersistGate} from 'redux-persist/es/integration/react';
-import AppNavigator from '@navigators/AppNavigator';
-import configureStore from '@redux/store';
-import NavigatorServices from '@navigators/NavigatorServices';
 import {Loading} from '@components';
 import {AlertConfirm} from '@components/AlertConfirm';
 import {NotiProvider} from '@components/NotificationError';
+import AppNavigator from '@navigators/AppNavigator';
+import configureStore from '@redux/store';
+import React from 'react';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/es/integration/react';
 function App() {
   const {persistor, store} = configureStore();
+  console.log('store', store);
   return (
     <Provider store={store}>
       <AlertConfirm>
         <NotiProvider>
           <PersistGate loading={null} persistor={persistor}>
-            <AppNavigator
-              ref={(navigatorRef) => {
-                NavigatorServices.setContainer(navigatorRef);
-              }}
-            />
+            <AppNavigator />
             <Loading />
           </PersistGate>
         </NotiProvider>

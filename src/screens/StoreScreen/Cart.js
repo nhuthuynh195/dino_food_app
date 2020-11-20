@@ -260,8 +260,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Insets.TOP,
     backgroundColor: Colors.WHITE,
-    borderTopLeftRadius: Platform.OS=='ios' ? 5 : 0,
-    borderTopRightRadius: Platform.OS=='ios' ? 5 : 0,
+    borderTopLeftRadius: Platform.OS == 'ios' ? 5 : 0,
+    borderTopRightRadius: Platform.OS == 'ios' ? 5 : 0,
   },
   headerContainer: {
     flexDirection: 'row',

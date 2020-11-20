@@ -17,6 +17,7 @@ import {Text, TextInput} from '@components';
 import Colors from '@assets/colors';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {width, height} from '@configs/styles';
 import {checkAllArrayIsNotEmpty} from '@utils/func';
@@ -32,9 +33,10 @@ function index(props) {
   const [email, setEmail] = useState(remember_email);
   const [password, setPassword] = useState(remember_password);
   const [hidePassword, setHidePassword] = useState(true);
-
   const [remember, setRemember] = useState(remember_me);
-
+  useEffect(() => {
+    props.actions.auth.logout();
+  }, []);
   function handleEmailChange(value) {
     setEmail(value);
   }
@@ -84,7 +86,8 @@ function index(props) {
             remember: false,
           });
         }
-        props.navigation.navigate('Main');
+
+        // props.navigation.navigate('Profile');
       }
     }
     if (errorLogin !== '' && !loginSuccess) {
@@ -125,7 +128,6 @@ function index(props) {
             <View
               style={{
                 backgroundColor: Colors.WHITE,
-
                 flexDirection: 'row',
                 alignContent: 'center',
                 marginHorizontal: 20,
@@ -134,7 +136,7 @@ function index(props) {
               <TextInput
                 style={{
                   flex: 1,
-                  height: 40,
+                  height: 45,
                   paddingHorizontal: 10,
                 }}
                 secureTextEntry={hidePassword}
@@ -143,14 +145,16 @@ function index(props) {
                 onChangeText={handlePasswordChange}
               />
               <TouchableOpacity
-                onPressIn={() => setHidePassword(false)}
-                onPressOut={() => setHidePassword(true)}
+                onPress={() => setHidePassword(!hidePassword)}
                 style={{
                   alignItems: 'center',
                   justifyContent: 'center',
                   paddingHorizontal: 10,
                 }}>
-                <AntDesign name="eyeo" size={20} />
+                <Ionicons
+                  name={hidePassword ? 'md-eye' : 'md-eye-off'}
+                  size={20}
+                />
               </TouchableOpacity>
             </View>
             <View style={styles.remember_me}>
@@ -161,6 +165,7 @@ function index(props) {
                     flexDirection: 'row',
                     alignItems: 'center',
                     padding: 5,
+                    paddingLeft: 0,
                   }}>
                   <Text>
                     {remember ? (
@@ -168,7 +173,7 @@ function index(props) {
                         name="check-square"
                         size={20}
                         style={styles.check_box}
-                        color={Colors.BUTTON}
+                        color={Colors.WHITE}
                       />
                     ) : (
                       <Feather
@@ -189,6 +194,7 @@ function index(props) {
                   style={{
                     alignItems: 'center',
                     padding: 5,
+                    paddingRight: 0,
                   }}
                   onPress={forgetPassword}>
                   <Text style={styles.text_button}>Quên mật khẩu?</Text>
@@ -196,7 +202,7 @@ function index(props) {
               </View>
             </View>
             <TouchableOpacity style={styles.login_button} onPress={login}>
-              <Text bold style={styles.text_button}>
+              <Text bold style={{color: Colors.BLACK}}>
                 Đăng nhập
               </Text>
             </TouchableOpacity>
@@ -242,14 +248,14 @@ const styles = StyleSheet.create({
   },
   text_input: {
     backgroundColor: Colors.WHITE,
-    height: 40,
+    height: 45,
     paddingHorizontal: 10,
     marginHorizontal: 20,
     borderRadius: 4,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   remember_me: {
-    marginVertical: 15,
+    marginVertical: 20,
     marginHorizontal: 20,
     alignItems: 'center',
     flexDirection: 'row',
@@ -262,11 +268,12 @@ const styles = StyleSheet.create({
     color: Colors.WHITE,
   },
   login_button: {
-    padding: 10,
-    backgroundColor: Colors.BUTTON,
+    height: 45,
+    backgroundColor: Colors.WHITE,
     borderRadius: 4,
     alignItems: 'center',
     marginHorizontal: 20,
+    justifyContent: 'center',
   },
 });
 const mapStateToProps = state => ({

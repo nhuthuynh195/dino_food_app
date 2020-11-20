@@ -448,8 +448,8 @@ PODS:
   - React-jsinspector (0.61.5)
   - react-native-photo-view (1.5.2):
     - React
-  - react-native-safe-area-context (0.7.3):
-    - React
+  - react-native-safe-area-context (3.1.9):
+    - React-Core
   - react-native-shimmer (0.6.0):
     - React (>= 0.45.1)
     - Shimmer (~> 1)
@@ -494,7 +494,7 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - RNCAsyncStorage (1.8.1):
     - React
-  - RNCMaskedView (0.1.7):
+  - RNCMaskedView (0.1.10):
     - React
   - RNFBApp (6.3.4):
     - Firebase/Core (~> 6.13.0)
@@ -504,12 +504,12 @@ PODS:
     - Firebase/Firestore (~> 6.13.0)
     - React
     - RNFBApp
-  - RNGestureHandler (1.6.0):
+  - RNGestureHandler (1.8.0):
     - React
-  - RNReanimated (1.7.0):
-    - React
-  - RNScreens (2.2.0):
-    - React
+  - RNReanimated (1.13.2):
+    - React-Core
+  - RNScreens (2.15.0):
+    - React-Core
   - RNShare (3.2.0):
     - React
   - RNStaticSafeAreaInsets (2.0.0):
@@ -708,7 +708,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
-  react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
+  react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-shimmer: 2fdba9953215a29106febc9d147caa31a0080a8a
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: db4682f1698ab4b17a5e88f951031d203ff8aea8
@@ -723,12 +723,12 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   RNCAsyncStorage: e0dd7c8a36543b4ef84969acd9f8aceba3a92dc2
-  RNCMaskedView: 76c40a1d41c3e2535df09246a2b5487f04de0814
+  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNFBApp: 7d4006751de8bb5cafa2e8d2e7d94ee250df81db
   RNFBFirestore: 04c1eb90463c208ee072988d463c74bec09d08c1
-  RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
-  RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
-  RNScreens: 812b79d384e2bea7eebc4ec981469160d4948fd5
+  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
+  RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
+  RNScreens: 2ad555d4d9fa10b91bb765ca07fe9b29d59573f0
   RNShare: 13f1b72aab353c3092b30dce99d212871bb2a8a1
   RNStaticSafeAreaInsets: e4450176adbf197061543e4a4aa82036b3d7abe0
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
@@ -737,4 +737,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 4eabd491e2f79ae4dba74435626719ff1b0b937c
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.0

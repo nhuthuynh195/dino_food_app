@@ -54,7 +54,6 @@ function* register(action) {
 }
 function* getProfile(action) {
   try {
-    // yield delay(5000);
     const response = yield requestAPI(action);
     yield put({...action, type: 'GET_PROFILE_SUCCESS', payload: response});
   } catch (error) {

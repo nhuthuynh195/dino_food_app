@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
   View,
-  ImageBackground,
+  Image,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
@@ -17,18 +17,18 @@ import Colors from '@assets/colors';
 import images from '@resources/images';
 import {width, height} from '@configs/styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Styles} from '@configs/styles';
 import {Text, TextInput} from '@components';
 import Insets from '@assets/insets';
 export class index extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     const {profile} = this.props;
     let page = 1;
-    let email = profile.email;
+    let email = profile.user.email;
     this.props.actions.app.checkBalance(page, email);
   }
   renderItem({item, index}) {
-    console.log('item', item);
     return (
       <View
         style={{
@@ -65,45 +65,49 @@ export class index extends Component {
   render() {
     const {listBalance, currentBalance} = this.props;
     return (
-      <View style={{flex: 1, backgroundColor: Colors.GRAY_LIGHT}}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: Colors.BACKGROUND,
+        }}>
         <ScrollView
           style={{flex: 1}}
-          contentContainerStyle={{paddingBottom: 30 + Insets.BOTTOM}}>
-          <ImageBackground
-            source={images.header_payment}
-            resizeMode="stretch"
-            style={styles.image_background}>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              {currentBalance !== '' && (
-                <View
+          contentContainerStyle={{paddingBottom: 95 + Insets.BOTTOM}}>
+          <View
+            style={{
+              height: 250,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: Colors.PRIMARY,
+            }}>
+            <Text bold style={{fontSize: 25, color: 'white'}}>
+              Trả tiền đi bạn êi ( ͡° ͜ʖ ͡°)
+            </Text>
+            {currentBalance !== '' && (
+              <View
+                style={{
+                  marginTop: 10,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: 10,
+                  borderRadius: 5,
+                  marginBottom: 35,
+                }}>
+                <Text bold style={{fontSize: 70, color: 'white'}}>
+                  {formatNumber(currentBalance)}
+                </Text>
+                <Text
                   style={{
-                    marginTop: 10,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: 10,
-                    borderRadius: 5,
-                    marginBottom: 35,
+                    fontSize: 20,
+                    color: 'white',
                   }}>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      color: 'white',
-                    }}>
-                    {'VND '}
-                  </Text>
-                  <Text style={{fontSize: 25, color: 'white'}}>
-                    {formatNumber(currentBalance)}
-                  </Text>
-                </View>
-              )}
-            </View>
-          </ImageBackground>
+                  {' VND'}
+                </Text>
+              </View>
+            )}
+          </View>
+          {/* </ImageBackground> */}
           {checkAllArrayIsNotEmpty(listBalance) && (
             <View style={{flex: 1, paddingHorizontal: 15}}>
               <View
@@ -112,7 +116,7 @@ export class index extends Component {
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: 70,
+                    height: 100,
                     borderRadius: 5,
                     backgroundColor: Colors.WHITE,
                     marginTop: -35,
@@ -128,7 +132,38 @@ export class index extends Component {
                     borderRightWidth: 0.5,
                     borderColor: Colors.GRAY_LIGHT,
                   }}>
-                  <Ionicons name="ios-share" size={30} color={Colors.BUTTON} />
+                  <Image
+                    source={images.naptien}
+                    style={{width: 44, height: 44}}
+                  />
+
+                  {/* <MaterialCommunityIcons
+                    name="arrow-up-box"
+                    size={28}
+                    color={Colors.BUTTON}
+                  /> */}
+                  <Text style={{fontSize: 15, color: Colors.BLACK}}>
+                    {'Nạp tiền'}
+                  </Text>
+                </TouchableOpacity>
+                {/*  */}
+                <TouchableOpacity
+                  onPress={() => this.request()}
+                  style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    borderLeftWidth: 0.5,
+                    borderColor: Colors.GRAY_LIGHT,
+                  }}>
+                  <Image
+                    source={images.chuyentien}
+                    style={{width: 44, height: 44}}
+                  />
+                  {/* <MaterialCommunityIcons
+                    name="arrow-right-box"
+                    size={28}
+                    color={Colors.BUTTON}
+                  /> */}
                   <Text style={{fontSize: 15, color: Colors.BLACK}}>
                     {'Chuyển tiền'}
                   </Text>
@@ -142,11 +177,15 @@ export class index extends Component {
                     borderLeftWidth: 0.5,
                     borderColor: Colors.GRAY_LIGHT,
                   }}>
-                  <Ionicons
-                    name="ios-download"
-                    size={30}
-                    color={Colors.BUTTON}
+                  <Image
+                    source={images.ruttien}
+                    style={{width: 44, height: 44}}
                   />
+                  {/* <MaterialCommunityIcons
+                    name="arrow-down-box"
+                    size={28}
+                    color={Colors.BUTTON}
+                  /> */}
                   <Text style={{fontSize: 15, color: Colors.BLACK}}>
                     {'Rút tiền'}
                   </Text>
@@ -156,7 +195,6 @@ export class index extends Component {
                 <View style={{marginTop: 10}}>
                   <View
                     style={{
-                      backgroundColor: Colors.GRAY_LIGHT,
                       paddingVertical: 10,
                     }}>
                     <Text>Hoạt động gần đây</Text>
@@ -171,17 +209,6 @@ export class index extends Component {
                     {listBalance.map((item, index) =>
                       this.renderItem({item, index}),
                     )}
-                    <TouchableOpacity
-                      activeOpacity={0.5}
-                      style={{
-                        paddingVertical: 20,
-                        alignItems: 'center',
-                        backgroundColor: Colors.WHITE,
-                      }}>
-                      <Text bold style={{fontSize: 18, color: Colors.BUTTON}}>
-                        Xem thêm
-                      </Text>
-                    </TouchableOpacity>
                   </View>
                 </View>
               )}
@@ -204,7 +231,7 @@ const styles = StyleSheet.create({
   },
 });
 const mapStateToProps = state => ({
-  profile: state.auth.profile,
+  profile: state.dataLocal.profile,
   listBalance: state.app.listBalance,
   currentBalance: state.app.currentBalance,
 });

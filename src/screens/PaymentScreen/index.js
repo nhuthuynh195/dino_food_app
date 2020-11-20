@@ -18,11 +18,11 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 class index extends Component {
   constructor(props) {
+    console.log('props.navigation.state', props);
     super(props);
-    console.log(props.navigation.state.params.value);
     this.state = {
       showModal: false,
-      selectedTypePayment: props.navigation.state.params.value,
+      selectedTypePayment: props.route.params.value,
       paymentType: [
         {label: 'Chuyển tiền', value: 'income'},
         {label: 'Rút tiền', value: 'outcome'},
@@ -37,7 +37,7 @@ class index extends Component {
         {label: 'ZaloPay', value: 'zalo-pay'},
       ],
       selectedTypePaymentMethod: '',
-      amount: '',
+      amount: props.profile.user.balance,
       description: '',
       email: props.profile.user.email,
     };
@@ -78,7 +78,6 @@ class index extends Component {
         description: description,
       };
       this.props.actions.app.requestPayment(body);
-      console.log('body', body);
     } else {
       this.props.alertWithType(
         'warn',
@@ -103,7 +102,6 @@ class index extends Component {
     }
   }
   render() {
-    const {profile} = this.props;
     return (
       <View
         style={{
@@ -114,44 +112,46 @@ class index extends Component {
         <KeyboardAwareScrollView>
           <View
             style={{
-              paddingVertical: 5,
-              backgroundColor: Colors.PRIMARY,
-              marginHorizontal: 5,
+              paddingVertical: 16,
+              backgroundColor: Colors.BOTTOM_TAB,
+              marginHorizontal: 10,
               marginVertical: 5,
               borderRadius: 5,
             }}>
             <View style={{alignItems: 'center'}}>
-              <Text bold style={{fontSize: 20, color: 'white'}}>
+              <Text
+                bold
+                style={{fontSize: 20, color: 'white', marginBottom: 8}}>
                 Thông tin thanh toán
               </Text>
             </View>
             <View style={{padding: 10}}>
-              <Text style={{fontSize: 15, color: 'white'}}>
+              <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
                 Tên: LÊ THÀNH DANH
               </Text>
-              <Text style={{fontSize: 15, color: 'white'}}>
+              <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
                 SCB STK: 14396880001
               </Text>
-              <Text style={{fontSize: 15, color: 'white'}}>
+              <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
                 SĐT: 0971407794
-              </Text>
-              <Text style={{fontSize: 15, color: 'white'}}>
-                Payment method: Cash, SCB, ZaloPay, Momo, Grab Moca, Airpay,
-                ViettelPay
               </Text>
             </View>
           </View>
-          <View style={{flexDirection: 'row'}}>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              borderWidth: 1,
+              marginHorizontal: 10,
+              borderColor: Colors.PRIMARY,
+              borderRadius: 5,
+            }}>
             <View
               style={{
                 padding: 5,
                 paddingHorizontal: 10,
-                borderRadius: 5,
-                marginLeft: 5,
                 justifyContent: 'center',
                 flex: 1,
-                borderWidth: 1,
-                borderColor: Colors.PRIMARY,
               }}>
               <TextInputMask
                 type={'money'}
@@ -179,15 +179,15 @@ class index extends Component {
                 }}
               />
             </View>
+
             <View
               style={{
-                backgroundColor: Colors.PRIMARY,
                 padding: 5,
                 borderRadius: 5,
                 marginHorizontal: 5,
                 justifyContent: 'center',
               }}>
-              <Text style={{fontSize: 18, color: 'white'}}>VND</Text>
+              <Text style={{fontSize: 18, color: Colors.BLACK}}>VND</Text>
             </View>
           </View>
           <View style={{paddingTop: 15}}>
@@ -298,8 +298,6 @@ class index extends Component {
             />
           </View>
         </KeyboardAwareScrollView>
-        {/* </ScrollView> */}
-
         <View style={{padding: 10}}>
           <TouchableOpacity
             style={{
@@ -309,7 +307,9 @@ class index extends Component {
               borderRadius: 5,
             }}
             onPress={() => this.requestPayment()}>
-            <Text style={{color: Colors.WHITE, fontSize: 18}}>Xác nhận</Text>
+            <Text bold style={{color: Colors.WHITE, fontSize: 18}}>
+              Xác nhận
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

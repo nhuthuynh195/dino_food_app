@@ -128,7 +128,6 @@ class index extends Component {
       discountPrice: item.discountPrice,
       description: item.description,
       quantity: 1,
-
       note: '',
     };
     this.setState({
