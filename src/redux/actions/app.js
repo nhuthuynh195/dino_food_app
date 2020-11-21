@@ -12,13 +12,13 @@ export function hideLoading() {
     payload: {},
   };
 }
-export function checkBalance(page = 1, email) {
+export function checkBalance(page = 1, limit = 10, email) {
   return {
     type: 'CHECK_BALANCE',
     method: 'GET',
     api: `${
       apiConfigs.BASE_API
-    }/check-balance?page=${page}&limit=${10}&email=${email}`,
+    }/check-balance?page=${page}&limit=${limit}&email=${email}`,
     token: true,
   };
 }

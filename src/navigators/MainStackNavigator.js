@@ -7,6 +7,7 @@ import {
   RegisterScreen,
   PaymentScreen,
   ProfileScreen,
+  HistoryRequestScreen,
 } from '../screens';
 
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
@@ -36,6 +37,24 @@ export function MainStackNavigator() {
         options={{
           headerTitleAlign: 'center',
           headerTitle: <Text style={styles.titleScreen}>Thanh toán</Text>,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => NavigatorServices.goBack()}
+              style={styles.buttonBack}>
+              <Ionicons name="ios-arrow-back" size={25} color={Colors.BLACK} />
+              <View style={{paddingLeft: 10}}>
+                <Text style={styles.labelBack}>Back</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <MainStack.Screen
+        name={'HistoryRequest'}
+        component={HistoryRequestScreen}
+        options={{
+          headerTitleAlign: 'center',
+          headerTitle: <Text style={styles.titleScreen}>Lịch sử</Text>,
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => NavigatorServices.goBack()}

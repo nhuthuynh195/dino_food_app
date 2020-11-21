@@ -7,6 +7,8 @@ import 'react-native-gesture-handler';
 import {AuthStackNavigator} from './AuthStackNavigator';
 import {MainStackNavigator} from './MainStackNavigator';
 import * as NavigatorServices from './NavigatorServices';
+import SplashScreen from 'react-native-splash-screen';
+
 const RootStack = createStackNavigator();
 function renderScreens(isSignedUp) {
   return isSignedUp ? (
@@ -21,7 +23,7 @@ function renderScreens(isSignedUp) {
 }
 
 function AppNavigator(props) {
-  console.log('props', props);
+  SplashScreen.hide();
   const {profile, user} = props;
   let isSignedUp =
     checkAllArrayIsNotEmpty(profile) && user.email !== '' ? true : false;

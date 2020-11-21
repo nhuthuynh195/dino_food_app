@@ -1,27 +1,35 @@
 import Colors from '@assets/colors';
 import Insets from '@assets/insets';
 import {Text} from '@components';
-import {Styles, width} from '@configs/styles';
+import {Styles} from '@configs/styles';
+import Clipboard from '@react-native-community/clipboard';
 import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {checkAllArrayIsNotEmpty, formatDay, formatNumber} from '@utils/func';
 import React, {Component} from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import Clipboard from '@react-native-community/clipboard';
+import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
 
 export class index extends Component {
+  state = {
+    listBalance: this.props.listBalance,
+    loadData: true,
+  };
   async componentDidMount() {
     const {profile} = this.props;
     let page = 1;
     let email = profile.user.email;
-    this.props.actions.app.checkBalance(page, email);
+    this.props.actions.app.checkBalance(page, 10, email);
   }
+  componentWillReceiveProps(nextProps) {
+    const {loadData} = this.state;
+    if (loadData) {
+      this.setState({
+        listBalance: nextProps.listBalance,
+        loadData: false,
+      });
+    }
+  }
+
   renderItem({item, index}) {
     return (
       <View
@@ -65,7 +73,8 @@ export class index extends Component {
     alert('Copied');
   };
   render() {
-    const {listBalance, currentBalance} = this.props;
+    const {currentBalance} = this.props;
+    const {listBalance} = this.state;
     return (
       <View
         style={{
@@ -213,7 +222,10 @@ export class index extends Component {
                     {listBalance.map((item, index) =>
                       this.renderItem({item, index}),
                     )}
-                    {/* <TouchableOpacity
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate('HistoryRequest')
+                      }
                       activeOpacity={0.5}
                       style={{
                         paddingVertical: 20,
@@ -223,7 +235,7 @@ export class index extends Component {
                       <Text bold style={{fontSize: 18, color: Colors.BUTTON}}>
                         Xem thêm
                       </Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                   </View>
                 </View>
               )}
@@ -234,17 +246,6 @@ export class index extends Component {
     );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  image_background: {
-    height: 250,
-    width: width,
-    justifyContent: 'center',
-  },
-});
 const mapStateToProps = state => ({
   profile: state.dataLocal.profile,
   listBalance: state.app.listBalance,
