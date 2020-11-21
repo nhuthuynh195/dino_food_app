@@ -9,9 +9,10 @@ import {useCountUp} from 'use-count-up';
 function index(props) {
   const {user} = props;
   useEffect(() => {
-    props.actions.app.checkTotalAmount(user.email);
     props.actions.auth.getProfile();
+    props.actions.app.checkTotalAmount(user.email);
   }, []);
+
   function countTotalIncome() {
     const {value} = useCountUp({
       isCounting: true,
@@ -70,10 +71,13 @@ function index(props) {
     </View>
   );
 }
-const mapStateToProps = state => ({
-  user: state.dataLocal.user,
-  totalIncome: state.app.totalIncome,
-  totalOutcome: state.app.totalOutcome,
-});
+const mapStateToProps = state => (
+  console.log('state home', state),
+  {
+    user: state.dataLocal.profile.user,
+    totalIncome: state.app.totalIncome,
+    totalOutcome: state.app.totalOutcome,
+  }
+);
 
 export default connectRedux(mapStateToProps, index);

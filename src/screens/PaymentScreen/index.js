@@ -11,11 +11,14 @@ import {
   Platform,
   TouchableOpacity,
   View,
+  Linking,
+  Alert,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {TextInputMask} from 'react-native-masked-text';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 eventType = 'REQUEST_PAYMENT';
+import _ from 'lodash';
 
 class index extends Component {
   constructor(props) {
@@ -25,18 +28,18 @@ class index extends Component {
       selectedTypePayment: props.route.params.value,
       paymentType: [
         {label: 'Nạp tiền', value: 'income'},
-        {label: 'Chuyển tiền', value: 'tranfer'},
+        // {label: 'Chuyển tiền', value: 'tranfer'},
         {label: 'Rút tiền', value: 'outcome'},
       ],
       paymentMethod: [
-        {label: 'AirPay', value: 'air-pay'},
-        {label: 'Cash', value: 'cash'},
-        {label: 'Momo', value: 'momo'},
-        {label: 'Grab Moca', value: 'moca'},
-        {label: 'ViettelPay', value: 'viettel-pay'},
-        {label: 'SCB', value: 'scb'},
-        {label: 'ZaloPay', value: 'zalo-pay'},
-        {label: 'VinID', value: 'vinid'},
+        {label: 'AirPay', value: 'air-pay', link: 'airpay://app'},
+        {label: 'Cash', value: 'cash', link: ''},
+        {label: 'Momo', value: 'momo', link: 'momo://app'},
+        {label: 'Grab Moca', value: 'moca', link: 'grab://app'},
+        {label: 'ViettelPay', value: 'viettel-pay', link: 'viettelpay://app'},
+        {label: 'SCB', value: 'scb', link: 'scbmobilebanking://app'},
+        {label: 'ZaloPay', value: 'zalo-pay', link: 'zalopay://app'},
+        {label: 'VinID', value: 'vinid', link: ''},
       ],
       selectedTypePaymentMethod: '',
       amount: formatNumber(props.profile.user.balance),
@@ -55,7 +58,6 @@ class index extends Component {
   actionTypeAlert = () => {
     this.listener = DeviceEventEmitter.addListener(eventType, () => {
       this.copyToClipboard();
-
       this.submitPayment();
     });
   };
@@ -99,6 +101,31 @@ class index extends Component {
     ) {
       let mess = `Giao dịch thành công.`;
       this.props.alertWithType('success', 'Thông báo', mess);
+      const {selectedTypePaymentMethod} = this.state;
+      const paymentMethod = _.find(this.state.paymentMethod, function(item) {
+        return item.value == selectedTypePaymentMethod;
+      });
+      if (paymentMethod !== undefined && paymentMethod?.link !== '') {
+        Alert.alert(
+          'Thông báo',
+          `Bạn có muốn mở app ${paymentMethod.label}?`,
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            {
+              text: 'OK',
+              onPress: () => {
+                if (paymentMethod !== undefined && paymentMethod?.link !== '') {
+                  Linking.openURL(paymentMethod.link);
+                }
+              },
+            },
+          ],
+          {cancelable: false},
+        );
+      }
       this.props.actions.app.resetStatePayment();
       this.props.navigation.navigate('HistoryPayment');
     } else if (nextProps.requestPaymentCode !== '') {
@@ -228,6 +255,7 @@ class index extends Component {
             <Picker
               style={{
                 borderRadius: 0,
+                width: '100%',
               }}
               headerBackButtonTextStyle={{fontFamily: 'Quicksand-Regular'}}
               headerTitleStyle={{fontFamily: 'Quicksand-Regular'}}
@@ -253,6 +281,7 @@ class index extends Component {
             }}>
             <Picker
               style={{
+                width: '100%',
                 borderRadius: 0,
               }}
               headerBackButtonTextStyle={{fontFamily: 'Quicksand-Regular'}}

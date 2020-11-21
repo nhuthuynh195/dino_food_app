@@ -21,8 +21,10 @@ function renderScreens(isSignedUp) {
 }
 
 function AppNavigator(props) {
-  const {profile} = props;
-  let isSignedUp = checkAllArrayIsNotEmpty(profile) ? true : false;
+  console.log('props', props);
+  const {profile, user} = props;
+  let isSignedUp =
+    checkAllArrayIsNotEmpty(profile) && user.email !== '' ? true : false;
   return (
     <NavigationContainer ref={NavigatorServices.navigationRef}>
       <RootStack.Navigator
@@ -38,6 +40,7 @@ function AppNavigator(props) {
 }
 const mapStateToProps = state => ({
   profile: state.dataLocal.profile,
+  user: state.dataLocal.user,
 });
 
 export default connectRedux(mapStateToProps, AppNavigator);

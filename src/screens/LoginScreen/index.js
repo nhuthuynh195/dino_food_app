@@ -48,6 +48,21 @@ function index(props) {
   }
   function login() {
     if (email !== '' && password !== '') {
+      console.log('remember', remember);
+      if (remember) {
+        props.actions.dataLocal.saveUser({
+          email: email,
+          password: password,
+          remember: remember,
+        });
+      } else {
+        props.actions.dataLocal.saveUser({
+          email: email,
+          password: '',
+          remember: false,
+        });
+      }
+
       props.actions.auth.login({
         email: email,
         password: password,
@@ -68,21 +83,8 @@ function index(props) {
   useEffect(() => {
     const {loginSuccess, errorLogin, profile} = props;
     if (loginSuccess) {
-      props.actions.auth.resetStateLogin();
       if (checkAllArrayIsNotEmpty(profile)) {
-        if (remember) {
-          props.actions.dataLocal.saveUser({
-            email: email,
-            password: password,
-            remember: remember,
-          });
-        } else {
-          props.actions.dataLocal.saveUser({
-            email: '',
-            password: '',
-            remember: false,
-          });
-        }
+        props.actions.auth.resetStateLogin();
       }
     }
     if (errorLogin !== '' && !loginSuccess) {
@@ -114,6 +116,7 @@ function index(props) {
           </View>
           <View style={{flex: 2}}>
             <TextInput
+              keyboardType="email-address"
               style={styles.text_input}
               autoCapitalize="none"
               placeholder="Email"
@@ -255,11 +258,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-const mapStateToProps = state => ({
-  user: state.dataLocal.user,
-  profile: state.dataLocal.profile,
-  loginSuccess: state.auth.loginSuccess,
-  errorLogin: state.auth.errorLogin,
-});
+const mapStateToProps = state => (
+  console.log('state login', state),
+  {
+    user: state.dataLocal.user,
+    profile: state.dataLocal.profile,
+    loginSuccess: state.auth.loginSuccess,
+    errorLogin: state.auth.errorLogin,
+  }
+);
 
 export default connectRedux(mapStateToProps, index);

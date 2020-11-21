@@ -3,7 +3,13 @@ import Colors from '@assets/colors';
 import {Text} from '@components';
 import connectRedux from '@redux/connectRedux';
 import React, {Component} from 'react';
-import {DeviceEventEmitter, Image, TouchableOpacity, View} from 'react-native';
+import {
+  DeviceEventEmitter,
+  Image,
+  TouchableOpacity,
+  View,
+  Alert,
+} from 'react-native';
 const eventTypeLogout = 'LOGOUT';
 class index extends Component {
   componentDidMount() {

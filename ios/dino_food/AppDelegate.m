@@ -39,7 +39,7 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   
-//  [RNSplashScreen show];
+  [RNSplashScreen show];
   return YES;
 }
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
