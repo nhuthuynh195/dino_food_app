@@ -166,22 +166,34 @@ class index extends Component {
               </Text>
             </View>
             <View style={{padding: 10}}>
-              <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
-                Tên: LÊ THÀNH DANH
-              </Text>
-              <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
-                {'SCB STK: '}
+              <TouchableOpacity
+                onPress={() => {
+                  Clipboard.setString('LÊ THÀNH DANH');
+                  alert('Copied');
+                }}>
                 <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
-                  {this.state.stk}
+                  {`Tên: LÊ THÀNH DANH`}
                 </Text>
-              </Text>
-
-              <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
-                {'SĐT: '}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{marginVertical: 10}}
+                onPress={() => {
+                  Clipboard.setString(this.state.stk);
+                  alert('Copied');
+                }}>
                 <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
-                  {this.state.sdt}
+                  {`STK SCB: ${this.state.stk}`}
                 </Text>
-              </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  Clipboard.setString(this.state.sdt);
+                  alert('Copied');
+                }}>
+                <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
+                  {`SĐT: ${this.state.sdt}`}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
 
