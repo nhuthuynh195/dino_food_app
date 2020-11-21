@@ -53,10 +53,8 @@ function* register(action) {
   }
 }
 function* getProfile(action) {
-  console.log('action', action);
   try {
     const response = yield requestAPI(action);
-    console.log('response', response);
 
     if (response.statusCode === 401) {
       yield put({
@@ -73,8 +71,6 @@ function* getProfile(action) {
 function* logout(action) {
   try {
     const response = yield requestAPI(action);
-    console.log('response', response);
-    console.log('action', action);
     yield put({
       type: 'APP_LOGOUT',
       payload: {},

@@ -4,7 +4,6 @@ import {all, put, takeLatest} from 'redux-saga/effects';
 function* checkBalance(action) {
   try {
     const response = yield requestAPI(action);
-    console.log('checkBalance', response);
     yield put({...action, type: 'CHECK_BALANCE_SUCCESS', payload: response});
   } catch (error) {
     console.log('error saga app: ', error);

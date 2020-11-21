@@ -48,7 +48,6 @@ function index(props) {
   }
   function login() {
     if (email !== '' && password !== '') {
-      console.log('remember', remember);
       if (remember) {
         props.actions.dataLocal.saveUser({
           email: email,
@@ -258,14 +257,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-const mapStateToProps = state => (
-  console.log('state login', state),
-  {
-    user: state.dataLocal.user,
-    profile: state.dataLocal.profile,
-    loginSuccess: state.auth.loginSuccess,
-    errorLogin: state.auth.errorLogin,
-  }
-);
+const mapStateToProps = state => ({
+  user: state.dataLocal.user,
+  profile: state.dataLocal.profile,
+  loginSuccess: state.auth.loginSuccess,
+  errorLogin: state.auth.errorLogin,
+});
 
 export default connectRedux(mapStateToProps, index);

@@ -118,7 +118,7 @@ class index extends Component {
               text: 'OK',
               onPress: () => {
                 if (paymentMethod !== undefined && paymentMethod?.link !== '') {
-                  Linking.openURL(paymentMethod.link);
+                  Platform.OS == 'ios' && Linking.openURL(paymentMethod.link);
                 }
               },
             },

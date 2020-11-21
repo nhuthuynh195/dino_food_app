@@ -8,7 +8,6 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/es/integration/react';
 function App() {
   const {persistor, store} = configureStore();
-  console.log('store', store);
   return (
     <Provider store={store}>
       <AlertConfirm>
