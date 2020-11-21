@@ -61,6 +61,9 @@ export class index extends Component {
   request() {
     this.props.navigation.navigate('Payment', {value: 'outcome'});
   }
+  tranfer() {
+    alert('Coming soon!');
+  }
 
   render() {
     const {listBalance, currentBalance} = this.props;
@@ -148,7 +151,7 @@ export class index extends Component {
                 </TouchableOpacity>
                 {/*  */}
                 <TouchableOpacity
-                  onPress={() => this.request()}
+                  onPress={() => this.tranfer()}
                   style={{
                     flex: 1,
                     alignItems: 'center',

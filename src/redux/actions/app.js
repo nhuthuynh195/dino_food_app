@@ -28,7 +28,7 @@ export function checkTotalAmount(email) {
     method: 'GET',
     api: `${
       apiConfigs.BASE_API
-    }/check-balance?email=${email}&fromDate=2019-02-28T17:00:00.000Z&page=1&toDate=${new Date().toISOString()}`,
+    }/check-balance?email=${email}&fromDate=2020-02-29T17:00:00.000Z&page=1&toDate=${new Date().toISOString()}`,
     token: true,
   };
 }

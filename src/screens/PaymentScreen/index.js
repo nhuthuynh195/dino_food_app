@@ -1,30 +1,31 @@
-import React, {Component} from 'react';
-import {
-  TouchableOpacity,
-  View,
-  DeviceEventEmitter,
-  Platform,
-} from 'react-native';
-import connectRedux from '@redux/connectRedux';
-import {ScrollView} from 'react-native-gesture-handler';
-import {Picker} from 'native-base';
-import {TextInputMask} from 'react-native-masked-text';
 import Colors from '@assets/colors';
 import Insets from '@assets/insets';
 import {Text, TextInput} from '@components';
+import Clipboard from '@react-native-community/clipboard';
+import connectRedux from '@redux/connectRedux';
+import {formatNumber} from '@utils/func';
+import {Picker} from 'native-base';
+import React, {Component} from 'react';
+import {
+  DeviceEventEmitter,
+  Platform,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {TextInputMask} from 'react-native-masked-text';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 eventType = 'REQUEST_PAYMENT';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 class index extends Component {
   constructor(props) {
-    console.log('props.navigation.state', props);
     super(props);
     this.state = {
       showModal: false,
       selectedTypePayment: props.route.params.value,
       paymentType: [
-        {label: 'Chuyển tiền', value: 'income'},
+        {label: 'Nạp tiền', value: 'income'},
+        {label: 'Chuyển tiền', value: 'tranfer'},
         {label: 'Rút tiền', value: 'outcome'},
       ],
       paymentMethod: [
@@ -35,11 +36,14 @@ class index extends Component {
         {label: 'ViettelPay', value: 'viettel-pay'},
         {label: 'SCB', value: 'scb'},
         {label: 'ZaloPay', value: 'zalo-pay'},
+        {label: 'VinID', value: 'vinid'},
       ],
       selectedTypePaymentMethod: '',
-      amount: props.profile.user.balance,
+      amount: formatNumber(props.profile.user.balance),
       description: '',
       email: props.profile.user.email,
+      stk: '14396880001',
+      sdt: '0971407794',
     };
   }
   componentDidMount() {
@@ -50,6 +54,8 @@ class index extends Component {
   };
   actionTypeAlert = () => {
     this.listener = DeviceEventEmitter.addListener(eventType, () => {
+      this.copyToClipboard();
+
       this.submitPayment();
     });
   };
@@ -77,7 +83,7 @@ class index extends Component {
         paymentMethod: selectedTypePaymentMethod,
         description: description,
       };
-      this.props.actions.app.requestPayment(body);
+      // this.props.actions.app.requestPayment(body);
     } else {
       this.props.alertWithType(
         'warn',
@@ -101,6 +107,13 @@ class index extends Component {
       this.props.actions.app.resetStatePayment();
     }
   }
+  copyToClipboard = () => {
+    if (this.state.selectedTypePaymentMethod === 'scb') {
+      Clipboard.setString(this.state.stk);
+    } else {
+      Clipboard.setString(this.state.sdt);
+    }
+  };
   render() {
     return (
       <View
@@ -130,10 +143,17 @@ class index extends Component {
                 Tên: LÊ THÀNH DANH
               </Text>
               <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
-                SCB STK: 14396880001
+                {'SCB STK: '}
+                <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
+                  {this.state.stk}
+                </Text>
               </Text>
+
               <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
-                SĐT: 0971407794
+                {'SĐT: '}
+                <Text style={{fontSize: 15, color: 'white', marginBottom: 8}}>
+                  {this.state.sdt}
+                </Text>
               </Text>
             </View>
           </View>
