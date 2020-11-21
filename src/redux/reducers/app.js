@@ -2,6 +2,8 @@ const initialState = {
   loading: false,
   listBalance: [],
   currentBalance: '',
+  totalIncome: 0,
+  totalOutcome: 0,
   menu: {},
   requestPaymentCode: '',
   requestPaymentMesage: '',
@@ -55,36 +57,13 @@ function appReducer(state = initialState, action) {
         listBalance: action.payload.histories.docs,
         currentBalance: action.payload.balance,
       };
-    case 'GET_STORES_SUCCESS':
+    case 'CHECK_TOTAL_AMOUNT_SUCCESS':
       return {
         ...state,
-        listStores: concatListData(
-          metaData.page,
-          state.listStores,
-          action.payload.docs,
-        ),
-        metaDataListStore: metaData,
+        totalIncome: action.payload.summary.income,
+        totalOutcome: action.payload.summary.outcome,
       };
-    case 'GET_LIST_ORDER_SUCCESS':
-      return {
-        ...state,
-        listOrder: concatListData(
-          metaData.page,
-          state.listOrder,
-          action.payload.docs,
-        ),
-        metaDataListOrder: metaData,
-      };
-    case 'GET_STORE_BY_ID':
-      return {
-        ...state,
-        menu: {},
-      };
-    case 'GET_STORE_BY_ID_SUCCESS':
-      return {
-        ...state,
-        menu: action.payload.menu,
-      };
+
     case 'REQUEST_PAYMENT_SUCCESS':
       return {
         ...state,
@@ -102,38 +81,6 @@ function appReducer(state = initialState, action) {
         ...state,
         requestPaymentCode: '',
         requestPaymentMesage: '',
-      };
-    case 'CREATE_ORDER_SUCCESS':
-      return {
-        ...state,
-        order: action.payload,
-      };
-    case 'CONFIRM_ORDER_SUCCESS':
-      return {
-        ...state,
-        confirmOrderMessage: action.payload.message,
-        confirmOrderCode: action.payload.statusCode,
-      };
-    case 'RESET_STATE_CONFIRM_ORDER':
-      return {
-        ...state,
-        confirmOrderMessage: '',
-        confirmOrderCode: '',
-      };
-    case 'GET_ORDER_DETAIL_SUCCESS':
-      return {
-        ...state,
-        order: action.payload,
-      };
-    case 'UPDATE_ORDER_SUCCESS':
-      return {
-        ...state,
-        order: action.payload,
-      };
-    case 'RESET_STATE_ORDER':
-      return {
-        ...state,
-        order: {},
       };
     case 'APP_LOGOUT':
       return initialState;

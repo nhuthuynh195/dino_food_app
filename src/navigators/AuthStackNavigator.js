@@ -4,7 +4,6 @@ import {
   ChangePasswordScreen,
   ForgetPasswordScreen,
   LoginScreen,
-  RegisterScreen,
   PaymentScreen,
   ProfileScreen,
 } from '../screens';
@@ -87,25 +86,6 @@ export function AuthStackNavigator() {
           </LoginStack.Navigator>
         )}
       </AuthStack.Screen>
-      <AuthStack.Screen
-        name="Register"
-        component={RegisterScreen}
-        options={{
-          headerTitleAlign: 'center',
-          headerTitle: <Text style={styles.titleScreen}>Đăng ký</Text>,
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => NavigatorServices.goBack()}
-              style={styles.buttonBack}>
-              <Ionicons name="ios-arrow-back" size={25} color={Colors.WHITE} />
-            </TouchableOpacity>
-          ),
-          headerStyle: {
-            backgroundColor: Colors.PRIMARY,
-            shadowColor: 'transparent',
-          },
-        }}
-      />
     </AuthStack.Navigator>
   );
 }
@@ -116,8 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'center',
     flexDirection: 'row',
-    paddingLeft: 20,
-    paddingRight: 30,
+    paddingHorizontal: 10,
   },
   labelBack: {
     color: 'white',

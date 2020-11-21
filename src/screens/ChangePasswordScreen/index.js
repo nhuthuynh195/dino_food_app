@@ -57,11 +57,11 @@ function index(props) {
         <View
           style={{
             flex: 1,
-            paddingHorizontal: 20,
+            paddingHorizontal: 10,
             justifyContent: 'center',
           }}>
           <View>
-            <Text style={{color: 'white', textAlign: 'center', fontSize: 17}}>
+            <Text style={{color: 'white', textAlign: 'center', fontSize: 18}}>
               Vui lòng kiểm tra email vào nhập thông tin vào ô bên dưới để tiếp
               tục.
             </Text>
@@ -71,10 +71,10 @@ function index(props) {
             <TextInput
               style={{
                 backgroundColor: 'white',
-                height: 40,
+                height: 50,
                 paddingHorizontal: 10,
                 borderRadius: 4,
-                borderColor: 'gray',
+                borderColor: Colors.PRIMARY,
                 borderWidth: 1,
                 marginTop: 10,
               }}
@@ -89,10 +89,10 @@ function index(props) {
             <TextInput
               style={{
                 backgroundColor: 'white',
-                height: 40,
+                height: 50,
                 paddingHorizontal: 10,
                 borderRadius: 4,
-                borderColor: 'gray',
+                borderColor: Colors.PRIMARY,
                 borderWidth: 1,
                 marginTop: 10,
               }}
@@ -110,10 +110,10 @@ function index(props) {
             <TextInput
               style={{
                 backgroundColor: 'white',
-                height: 40,
+                height: 50,
                 paddingHorizontal: 10,
                 borderRadius: 4,
-                borderColor: 'gray',
+                borderColor: Colors.PRIMARY,
                 borderWidth: 1,
                 marginTop: 10,
               }}
@@ -135,7 +135,7 @@ function index(props) {
                 alignItems: 'center',
               }}
               onPress={changePassword}>
-              <Text style={{color: 'white'}}>Tiếp tục</Text>
+              <Text style={{color: 'white', fontSize: 18}}>Tiếp tục</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -144,7 +144,7 @@ function index(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   changePasswordMessage: state.auth.changePassword.message,
   changePasswordCode: state.auth.changePassword.code,
 });

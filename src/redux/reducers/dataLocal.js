@@ -27,16 +27,6 @@ function dataLocal(state = initialState, action) {
         ...state,
         user: action.payload,
       };
-    case 'ADD_TO_CART':
-      return {
-        ...state,
-        cart: action.payload,
-      };
-    case 'REMOVE_CART':
-      return {
-        ...state,
-        cart: [],
-      };
     case 'APP_LOGOUT':
       return {
         ...state,

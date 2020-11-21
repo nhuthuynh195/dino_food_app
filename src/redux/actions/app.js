@@ -22,22 +22,13 @@ export function checkBalance(page = 1, email) {
     token: true,
   };
 }
-
-export function getStores(page = 1, sortBy = '-createdAt', keyword = '') {
+export function checkTotalAmount(email) {
   return {
-    type: 'GET_STORES',
+    type: 'CHECK_TOTAL_AMOUNT',
     method: 'GET',
     api: `${
       apiConfigs.BASE_API
-    }/stores?page=${page}&limit=${10}&sortBy=${sortBy}&keyword=${keyword}`,
-    token: true,
-  };
-}
-export function getStoreById(id) {
-  return {
-    type: 'GET_STORE_BY_ID',
-    method: 'GET',
-    api: `${apiConfigs.BASE_API}/stores/${id}/menu`,
+    }/check-balance?email=${email}&fromDate=2019-02-28T17:00:00.000Z&page=1&toDate=${new Date().toISOString()}`,
     token: true,
   };
 }
@@ -53,80 +44,6 @@ export function requestPayment(body) {
 export function resetStatePayment() {
   return {
     type: 'RESET_STATE_PAYMENT',
-    payload: false,
-  };
-}
-export function createOrder(idStore, body) {
-  return {
-    type: 'CREATE_ORDER',
-    createOrder: {
-      method: 'POST',
-      api: `${apiConfigs.BASE_API}/orders`,
-      token: true,
-      body: {store: idStore},
-    },
-    updateOrderDetail: {
-      method: 'PUT',
-      token: true,
-      body,
-    },
-    getOrderDetail: {
-      method: 'GET',
-      token: true,
-    },
-  };
-}
-export function updateOrderDetail(body, id) {
-  return {
-    type: 'UPDATE_ORDER',
-    updateOrderDetail: {
-      method: 'PUT',
-      api: `${apiConfigs.BASE_API}/orders/${id}`,
-      token: true,
-      body,
-    },
-    getOrderDetail: {
-      method: 'GET',
-      api: `${apiConfigs.BASE_API}/orders/${id}`,
-      token: true,
-    },
-  };
-}
-
-export function getListOrder(page = 1) {
-  return {
-    type: 'GET_LIST_ORDER',
-    method: 'GET',
-    api: `${apiConfigs.BASE_API}/orders?page=${page}&limit=10`,
-    token: true,
-  };
-}
-export function getOrderDetail(id) {
-  return {
-    type: 'GET_ORDER_DETAIL',
-    method: 'GET',
-    api: `${apiConfigs.BASE_API}/orders/${id}`,
-    token: true,
-  };
-}
-
-export function confirmOrder(id) {
-  return {
-    type: 'CONFIRM_ORDER',
-    method: 'POST',
-    api: `${apiConfigs.BASE_API}/orders/${id}`,
-    token: true,
-  };
-}
-export function resetStateOrder() {
-  return {
-    type: 'RESET_STATE_ORDER',
-    payload: false,
-  };
-}
-export function resetStateConfirmOrder() {
-  return {
-    type: 'RESET_STATE_CONFIRM_ORDER',
     payload: false,
   };
 }

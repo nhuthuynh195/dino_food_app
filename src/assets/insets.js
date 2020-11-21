@@ -1,6 +1,5 @@
 import {Platform, StatusBar} from 'react-native';
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets';
-console.log('StatusBar.currentHeight', StatusBar.currentHeight);
 const Insets = {
   TOP: Platform.OS == 'ios' ? StaticSafeAreaInsets.safeAreaInsetsTop : 0,
   BOTTOM: Platform.OS == 'ios' ? StaticSafeAreaInsets.safeAreaInsetsBottom : 0,

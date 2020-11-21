@@ -42,7 +42,7 @@ export function MainStackNavigator() {
               style={styles.buttonBack}>
               <Ionicons name="ios-arrow-back" size={25} color={Colors.BLACK} />
               <View style={{paddingLeft: 10}}>
-                <Text style={styles.labelBack}>Quay lại</Text>
+                <Text style={styles.labelBack}>Back</Text>
               </View>
             </TouchableOpacity>
           ),
@@ -57,8 +57,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'center',
     flexDirection: 'row',
-    paddingLeft: 20,
-    paddingRight: 30,
+    paddingHorizontal: 10,
   },
   labelBack: {
     color: Colors.BLACK,

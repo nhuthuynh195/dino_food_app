@@ -1,73 +1,78 @@
 import Colors from '@assets/colors';
+import {Text} from '@components';
 import {height, width} from '@configs/styles';
 import connectRedux from '@redux/connectRedux';
-import React from 'react';
+import {formatNumber} from '@utils/func';
+import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
+import {useCountUp} from 'use-count-up';
+function index(props) {
+  const {user} = props;
+  useEffect(() => {
+    props.actions.app.checkTotalAmount(user.email);
+  }, []);
+  function countTotalIncome() {
+    const {value} = useCountUp({
+      isCounting: true,
+      end: props.totalIncome,
+      duration: 1,
+    });
+    return value;
+  }
+  function countTotalOutcome() {
+    const {value} = useCountUp({
+      isCounting: true,
+      end: props.totalOutcome,
+      duration: 1,
+    });
+    return value;
+  }
 
-function index() {
   return (
     <View
       style={{
         flex: 1,
         justifyContent: 'center',
         backgroundColor: Colors.PRIMARY,
-      }}
-    />
+        alignItems: 'center',
+      }}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text bold style={{fontSize: 20, color: 'white'}}>
+          {'Total income: '}
+        </Text>
+        <Text bold style={{fontSize: 30, color: 'white'}}>
+          {formatNumber(countTotalIncome())}
+        </Text>
+        <Text
+          style={{
+            fontSize: 20,
+            color: 'white',
+          }}>
+          {' VND'}
+        </Text>
+      </View>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text bold style={{fontSize: 20, color: 'white'}}>
+          {'Total outcome: '}
+        </Text>
+        <Text bold style={{fontSize: 30, color: 'white'}}>
+          {formatNumber(-countTotalOutcome())}
+        </Text>
+        <Text
+          style={{
+            fontSize: 20,
+            color: 'white',
+          }}>
+          {' VND'}
+        </Text>
+      </View>
+    </View>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.PRIMARY,
-  },
-  image_background: {
-    height: height,
-    width: width,
-  },
-  content: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  image: {
-    width: 110,
-    height: 98,
-  },
-  text_input: {
-    backgroundColor: Colors.WHITE,
-    height: 45,
-    paddingHorizontal: 10,
-    marginHorizontal: 20,
-    borderRadius: 4,
-    marginBottom: 20,
-  },
-  remember_me: {
-    marginVertical: 20,
-    marginHorizontal: 20,
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  check_box: {
-    height: 20,
-  },
-  text_button: {
-    fontSize: 15,
-    color: Colors.WHITE,
-  },
-  login_button: {
-    height: 45,
-    backgroundColor: Colors.WHITE,
-    borderRadius: 4,
-    alignItems: 'center',
-    marginHorizontal: 20,
-    justifyContent: 'center',
-  },
-});
 const mapStateToProps = state => ({
   user: state.dataLocal.user,
-  profile: state.dataLocal.profile,
-  loginSuccess: state.auth.loginSuccess,
-  errorLogin: state.auth.errorLogin,
+  totalIncome: state.app.totalIncome,
+  totalOutcome: state.app.totalOutcome,
 });
 
 export default connectRedux(mapStateToProps, index);

@@ -15,10 +15,7 @@ function HomeStack() {
         name={'Home'}
         component={HomeScreen}
         options={{
-          headerTitleAlign: 'center',
-          headerTitle: (
-            <Text style={{fontSize: 18, color: Colors.BLACK}}>Trang chủ</Text>
-          ),
+          headerShown: false,
         }}
       />
     </MainStack.Navigator>

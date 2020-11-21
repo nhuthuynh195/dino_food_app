@@ -206,22 +206,6 @@ function index(props) {
                 Đăng nhập
               </Text>
             </TouchableOpacity>
-            <View
-              style={{
-                alignItems: 'center',
-                marginTop: 10,
-              }}>
-              <TouchableOpacity
-                style={{
-                  alignItems: 'center',
-                  paddingVertical: 10,
-                }}
-                onPress={registerUser}>
-                <Text style={styles.text_button}>
-                  Bạn chưa có tài khoản? Đăng ký ngay
-                </Text>
-              </TouchableOpacity>
-            </View>
           </View>
         </View>
       </KeyboardAwareScrollView>

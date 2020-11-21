@@ -38,10 +38,10 @@ function index(props) {
         <View
           style={{
             flex: 1,
-            paddingHorizontal: 20,
+            paddingHorizontal: 10,
             paddingTop: 20,
           }}>
-          <Text style={{color: 'white', textAlign: 'center', fontSize: 17}}>
+          <Text style={{color: 'white', textAlign: 'center', fontSize: 18}}>
             Vui lòng nhập email vào ô bên dưới, chúng tôi sẽ gửi thông tin vào
             email của bạn.
           </Text>
@@ -49,10 +49,10 @@ function index(props) {
             <TextInput
               style={{
                 backgroundColor: 'white',
-                height: 40,
+                height: 50,
                 paddingHorizontal: 10,
                 borderRadius: 4,
-                borderColor: 'gray',
+                borderColor: Colors.PRIMARY,
                 borderWidth: 1,
                 marginTop: 20,
               }}
@@ -72,7 +72,7 @@ function index(props) {
                 alignItems: 'center',
               }}
               onPress={forgetPasword}>
-              <Text style={{color: 'white'}}>Tiếp tục</Text>
+              <Text style={{color: 'white', fontSize: 18}}>Tiếp tục</Text>
             </TouchableOpacity>
           </View>
         </View>

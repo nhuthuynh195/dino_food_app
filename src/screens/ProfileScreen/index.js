@@ -40,7 +40,7 @@ class index extends Component {
     this.listener.remove();
   }
   render() {
-    const {profile, currentBalance} = this.props;
+    const {profile} = this.props;
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <View
@@ -87,9 +87,13 @@ class index extends Component {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
+              padding: 10,
+              borderWidth: 1,
+              borderRadius: 5,
+              borderColor: Colors.ALERT,
             }}
             onPress={() => this.logout()}>
-            <Text style={{color: Colors.ALERT, marginLeft: 15, fontSize: 15}}>
+            <Text bold style={{color: Colors.ALERT, fontSize: 15}}>
               ĐĂNG XUẤT
             </Text>
           </TouchableOpacity>
