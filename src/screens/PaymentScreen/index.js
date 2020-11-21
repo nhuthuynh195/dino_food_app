@@ -83,7 +83,7 @@ class index extends Component {
         paymentMethod: selectedTypePaymentMethod,
         description: description,
       };
-      // this.props.actions.app.requestPayment(body);
+      this.props.actions.app.requestPayment(body);
     } else {
       this.props.alertWithType(
         'warn',
