@@ -1,26 +1,20 @@
+import Colors from '@assets/colors';
+import Insets from '@assets/insets';
+import {Text} from '@components';
+import {Styles, width} from '@configs/styles';
+import connectRedux from '@redux/connectRedux';
+import images from '@resources/images';
+import {checkAllArrayIsNotEmpty, formatDay, formatNumber} from '@utils/func';
 import React, {Component} from 'react';
 import {
-  View,
   Image,
-  StyleSheet,
   ScrollView,
+  StyleSheet,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import connectRedux from '@redux/connectRedux';
-import {
-  checkAllArrayIsNotEmpty,
-  formatDate,
-  formatDay,
-  formatNumber,
-} from '@utils/func';
-import Colors from '@assets/colors';
-import images from '@resources/images';
-import {width, height} from '@configs/styles';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Styles} from '@configs/styles';
-import {Text, TextInput} from '@components';
-import Insets from '@assets/insets';
+import Clipboard from '@react-native-community/clipboard';
+
 export class index extends Component {
   async componentDidMount() {
     const {profile} = this.props;
@@ -65,6 +59,11 @@ export class index extends Component {
     alert('Coming soon!');
   }
 
+  copyToClipboard = () => {
+    const {currentBalance} = this.props;
+    Clipboard.setString(Math.abs(currentBalance).toString());
+    alert('Copied');
+  };
   render() {
     const {listBalance, currentBalance} = this.props;
     return (
@@ -95,11 +94,13 @@ export class index extends Component {
                   alignItems: 'center',
                   padding: 10,
                   borderRadius: 5,
-                  marginBottom: 35,
+                  marginBottom: 25,
                 }}>
-                <Text bold style={{fontSize: 50, color: 'white'}}>
-                  {formatNumber(currentBalance)}
-                </Text>
+                <TouchableOpacity onPress={() => this.copyToClipboard()}>
+                  <Text bold style={{fontSize: 50, color: 'white'}}>
+                    {formatNumber(currentBalance)}
+                  </Text>
+                </TouchableOpacity>
                 <Text
                   style={{
                     fontSize: 20,
@@ -212,7 +213,7 @@ export class index extends Component {
                     {listBalance.map((item, index) =>
                       this.renderItem({item, index}),
                     )}
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       activeOpacity={0.5}
                       style={{
                         paddingVertical: 20,
@@ -222,7 +223,7 @@ export class index extends Component {
                       <Text bold style={{fontSize: 18, color: Colors.BUTTON}}>
                         Xem thêm
                       </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
                 </View>
               )}
