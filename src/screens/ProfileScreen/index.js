@@ -1,20 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {Component} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  DeviceEventEmitter,
-  Image,
-  MaskedViewBase,
-} from 'react-native';
-const eventTypeLogout = 'LOGOUT';
-import connectRedux from '@redux/connectRedux';
-import images from '@resources/images';
-import {width, height} from '@configs/styles';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {checkAllArrayIsNotEmpty, formatDate, formatMoney} from '@utils/func';
 import Colors from '@assets/colors';
-import {Text, TextInput} from '@components';
+import {Text} from '@components';
+import connectRedux from '@redux/connectRedux';
+import React, {Component} from 'react';
+import {DeviceEventEmitter, Image, TouchableOpacity, View} from 'react-native';
+const eventTypeLogout = 'LOGOUT';
 class index extends Component {
   componentDidMount() {
     this.actionTypeAlert();

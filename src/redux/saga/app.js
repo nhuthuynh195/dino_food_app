@@ -14,14 +14,13 @@ function* checkBalance(action) {
 function* checkTotalAmount(action) {
   try {
     const response = yield requestAPI(action);
-    console.log('checkTotalAmount', response);
     yield put({
       ...action,
       type: 'CHECK_TOTAL_AMOUNT_SUCCESS',
       payload: response,
     });
   } catch (error) {
-    console.log('error saga app: ', error);
+    console.log('error saga checkTotalAmount: ', error);
   }
 }
 function* requestPayment(action) {
@@ -30,7 +29,6 @@ function* requestPayment(action) {
       type: 'SHOW_LOADING',
     });
     const response = yield requestAPI(action);
-    console.log('requestPayment', response);
     if (response.statusCode == 200) {
       yield put({
         ...action,

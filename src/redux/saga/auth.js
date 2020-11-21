@@ -53,16 +53,28 @@ function* register(action) {
   }
 }
 function* getProfile(action) {
+  console.log('action', action);
   try {
     const response = yield requestAPI(action);
-    yield put({...action, type: 'GET_PROFILE_SUCCESS', payload: response});
+    console.log('response', response);
+
+    if (response.statusCode === 401) {
+      yield put({
+        type: 'APP_LOGOUT',
+        payload: {},
+      });
+    } else {
+      yield put({...action, type: 'GET_PROFILE_SUCCESS', payload: response});
+    }
   } catch (error) {
     console.log('error: ', error);
   }
 }
 function* logout(action) {
   try {
-    yield requestAPI(action);
+    const response = yield requestAPI(action);
+    console.log('response', response);
+    console.log('action', action);
     yield put({
       type: 'APP_LOGOUT',
       payload: {},

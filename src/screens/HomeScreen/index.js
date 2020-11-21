@@ -10,6 +10,7 @@ function index(props) {
   const {user} = props;
   useEffect(() => {
     props.actions.app.checkTotalAmount(user.email);
+    props.actions.auth.getProfile();
   }, []);
   function countTotalIncome() {
     const {value} = useCountUp({

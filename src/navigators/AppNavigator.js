@@ -23,7 +23,6 @@ function renderScreens(isSignedUp) {
 function AppNavigator(props) {
   const {profile} = props;
   let isSignedUp = checkAllArrayIsNotEmpty(profile) ? true : false;
-
   return (
     <NavigationContainer ref={NavigatorServices.navigationRef}>
       <RootStack.Navigator
