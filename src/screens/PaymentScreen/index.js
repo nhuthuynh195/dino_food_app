@@ -127,6 +127,7 @@ class index extends Component {
         );
       }
       this.props.actions.app.resetStatePayment();
+      this.props.navigation.navigate('HistoryPayment');
     } else if (nextProps.requestPaymentCode !== '') {
       let mess = `Giao dịch thất bại.`;
       this.props.alertWithType('error', 'Thông báo', mess);
