@@ -134,7 +134,7 @@ export class index extends Component {
                     height: 100,
                     borderRadius: 5,
                     backgroundColor: Colors.WHITE,
-                    marginTop: -35,
+                    marginTop: -50,
                     flex: 1,
                   },
                   Styles.shadow,
