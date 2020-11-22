@@ -91,9 +91,11 @@ export class index extends Component {
               alignItems: 'center',
               backgroundColor: Colors.PRIMARY,
             }}>
-            <Text bold style={{fontSize: 25, color: 'white'}}>
-              Trả tiền đi bạn êi (՞•ﻌ•՞)۶
-            </Text>
+            {currentBalance < 0 && (
+              <Text bold style={{fontSize: 25, color: 'white'}}>
+                Trả tiền đi bạn êi (՞•ﻌ•՞)۶
+              </Text>
+            )}
             {currentBalance !== '' && (
               <View
                 style={{
