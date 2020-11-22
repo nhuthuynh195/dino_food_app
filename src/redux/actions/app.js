@@ -22,6 +22,7 @@ export function checkBalance(page = 1, limit = 10, email) {
     token: true,
   };
 }
+
 export function checkTotalAmount(email) {
   return {
     type: 'CHECK_TOTAL_AMOUNT',
@@ -39,6 +40,16 @@ export function requestPayment(body) {
     api: `${apiConfigs.BASE_API}/payment-requests`,
     token: true,
     body,
+  };
+}
+export function requestPaymentHistory(page = 10, limit = 10, email) {
+  return {
+    type: 'REQUEST_PAYMENT_HISTORY',
+    method: 'GET',
+    api: `${
+      apiConfigs.BASE_API
+    }/payment-requests?page=${page}&limit=${limit}&email=${email}`,
+    token: true,
   };
 }
 export function resetStatePayment() {

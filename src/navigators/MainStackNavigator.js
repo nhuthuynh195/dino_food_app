@@ -57,7 +57,7 @@ export function MainStackNavigator() {
           headerTitle: <Text style={styles.titleScreen}>Lịch sử</Text>,
           headerLeft: () => (
             <TouchableOpacity
-              onPress={() => NavigatorServices.goBack()}
+              onPress={() => NavigatorServices.popToTop()}
               style={styles.buttonBack}>
               <Ionicons name="ios-arrow-back" size={25} color={Colors.BLACK} />
               <View style={{paddingLeft: 10}}>

@@ -1,6 +1,7 @@
 const initialState = {
   loading: false,
   listBalance: [],
+  listRequest: [],
   currentBalance: '',
   totalIncome: 0,
   totalOutcome: 0,
@@ -24,6 +25,7 @@ const initialState = {
 };
 
 function appReducer(state = initialState, action) {
+  console.log('action.payload', action.payload);
   const metaData =
     action.payload &&
     action.payload.page !== undefined &&
@@ -69,6 +71,11 @@ function appReducer(state = initialState, action) {
         ...state,
         requestPaymentCode: action.payload.statusCode,
         requestPaymentMesage: action.payload.message,
+      };
+    case 'REQUEST_PAYMENT_HISTORY_SUCCESS':
+      return {
+        ...state,
+        listRequest: action.payload.docs,
       };
     case 'REQUEST_PAYMENT_FAIL':
       return {
