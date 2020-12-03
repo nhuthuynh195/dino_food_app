@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Platform, Dimensions, StatusBar, StyleSheet} from 'react-native';
 import {View, ActivityIndicator, Modal} from 'react-native';
 import connectRedux from '@redux/connectRedux';
+import BouncingPreloader from 'react-native-bouncing-preloader';
 
 const height =
   Platform.OS === 'android' && Platform.Version > 26
@@ -14,7 +15,17 @@ class Loading extends Component {
     if (this.props.loading)
       return (
         <View style={styles.show}>
-          <ActivityIndicator color="white" size="large" />
+          <BouncingPreloader
+            icons={[
+              'https://www.shareicon.net/data/128x128/2017/01/08/869359_candy_512x512.png',
+            ]}
+            leftRotation="-0deg"
+            rightRotation="0deg"
+            leftDistance={-180}
+            rightDistance={-180}
+            speed={1200}
+          />
+          {/* <ActivityIndicator color="white" size="large" /> */}
         </View>
       );
     else return <View style={styles.hide} />;
@@ -46,7 +57,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   loading: state.app.loading,
 });
 
