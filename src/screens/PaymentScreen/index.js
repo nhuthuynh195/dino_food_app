@@ -72,7 +72,7 @@ class index extends Component {
       description,
       email,
     } = this.state;
-    let amountValue = amount.replace(/\./g, '');
+    let amountValue = Math.abs(amount.replace(/\./g, ''));
     if (
       selectedTypePayment !== '' &&
       selectedTypePaymentMethod !== '' &&
