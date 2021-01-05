@@ -22,3 +22,9 @@ export function saveUser(user) {
     payload: user,
   };
 }
+export function saveRecentTransactions(body) {
+  return {
+    type: 'SAVE_RECENT_TRANSACTIONS',
+    payload: body,
+  };
+}

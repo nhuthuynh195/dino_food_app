@@ -7,10 +7,16 @@ const initialState = {
     password: '',
     rembember: false,
   },
+  recentTransactions: [],
 };
 
 function dataLocal(state = initialState, action) {
   switch (action.type) {
+    case 'SAVE_RECENT_TRANSACTIONS':
+      return {
+        ...state,
+        recentTransactions: action.payload,
+      };
     case 'SAVE_PROFILE_LOCAL':
       return {
         ...state,
@@ -33,6 +39,7 @@ function dataLocal(state = initialState, action) {
         profile: {},
         headers: {},
         cart: [],
+        recentTransactions: [],
       };
     default:
       return state;

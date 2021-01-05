@@ -5,25 +5,9 @@ const initialState = {
   currentBalance: '',
   totalIncome: 0,
   totalOutcome: 0,
-  menu: {},
   requestPaymentCode: '',
   requestPaymentMessage: '',
   transferPaymentCode: '',
-  transferPaymentMessage: '',
-
-  order: {},
-  listStores: [],
-  metaDataListStore: {
-    page: 0,
-    pages: 0,
-  },
-  listOrder: [],
-  metaDataListOrder: {
-    page: 0,
-    pages: 0,
-  },
-  confirmOrderMessage: '',
-  confirmOrderCode: '',
 };
 
 function appReducer(state = initialState, action) {
@@ -43,6 +27,7 @@ function appReducer(state = initialState, action) {
         ...state,
         loading: false,
       };
+
     case 'CHECK_BALANCE_SUCCESS':
       return {
         ...state,
@@ -91,6 +76,8 @@ function appReducer(state = initialState, action) {
         ...state,
         requestPaymentCode: '',
         requestPaymentMessage: '',
+        transferPaymentCode: '',
+        transferPaymentMessage: '',
       };
     case 'APP_LOGOUT':
       return initialState;

@@ -1,13 +1,13 @@
 import Colors from '@assets/colors';
 import Insets from '@assets/insets';
 import {Text, TextInput} from '@components';
-import Clipboard from '@react-native-community/clipboard';
 import connectRedux from '@redux/connectRedux';
 import React, {Component} from 'react';
 import {
   DeviceEventEmitter,
   Platform,
   TouchableOpacity,
+  FlatList,
   View,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -47,6 +47,22 @@ class index extends Component {
         amount: amountValue,
         description: description,
       };
+      if (this.props.recentTransactions.length === 0) {
+        this.props.actions.dataLocal.saveRecentTransactions([
+          ...this.props.recentTransactions,
+          this.state.email,
+        ]);
+      } else {
+        let existEmail = this.props.recentTransactions.some(
+          email => email === this.state.email,
+        );
+        if (!existEmail) {
+          this.props.actions.dataLocal.saveRecentTransactions([
+            ...this.props.recentTransactions,
+            this.state.email,
+          ]);
+        }
+      }
       this.props.actions.app.transfer(body);
     } else {
       this.props.alertWithType(
@@ -80,6 +96,55 @@ class index extends Component {
           backgroundColor: Colors.WHITE,
         }}>
         <KeyboardAwareScrollView>
+          {this.props.recentTransactions.length > 0 && (
+            <View
+              style={{
+                borderBottomWidth: 1,
+                borderColor: Colors.GRAY_MEDIUM,
+              }}>
+              <View>
+                <Text
+                  bold
+                  style={{fontSize: 16, marginLeft: 10, marginTop: 10}}>
+                  Recent Transactions
+                </Text>
+              </View>
+
+              <FlatList
+                showsHorizontalScrollIndicator={false}
+                data={this.props.recentTransactions}
+                ref={ref => (this._scrollView = ref)}
+                horizontal
+                contentContainerStyle={{paddingVertical: 10}}
+                renderItem={({item, index}) => (
+                  <View
+                    style={{
+                      padding: 10,
+                      borderRadius: 5,
+                      margin: 10,
+                      borderRadius: 5,
+                      backgroundColor:
+                        this.state.email === item
+                          ? Colors.PRIMARY
+                          : Colors.GRAY_MEDIUM,
+                    }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.setState({email: item}),
+                          this._scrollView.scrollToIndex({
+                            animated: true,
+                            index: index,
+                          });
+                      }}>
+                      <Text bold style={{color: Colors.WHITE, fontSize: 16}}>
+                        {item}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              />
+            </View>
+          )}
           <View
             style={{
               marginTop: 15,
@@ -165,6 +230,7 @@ class index extends Component {
               }}
             />
           </View>
+
           <View
             style={{
               flexDirection: 'row',
@@ -188,6 +254,7 @@ class index extends Component {
             />
           </View>
         </KeyboardAwareScrollView>
+
         <View style={{padding: 10}}>
           <TouchableOpacity
             style={{
@@ -211,6 +278,7 @@ const mapStateToProps = state => ({
   profile: state.dataLocal.profile,
   transferPaymentCode: state.app.transferPaymentCode,
   transferPaymentMessage: state.app.transferPaymentMessage,
+  recentTransactions: state.dataLocal.recentTransactions,
 });
 
 export default connectRedux(mapStateToProps, index);

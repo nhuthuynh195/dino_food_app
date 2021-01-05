@@ -39,6 +39,7 @@ function index(props) {
     'https://www.shareicon.net/data/256x256/2016/05/04/759906_food_512x512.png',
     'https://www.shareicon.net/data/256x256/2016/05/04/759921_food_512x512.png',
   ];
+
   return (
     <View
       style={{
@@ -96,6 +97,8 @@ function index(props) {
 const mapStateToProps = state => ({
   user: state.dataLocal.profile.user,
   totalIncome: state.app.totalIncome,
+  recentTransactions: state.dataLocal.recentTransactions,
+
   totalOutcome: state.app.totalOutcome,
 });
 
