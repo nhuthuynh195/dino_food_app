@@ -196,11 +196,7 @@ export class index extends Component {
                     source={images.ruttien}
                     style={{width: 44, height: 44}}
                   />
-                  {/* <MaterialCommunityIcons
-                    name="arrow-down-box"
-                    size={28}
-                    color={Colors.BUTTON}
-                  /> */}
+
                   <Text style={{fontSize: 15, color: Colors.BLACK}}>
                     {'Rút tiền'}
                   </Text>
@@ -224,20 +220,6 @@ export class index extends Component {
                     {listBalance.map((item, index) =>
                       this.renderItem({item, index}),
                     )}
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.props.navigation.navigate('HistoryRequest')
-                      }
-                      activeOpacity={0.5}
-                      style={{
-                        paddingVertical: 20,
-                        alignItems: 'center',
-                        backgroundColor: Colors.WHITE,
-                      }}>
-                      <Text bold style={{fontSize: 18, color: Colors.BUTTON}}>
-                        Xem thêm
-                      </Text>
-                    </TouchableOpacity>
                   </View>
                 </View>
               )}

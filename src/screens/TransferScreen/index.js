@@ -19,9 +19,9 @@ class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'nhut.pham@dinovative.com',
-      amount: '1',
-      description: 'test',
+      email: '',
+      amount: '0',
+      description: '',
     };
   }
   componentDidMount() {
