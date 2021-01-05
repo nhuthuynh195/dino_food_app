@@ -6,6 +6,7 @@ import LoginScreen from './LoginScreen';
 import PaymentScreen from './PaymentScreen';
 import ProfileScreen from './ProfileScreen';
 import HistoryRequestScreen from './HistoryRequestScreen';
+import TransferScreen from './TransferScreen';
 
 module.exports = {
   ChangePasswordScreen,
@@ -15,5 +16,6 @@ module.exports = {
   LoginScreen,
   PaymentScreen,
   ProfileScreen,
+  TransferScreen,
   HistoryRequestScreen,
 };

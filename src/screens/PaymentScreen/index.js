@@ -72,7 +72,7 @@ class index extends Component {
       description,
       email,
     } = this.state;
-    let amountValue = Math.abs(amount.replace(/\./g, ''));
+    let amountValue = amount.replace(/\./g, '');
     if (
       selectedTypePayment !== '' &&
       selectedTypePaymentMethod !== '' &&
@@ -127,7 +127,7 @@ class index extends Component {
         );
       }
       this.props.actions.app.resetStatePayment();
-      this.props.navigation.goBack();
+      this.props.navigation.navigate('HistoryPayment');
     } else if (nextProps.requestPaymentCode !== '') {
       let mess = `Giao dịch thất bại.`;
       this.props.alertWithType('error', 'Thông báo', mess);
@@ -381,7 +381,7 @@ class index extends Component {
 const mapStateToProps = state => ({
   profile: state.dataLocal.profile,
   requestPaymentCode: state.app.requestPaymentCode,
-  requestPaymentMesage: state.app.requestPaymentMesage,
+  requestPaymentMessage: state.app.requestPaymentMessage,
 });
 
 export default connectRedux(mapStateToProps, index);

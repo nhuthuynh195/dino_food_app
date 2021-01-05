@@ -18,8 +18,18 @@ export function checkBalance(page = 1, limit = 10, email) {
     method: 'GET',
     api: `${
       apiConfigs.BASE_API
-    }/check-balance?page=${page}&limit=${limit}&email=${email}`,
+    }/check-balance?fromDate=2020-02-29T17:00:00.000Z&page=1&toDate=${new Date().toISOString()}`,
+
     token: true,
+  };
+}
+export function transfer(body) {
+  return {
+    type: 'TRANSFER',
+    method: 'POST',
+    api: `${apiConfigs.BASE_API}/transfer`,
+    token: true,
+    body,
   };
 }
 
@@ -29,7 +39,7 @@ export function checkTotalAmount(email) {
     method: 'GET',
     api: `${
       apiConfigs.BASE_API
-    }/check-balance?email=${email}&fromDate=2020-02-29T17:00:00.000Z&page=1&toDate=${new Date().toISOString()}`,
+    }/check-balance?fromDate=2020-02-29T17:00:00.000Z&page=1&toDate=${new Date().toISOString()}`,
     token: true,
   };
 }

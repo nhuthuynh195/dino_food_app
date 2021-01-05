@@ -7,7 +7,9 @@ const initialState = {
   totalOutcome: 0,
   menu: {},
   requestPaymentCode: '',
-  requestPaymentMesage: '',
+  requestPaymentMessage: '',
+  transferPaymentCode: '',
+  transferPaymentMessage: '',
 
   order: {},
   listStores: [],
@@ -25,18 +27,6 @@ const initialState = {
 };
 
 function appReducer(state = initialState, action) {
-  console.log('action.payload', action.payload);
-  const metaData =
-    action.payload &&
-    action.payload.page !== undefined &&
-    action.payload.pages !== undefined
-      ? {
-          page: action.payload.page,
-          pages: action.payload.pages,
-          total: action.payload.total,
-        }
-      : {page: 0, pages: 0, total: 0};
-
   switch (action.type) {
     case 'SHOW_LOADING':
       return {
@@ -56,7 +46,7 @@ function appReducer(state = initialState, action) {
     case 'CHECK_BALANCE_SUCCESS':
       return {
         ...state,
-        listBalance: action.payload.histories.docs,
+        listBalance: action.payload.docs,
         currentBalance: action.payload.balance,
       };
     case 'CHECK_TOTAL_AMOUNT_SUCCESS':
@@ -70,24 +60,37 @@ function appReducer(state = initialState, action) {
       return {
         ...state,
         requestPaymentCode: action.payload.statusCode,
-        requestPaymentMesage: action.payload.message,
+        requestPaymentMessage: action.payload.message,
       };
+
     case 'REQUEST_PAYMENT_HISTORY_SUCCESS':
       return {
         ...state,
         listRequest: action.payload.docs,
       };
+    case 'TRANSFER_PAYMENT_SUCCESS':
+      return {
+        ...state,
+        transferPaymentCode: action.payload.statusCode,
+        transferPaymentMessage: action.payload.message,
+      };
+    case 'TRANSFER_PAYMENT_FAIL':
+      return {
+        ...state,
+        transferPaymentCode: action.payload.statusCode,
+        transferPaymentMessage: action.payload.message,
+      };
     case 'REQUEST_PAYMENT_FAIL':
       return {
         ...state,
         requestPaymentCode: action.payload.statusCode,
-        requestPaymentMesage: action.payload.message,
+        requestPaymentMessage: action.payload.message,
       };
     case 'RESET_STATE_PAYMENT':
       return {
         ...state,
         requestPaymentCode: '',
-        requestPaymentMesage: '',
+        requestPaymentMessage: '',
       };
     case 'APP_LOGOUT':
       return initialState;
@@ -95,11 +98,5 @@ function appReducer(state = initialState, action) {
       return state;
   }
 }
-function concatListData(page, oldData, newData) {
-  if (page === 1) {
-    return newData;
-  } else {
-    return oldData.concat(newData);
-  }
-}
+
 export default appReducer;

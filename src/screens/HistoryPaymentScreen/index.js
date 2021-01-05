@@ -64,7 +64,7 @@ export class index extends Component {
     this.props.navigation.navigate('Payment', {value: 'outcome'});
   }
   tranfer() {
-    alert('Coming soon!');
+    this.props.navigation.navigate('Transfer');
   }
 
   copyToClipboard = () => {

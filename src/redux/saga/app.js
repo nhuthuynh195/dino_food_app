@@ -77,10 +77,38 @@ function* requestPaymentHistory(action) {
     });
   }
 }
-
+function* transfer(action) {
+  try {
+    yield put({
+      type: 'SHOW_LOADING',
+    });
+    const response = yield requestAPI(action);
+    console.log('response', response);
+    if (response.statusCode == 200) {
+      yield put({
+        ...action,
+        type: 'TRANSFER_PAYMENT_SUCCESS',
+        payload: response,
+      });
+    } else {
+      yield put({
+        ...action,
+        type: 'TRANSFER_PAYMENT_FAIL',
+        payload: response,
+      });
+    }
+  } catch (error) {
+    console.log('error saga app: ', error);
+  } finally {
+    yield put({
+      type: 'HIDE_LOADING',
+    });
+  }
+}
 export default function* saga() {
   yield all([
     takeLatest('CHECK_BALANCE', checkBalance),
+    takeLatest('TRANSFER', transfer),
     takeLatest('REQUEST_PAYMENT', requestPayment),
     takeLatest('CHECK_TOTAL_AMOUNT', checkTotalAmount),
     takeLatest('REQUEST_PAYMENT_HISTORY', requestPaymentHistory),

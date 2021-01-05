@@ -8,6 +8,7 @@ import {
   PaymentScreen,
   ProfileScreen,
   HistoryRequestScreen,
+  TransferScreen,
 } from '../screens';
 
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
@@ -55,6 +56,24 @@ export function MainStackNavigator() {
         options={{
           headerTitleAlign: 'center',
           headerTitle: <Text style={styles.titleScreen}>Lịch sử</Text>,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => NavigatorServices.popToTop()}
+              style={styles.buttonBack}>
+              <Ionicons name="ios-arrow-back" size={25} color={Colors.BLACK} />
+              <View style={{paddingLeft: 10}}>
+                <Text style={styles.labelBack}>Back</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <MainStack.Screen
+        name={'Transfer'}
+        component={TransferScreen}
+        options={{
+          headerTitleAlign: 'center',
+          headerTitle: <Text style={styles.titleScreen}>Chuyển tiền</Text>,
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => NavigatorServices.popToTop()}
