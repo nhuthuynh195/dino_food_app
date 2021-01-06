@@ -13,7 +13,7 @@ function index(props) {
     let email = profile.user.email;
     let page = 1;
     let limit = 100;
-    props.actions.app.checkBalance(page, limit, email);
+    props.actions.app.checkBalance(page, limit);
     props.actions.app.requestPaymentHistory(page, limit, email);
   }, []);
 

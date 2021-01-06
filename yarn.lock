@@ -6317,6 +6317,11 @@ react-native-animated-nav-tab-bar@^3.0.5:
     react-native-screens "^2.11.0"
     styled-components "^4.3.2"
 
+react-native-app-link@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-app-link/-/react-native-app-link-1.0.0.tgz#9de44a4676fd7d2879f26fc0691c48c0a85b4e2a"
+  integrity sha512-x2eNaQqC5yaI+/A8lITt/0Nr/Kf0DV+xmGwIHtqRbKtDnSJfAEJQkV1X9XVygEq6FLRKQ9+IcSKNrw8TwiHAzQ==
+
 react-native-bouncing-preloader@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-native-bouncing-preloader/-/react-native-bouncing-preloader-1.0.1.tgz#ec18eebdd053cc963c06f20e1783e5976c2c9b51"

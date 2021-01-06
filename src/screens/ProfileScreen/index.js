@@ -19,7 +19,7 @@ class index extends Component {
   checkBalance() {
     let page = 1;
     let email = this.props.profile.email;
-    this.props.actions.app.checkBalance(page, email);
+    this.props.actions.app.checkBalance(page);
   }
   logout = () => {
     this.props.openAlert(`Bạn có muốn đăng xuất?`, eventTypeLogout);

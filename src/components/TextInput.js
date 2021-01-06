@@ -5,6 +5,7 @@ const CustomTextInput = React.memo(function CustomTextInput(props) {
     <TextInput
       {...props}
       allowFontScaling={false}
+      placeholderTextColor={'#8a8a8a'}
       style={[
         DefaultStyle.text_input,
         props.style,

@@ -7,18 +7,24 @@ import connectRedux from '@redux/connectRedux';
 import images from '@resources/images';
 import {checkAllArrayIsNotEmpty, formatDay, formatNumber} from '@utils/func';
 import React, {Component} from 'react';
-import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  RefreshControl,
+} from 'react-native';
 
 export class index extends Component {
   state = {
     listBalance: this.props.listBalance,
     loadData: true,
+    refreshing: false,
   };
   async componentDidMount() {
     const {profile} = this.props;
     let page = 1;
-    let email = profile.user.email;
-    this.props.actions.app.checkBalance(page, 10, email);
+    this.props.actions.app.checkBalance(page, 10);
   }
   componentWillReceiveProps(nextProps) {
     const {loadData} = this.state;
@@ -26,6 +32,7 @@ export class index extends Component {
       this.setState({
         listBalance: nextProps.listBalance,
         loadData: false,
+        refreshing: false,
       });
     }
   }
@@ -66,12 +73,19 @@ export class index extends Component {
   tranfer() {
     this.props.navigation.navigate('Transfer');
   }
-
   copyToClipboard = () => {
     const {currentBalance} = this.props;
     Clipboard.setString(Math.abs(currentBalance).toString());
     alert('Copied');
   };
+  onRefresh() {
+    this.setState({
+      refreshing: true,
+      loadData: true,
+    });
+    let page = 1;
+    this.props.actions.app.checkBalance(page, 10);
+  }
   render() {
     const {currentBalance} = this.props;
     const {listBalance} = this.state;
@@ -82,6 +96,12 @@ export class index extends Component {
           backgroundColor: Colors.BACKGROUND,
         }}>
         <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.onRefresh()}
+            />
+          }
           style={{flex: 1}}
           contentContainerStyle={{paddingBottom: 95 + Insets.BOTTOM}}>
           <View

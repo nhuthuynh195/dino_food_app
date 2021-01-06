@@ -44,7 +44,7 @@ export function MainStackNavigator() {
               style={styles.buttonBack}>
               <Ionicons name="ios-arrow-back" size={25} color={Colors.BLACK} />
               <View style={{paddingLeft: 10}}>
-                <Text style={styles.labelBack}>Back</Text>
+                <Text style={styles.labelBack}>Quay lại</Text>
               </View>
             </TouchableOpacity>
           ),
@@ -62,7 +62,7 @@ export function MainStackNavigator() {
               style={styles.buttonBack}>
               <Ionicons name="ios-arrow-back" size={25} color={Colors.BLACK} />
               <View style={{paddingLeft: 10}}>
-                <Text style={styles.labelBack}>Back</Text>
+                <Text style={styles.labelBack}>Quay lại</Text>
               </View>
             </TouchableOpacity>
           ),
@@ -80,7 +80,7 @@ export function MainStackNavigator() {
               style={styles.buttonBack}>
               <Ionicons name="ios-arrow-back" size={25} color={Colors.BLACK} />
               <View style={{paddingLeft: 10}}>
-                <Text style={styles.labelBack}>Back</Text>
+                <Text style={styles.labelBack}>Quay lại</Text>
               </View>
             </TouchableOpacity>
           ),

@@ -76,12 +76,12 @@ class index extends Component {
     if (
       selectedTypePayment !== '' &&
       selectedTypePaymentMethod !== '' &&
-      amountValue > 0
+      Math.abs(amountValue) > 0
     ) {
       let body = {
         email: email,
         type: selectedTypePayment,
-        amount: amountValue,
+        amount: Math.abs(amountValue),
         paymentMethod: selectedTypePaymentMethod,
         description: description,
       };

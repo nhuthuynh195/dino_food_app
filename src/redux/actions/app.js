@@ -12,13 +12,11 @@ export function hideLoading() {
     payload: {},
   };
 }
-export function checkBalance(page = 1, limit = 10, email) {
+export function checkBalance(page = 1, limit = 10) {
   return {
     type: 'CHECK_BALANCE',
     method: 'GET',
-    api: `${
-      apiConfigs.BASE_API
-    }/check-balance?fromDate=2020-02-29T17:00:00.000Z&page=1&toDate=${new Date().toISOString()}`,
+    api: `${apiConfigs.BASE_API}/check-balance?page=${page}&limit=${limit}`,
 
     token: true,
   };
