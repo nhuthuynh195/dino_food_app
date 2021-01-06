@@ -28,7 +28,6 @@ class index extends Component {
       selectedTypePayment: props.route.params.value,
       paymentType: [
         {label: 'Nạp tiền', value: 'income'},
-        // {label: 'Chuyển tiền', value: 'tranfer'},
         {label: 'Rút tiền', value: 'outcome'},
       ],
       paymentMethod: [
@@ -42,7 +41,7 @@ class index extends Component {
         {label: 'VinID', value: 'vinid', link: ''},
       ],
       selectedTypePaymentMethod: '',
-      amount: formatNumber(props.profile.user.balance),
+      amount: '0',
       description: '',
       email: props.profile.user.email,
       stk: '14396880001',

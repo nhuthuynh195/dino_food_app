@@ -106,10 +106,9 @@ class index extends Component {
                 <Text
                   bold
                   style={{fontSize: 16, marginLeft: 10, marginTop: 10}}>
-                  Recent Transactions
+                  Lịch sử giao dịch
                 </Text>
               </View>
-
               <FlatList
                 showsHorizontalScrollIndicator={false}
                 data={this.props.recentTransactions}
