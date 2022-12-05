@@ -11,8 +11,7 @@
     "components": "node scripts/components.js",
     "test": "jest",
     "lint": "eslint .",
-    "lint:fix": "eslint src/ --fix",
-    "postinstall": "npx react-native-fix-image"
+    "lint:fix": "eslint src/ --fix"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.8.0",
@@ -41,7 +40,6 @@
     "react-native-bouncing-preloader": "^1.0.1",
     "react-native-dropdownalert": "^4.2.1",
     "react-native-elements": "^1.2.7",
-    "react-native-fix-image": "^2.1.0",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-linear-gradient": "~2.5.6",
