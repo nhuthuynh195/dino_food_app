@@ -29,7 +29,7 @@
     "appcenter-crashes": "4.0.0",
     "hoist-non-react-statics": "^3.3.2",
     "immutability-helper": "^3.0.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "native-base": "^2.13.14",
     "ramda": "^0.27.0",
     "react": "16.9.0",
